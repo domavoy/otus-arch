@@ -10,6 +10,6 @@
     <modules>
         <module>email-service</module>
         <module>sms-service</module>
+        <module>central-service</module>
     </modules>
-
 </project>
