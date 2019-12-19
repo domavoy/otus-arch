@@ -19,15 +19,6 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build().apiInfo(apiEndPointsInfo());
-    }
-
-    private ApiInfo apiEndPointsInfo() {
-        return new ApiInfoBuilder().title("message app")
-                .description("REST API")
-                .license("Apache 2.0")
-                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
-                .version("1.0.0")
                 .build();
     }
 }
