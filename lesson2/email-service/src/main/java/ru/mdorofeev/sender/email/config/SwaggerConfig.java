@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.config;
+package ru.mdorofeev.sender.email.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("ru.mdorofeev.finance.api"))
+                .apis(RequestHandlerSelectors.basePackage("ru.mdorofeev.sender.email.api"))
                 .paths(PathSelectors.any())
                 .build().apiInfo(apiEndPointsInfo());
     }

@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.api;
+package ru.mdorofeev.sender.email.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

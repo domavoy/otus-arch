@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.api;
+package ru.mdorofeev.sender.email.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
