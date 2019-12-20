@@ -3,7 +3,7 @@ server:
   servlet:
     context-path: /
 
-  # Embedded ActiveMQ Configuration Example
+# Local AMQ
   activemq:
     broker-url: tcp://localhost:61616?broker.persistent=false,useShutdownHook=false
     in-memory: true
@@ -24,6 +24,13 @@ server:
       time-between-expiration-check: -1
       use-anonymous-producers: true
 
+amq:
+  central:
+    broker:
+      queue:
+        input: module.central.queue.input
+
+# hawtio
 management:
   endpoints:
     web:
@@ -32,6 +39,7 @@ management:
 hawtio:
   authenticationEnabled: false
 
+# loggng
 logging:
   level:
     root: info
