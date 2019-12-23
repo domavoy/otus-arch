@@ -1,4 +1,4 @@
-package ru.mdorofeev.sender.central.config;
+package ru.mdorofeev.message.sender.email.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +17,17 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("ru.mdorofeev.sender.email.api"))
                 .paths(PathSelectors.any())
+                .build().apiInfo(apiEndPointsInfo());
+    }
+
+    private ApiInfo apiEndPointsInfo() {
+        return new ApiInfoBuilder().title("Email sender")
+                .description("REST API")
+                .license("Apache 2.0")
+                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+                .version("1.0.0")
                 .build();
     }
 }

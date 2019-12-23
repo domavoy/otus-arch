@@ -1,4 +1,4 @@
-package ru.mdorofeev.sender.email;
+package ru.mdorofeev.message.sender.email;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

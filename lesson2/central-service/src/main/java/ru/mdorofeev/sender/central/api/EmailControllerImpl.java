@@ -1,4 +1,4 @@
-package ru.mdorofeev.sender.email.api;
+package ru.mdorofeev.sender.central.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

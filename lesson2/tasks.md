@@ -18,3 +18,5 @@
 - research: remove embedded amq from central and start it on docker-compose(+hawtio)
 - research: pojo with json generation
 - clean pom.xml - minimal rest
+- P1
+- amq location to config(sms/push/email)

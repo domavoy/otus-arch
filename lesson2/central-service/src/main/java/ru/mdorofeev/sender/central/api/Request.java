@@ -1,4 +1,4 @@
-package ru.mdorofeev.sender.email.api;
+package ru.mdorofeev.sender.central.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

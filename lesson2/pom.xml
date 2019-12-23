@@ -8,8 +8,13 @@
     <packaging>pom</packaging>
     
     <modules>
+        <!-- common service with dto -->
+        <module>common</module>
+        <!-- service with REST for email/push -->
+        <module>central-service</module>
+
+        <!-- modules for email and push, ...-->
         <module>email-service</module>
         <module>sms-service</module>
-        <module>central-service</module>
     </modules>
 </project>

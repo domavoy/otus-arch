@@ -1,1 +1,6 @@
-hawtio - http://localhost:8081/actuator/hawtio/
+### info
+- hawtio - http://localhost:8081/actuator/hawtio/
+
+### desc
+- описать текушие сервисы и как они взыимодкйстууют (конфиги)
+- как добавлять новые сервисы
