@@ -1,34 +1,23 @@
 server:
-  port: 8081
+  port: 8080
   servlet:
     context-path: /
 
-# Local AMQ
+
+spring:
   activemq:
-    broker-url: tcp://localhost:61616?broker.persistent=false,useShutdownHook=false
-    in-memory: true
-    non-blocking-redelivery: true
-    packages:
-      trust-all: false
-      trusted: com.memorynotfound
     pool:
-      block-if-full: true
-      block-if-full-timeout: -1
-      create-connection-on-startup: true
-      enabled: false
-      expiry-timeout: 0
-      idle-timeout: 30000
-      max-connections: 1
-      maximum-active-session-per-connection: 500
-      reconnect-on-exception: true
-      time-between-expiration-check: -1
-      use-anonymous-producers: true
+      enabled: true
+      max-connections: 50
 
 amq:
-  central:
-    broker:
-      queue:
-        input: module.central.queue.input
+  queue:
+    central:
+      input: messaging.central
+    module:
+      email: messaging.service.email
+      sms: messaging.service.sms
+
 
 # hawtio
 management:

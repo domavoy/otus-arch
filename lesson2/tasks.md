@@ -17,6 +17,19 @@
 ###NEXT
 - research: remove embedded amq from central and start it on docker-compose(+hawtio)
 - research: pojo with json generation
-- clean pom.xml - minimal rest
 - P1
+- add send confirmation with JMSMessageID (central => email => central)
+
 - amq location to config(sms/push/email)
+- listeners - unit tests with local amq
+- clean pom.xml - minimal rest
+
+
+
+### Formats
+#### email
+{
+  "to":"to",
+  "title":"title",
+  "message":"message"
+}

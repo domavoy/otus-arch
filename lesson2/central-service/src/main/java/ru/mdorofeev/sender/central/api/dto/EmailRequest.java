@@ -1,4 +1,4 @@
-package ru.mdorofeev.sender.central.api;
+package ru.mdorofeev.sender.central.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Request {
+public class EmailRequest {
 
     private String email;
 

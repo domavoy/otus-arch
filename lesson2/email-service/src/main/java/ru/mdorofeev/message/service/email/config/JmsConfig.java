@@ -1,4 +1,4 @@
-package ru.mdorofeev.message.sender.email.config;
+package ru.mdorofeev.message.service.email.config;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

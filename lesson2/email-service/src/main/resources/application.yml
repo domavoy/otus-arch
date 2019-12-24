@@ -1,19 +1,12 @@
-server:
-  port: 8081
-  servlet:
-    context-path: /
-
 spring:
     activemq:
       broker-url: tcp://localhost:61616
-      user: karaf
-      password: karaf
-
+      user: admin
+      password: admin
 
 amq:
   service:
-    queue:
-      input: module.input.email
+    queue: messaging.service.email
 
 logging:
   level:

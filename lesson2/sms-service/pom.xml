@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.mdorofeev.otus</groupId>
-	<artifactId>sms-service</artifactId>
+	<artifactId>lesson2-sms-service</artifactId>
 	<version>1.0</version>
 
 	<properties>

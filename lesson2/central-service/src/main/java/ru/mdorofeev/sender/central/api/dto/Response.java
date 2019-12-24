@@ -1,4 +1,4 @@
-package ru.mdorofeev.sender.central.api;
+package ru.mdorofeev.sender.central.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

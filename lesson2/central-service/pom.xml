@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.mdorofeev.otus</groupId>
-	<artifactId>lesson2-app</artifactId>
+	<artifactId>lesson2-central</artifactId>
 	<version>1.0</version>
 
 	<properties>
@@ -17,6 +17,13 @@
 	</properties>
 
 	<dependencies>
+		<!-- common module -->
+		<dependency>
+			<groupId>ru.mdorofeev.message</groupId>
+			<artifactId>lesson2-common</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -50,8 +57,8 @@
 			<artifactId>spring-boot-starter-activemq</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-broker</artifactId>
+			<groupId>org.messaginghub</groupId>
+			<artifactId>pooled-jms</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
