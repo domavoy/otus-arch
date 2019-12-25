@@ -6,7 +6,8 @@ spring:
 
 amq:
   service:
-    queue: messaging.service.email
+    input.queue: messaging.service.email.input
+    status.queue: messaging.service.email.status
 
 logging:
   level:

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class UuiddData {
+public class UuidData {
 
-    private UUID uuid;
+    private String uuid;
 }

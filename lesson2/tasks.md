@@ -1,8 +1,7 @@
 + send email and sms viq amq
-- save and return status for sms/email
++ save and return status for sms/email
 
 - research: pojo with json generation
-- P1
 - add send confirmation with JMSMessageID (central => email => central)
 - amq location to config(sms/push/email)
 

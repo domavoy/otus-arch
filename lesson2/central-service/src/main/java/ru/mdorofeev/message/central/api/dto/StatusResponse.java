@@ -6,15 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class EmailRequest {
+public class StatusResponse {
 
-    private String email;
+    private String status;
 
-    private String title;
-
-    private String message;
+    private String errorCode;
 }

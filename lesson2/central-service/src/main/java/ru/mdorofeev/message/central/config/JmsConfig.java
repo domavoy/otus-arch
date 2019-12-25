@@ -18,7 +18,7 @@ import javax.jms.ConnectionFactory;
 import javax.jms.Session;
 
 @Configuration
-public class ActiveMQConfig {
+public class JmsConfig {
 
     @Bean
     public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,

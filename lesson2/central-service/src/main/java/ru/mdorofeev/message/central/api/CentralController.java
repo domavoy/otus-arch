@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.mdorofeev.message.central.api.dto.EmailRequest;
 import ru.mdorofeev.message.central.api.dto.Response;
 import ru.mdorofeev.message.central.api.dto.SmsRequest;
+import ru.mdorofeev.message.central.api.dto.StatusResponse;
+
+import javax.jms.JMSException;
 
 @RestController
 @RequestMapping(produces = "application/json")
@@ -21,9 +24,7 @@ public interface CentralController {
     @ApiOperation(value = "Send SMS", tags = "Sender")
     ResponseEntity<Response> sendSms(@RequestBody SmsRequest request);
 
-
-
     @GetMapping("/getStatus")
     @ApiOperation(value = "Get email status", tags = "Sender")
-    ResponseEntity<String> getStatus(String uuid);
+    ResponseEntity<StatusResponse> getStatus(String uuid);
 }

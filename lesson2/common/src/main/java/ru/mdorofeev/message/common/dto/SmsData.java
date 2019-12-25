@@ -9,7 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class SmsData extends UuiddData {
+public class SmsData extends UuidData {
 
     private String phone;
 

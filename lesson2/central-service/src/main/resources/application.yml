@@ -10,14 +10,19 @@ spring:
       enabled: true
       max-connections: 50
 
-amq:
-  queue:
-    central:
-      input: messaging.central
-    module:
-      email: messaging.service.email
-      sms: messaging.service.sms
+central:
+  input-queue: messaging.central
 
+module:
+  email-queue.input: messaging.service.email.input
+  email-queue.status: messaging.service.email.status
+  email-uuid-prefix: email
+
+  sms-queue.input: messaging.service.sms.input
+  sms-queue.status: messaging.service.sms.status
+  sms-uuid-prefix: sms
+
+  call-timeout: 10000
 
 # hawtio
 management:
