@@ -1,4 +1,4 @@
-package ru.mdorofeev.sender.central.dto;
+package ru.mdorofeev.message.central.dto;
 
 public enum MessageType {
 

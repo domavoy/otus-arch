@@ -1,4 +1,4 @@
-package ru.mdorofeev.sender.central.api.dto;
+package ru.mdorofeev.message.central.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

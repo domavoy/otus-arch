@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance;
+package ru.mdorofeev.message.service.sms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

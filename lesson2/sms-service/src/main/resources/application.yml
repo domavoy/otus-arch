@@ -1,3 +1,13 @@
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+
+amq:
+  service:
+    queue: messaging.service.sms
+
 logging:
   level:
     root: info

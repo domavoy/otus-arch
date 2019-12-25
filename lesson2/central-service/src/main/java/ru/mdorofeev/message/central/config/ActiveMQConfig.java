@@ -1,4 +1,4 @@
-package ru.mdorofeev.sender.central.config;
+package ru.mdorofeev.message.central.config;
 
 import org.apache.activemq.broker.BrokerService;
 import org.springframework.beans.factory.annotation.Autowired;
