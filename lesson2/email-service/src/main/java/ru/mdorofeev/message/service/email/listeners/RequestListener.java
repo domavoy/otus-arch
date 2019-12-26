@@ -13,9 +13,7 @@ import ru.mdorofeev.message.common.exceptions.ModuleProcessException;
 import ru.mdorofeev.message.common.json.ObjectConverter;
 import ru.mdorofeev.message.service.email.service.EmailService;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Component
 public class RequestListener {
@@ -36,8 +34,8 @@ public class RequestListener {
             EmailData request = new ObjectConverter<EmailData>().jsonToObject(message, EmailData.class);
             emailService.sendEmail(request);
         } catch (Exception ex) {
-            logger.info("Failed to process email request due: {}", message, ex.getMessage());
-            throw new RuntimeException("Failed to process email request", ex);
+            logger.info("Failed to process email request due: {}", message);
+            throw new ModuleProcessException("Failed to process email request", ex);
         }
     }
 
@@ -51,10 +49,10 @@ public class RequestListener {
             String replyTo = headers.get(REPLY_TO_HEADER).toString();
 
             // get fake request status
-            String status = getRequestStatus(uuid);
+            String responseStatus = getRequestStatus(uuid);
 
             // return response to reply_to
-            jmsTemplate.convertAndSend(replyTo, status, m -> {
+            jmsTemplate.convertAndSend(replyTo, responseStatus, m -> {
                 m.setStringProperty("JMSCorrelationID", uuid);
                 return m;
             });

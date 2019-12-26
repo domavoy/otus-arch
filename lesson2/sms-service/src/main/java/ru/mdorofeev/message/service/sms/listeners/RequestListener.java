@@ -8,7 +8,6 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-import ru.mdorofeev.message.common.dto.EmailData;
 import ru.mdorofeev.message.common.dto.SmsData;
 import ru.mdorofeev.message.common.exceptions.ModuleProcessException;
 import ru.mdorofeev.message.common.json.ObjectConverter;
@@ -36,8 +35,8 @@ public class RequestListener {
             SmsData request = new ObjectConverter<SmsData>().jsonToObject(message, SmsData.class);
             smsService.sendSms(request);
         } catch (Exception ex) {
-            logger.info("Failed to process sms request due: {}", message, ex.getMessage());
-            throw new RuntimeException("Failed to process sms request", ex);
+            logger.info("Failed to process sms request due: {}", message);
+            throw new ModuleProcessException("Failed to process sms request", ex);
         }
     }
 

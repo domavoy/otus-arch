@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jms.core.JmsTemplate;
@@ -54,11 +53,11 @@ public class CentralControllerImpl implements CentralController {
             JSONObject json = new ObjectConverter<>().objectToJsonObject(emailData);
             jmsTemplate.convertAndSend(config.getEmailInputQueue(), json.toString());
 
-            return new ResponseEntity<>(new Response(uuid), HttpStatus.OK);
+            return new ResponseEntity<>(new Response(uuid, ""), HttpStatus.OK);
         } catch (Exception e){
             logger.error("Failed to send email due: {}", e.getMessage(), e);
             Response response = new Response();
-            response.setErrorCode("ERROR: " + e.getMessage());
+            response.setErrorMessage("ERROR: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -76,12 +75,12 @@ public class CentralControllerImpl implements CentralController {
             JSONObject json = new ObjectConverter<>().objectToJsonObject(smsData);
             jmsTemplate.convertAndSend(config.getSmsInputQueue(), json.toString());
 
-            return new ResponseEntity<>(new Response(uuid), HttpStatus.OK);
+            return new ResponseEntity<>(new Response(uuid, null), HttpStatus.OK);
         } catch (Exception e){
             logger.error("Failed to send sms due: {}", e.getMessage(), e);
 
             Response response = new Response();
-            response.setErrorCode("ERROR: " + e.getMessage());
+            response.setErrorMessage("ERROR: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -113,7 +112,7 @@ public class CentralControllerImpl implements CentralController {
             logger.error("Failed to get status due: {}", e.getMessage(), e);
 
             StatusResponse response = new StatusResponse();
-            response.setErrorCode("ERROR: " + e.getMessage());
+            response.setErrorMessage("ERROR: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
