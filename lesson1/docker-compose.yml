@@ -6,4 +6,4 @@ services:
       dockerfile: Dockerfile
     image: otus/dorofeev-lesson1-monolite-app
     ports:
-      - 8080:8080
+      - 8091:8080

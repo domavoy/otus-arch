@@ -35,8 +35,8 @@ docker-compose up
 2) **В IDE**: Запустить FinanceApplication. 
 
 ## API - кратко
-- Swagger - http://localhost:8080/swagger-ui.html
-- Api-docs: http://localhost:8080/v2/api-docs
+- Swagger - http://localhost:8091/swagger-ui.html
+- Api-docs: http://localhost:8091/v2/api-docs
 
 После запуска приложения - автоматически запускается БД в памяти и создается пользователь с данными
 - Логин - login
