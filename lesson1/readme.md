@@ -1,6 +1,15 @@
-# Домашняя бухгалтерия
+# Урок 1 - Домашняя бухгалтерия
+## Что надо сделать
 
-## Описание
+Базовый проект
+сделать простой проект на выбор:
+1) чат платформу
+2) интернет магазин
+3) что-то свое по согласованию с преподавателем
+
+Для базовой реализации достаточно регистрации, авторизации, базовых действий через CRUD
+
+## Описание решения
 Сервис предназначен для учета доходов и расходов, и вывода статистики по ним.
 
 Также позволяет импортировать CSV данные из приложения MoneyPro (IOS) - https://money.pro/ru/iphone/
@@ -10,28 +19,40 @@
 Пока есть только REST бэкенд
 
 ## Технологии
-- Java + Spring Boot 2 + Swagger
+- Java 8 + Spring Boot 2 + Swagger
 - Spring jpa
 - h2/postgres
 
 ## Запуск
-Для запуска нужны JAVA 11 + Docker
+Варианты запуска
 
-1) В Docker - при этом запускается приложения с БД в памяти(H2). И в него импортируются данные по пользователю: login/password
+1) **docker-compose**:
 ```
-mvn clean install
-docker build -t otus/finance-app .
-docker run -p 8080:8080 -t otus/finance-app
+docker-compose build
+docker-compose up
 ```
 
-2) Запустить FinanceApplication. Аналогично запустится приложения с БД в памяти(H2). И заимпортируются данные.
+2) **В IDE**: Запустить FinanceApplication. 
 
-NOTE: Если нужно использовать Postgres вместо H2 - то нужно проставить профайл 'postgres' в application.yml и указать в нем ссылку на БД. При запуске приложения оно само сделает в нем таблицы и их заполнит.
-
-
-## API
+## API - кратко
 - Swagger - http://localhost:8080/swagger-ui.html
 - Api-docs: http://localhost:8080/v2/api-docs
+
+После запуска приложения - автоматически запускается БД в памяти и создается пользователь с данными
+- Логин - login
+- Пароль - password
+
+Чтобы кратко проверить:
+1) Получаем сессию пользователя: auth/createSession
+```
+curl -X POST "http://localhost:8080/auth/createSession" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"login\": \"login\", \"passsword\": \"password\"}"
+```
+2) Передаем сессию в функцию main/getTransactions и видем список доходов/расходов
+```
+curl -X GET "http://localhost:8080/main/getTransactions?fromDate=2010-10-10&sessionId=1672516039827669681" -H "accept: application/json"
+```
+
+## Описание API
 
 #### Сущности
 - User - пользователь. Содержит логин и пароль
@@ -53,18 +74,14 @@ NOTE: Если нужно использовать Postgres вместо H2 - т
  - Basic operations - основные операции
     - **POST /main/addTransaction(accountName, categoryName, money, comment)** - добавление нового дохода/расхода
     - **POST /main/accountMoneyTransfer(fromAccount, toAccount, Money, comment)** - перевод данных между счетами (пока только в одной валюте)
-    - **GET /main/getTransactions(sessionId, fromDate(2019-10-10))** - получение списка операций с указанной даты
+    - **GET /main/getTransactions(sessionId, fromDate(2019-01-10))** - получение списка операций с указанной даты
     - **GET /main/getAccountStat(sessionId)** - получение статистики по счетам
+   
+#### Архитектура
+![Архитектура](readme.md-arch.png)
+
     
 ## Структура БД
-
-```
-create database finance;
-create user finance;
-alter user finance with encrypted password 'finance';
-grant all privileges on database finance to finance;
-```
-
 
 ```
 create table if not exists "user"

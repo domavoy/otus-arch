@@ -19,7 +19,7 @@ public interface MainController {
     //TODO: P3: pass date
     @GetMapping("/getTransactions")
     @ApiOperation(value = "Get transactions", tags = "Basic operations")
-    ResponseEntity<TransactionListResponse> getTransactions(Long sessionId, @ApiParam(value = "2019-10-10") @RequestParam(required = true) String date);
+    ResponseEntity<TransactionListResponse> getTransactions(Long sessionId, @ApiParam(value = "2019-01-10") @RequestParam(required = true) String date);
 
     @PostMapping("/addTransaction")
     @ApiOperation(value = "Add transaction", tags = "Basic operations")

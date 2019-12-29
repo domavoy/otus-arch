@@ -15,7 +15,6 @@
     <description>Personal finance app</description>
 
     <properties>
-        <java.version>11</java.version>
         <io.springfox.version>2.9.2</io.springfox.version>
         <org.apache.maven.plugins.version>3.8.1</org.apache.maven.plugins.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
@@ -145,7 +144,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${org.apache.maven.plugins.version}</version>
                 <configuration>
-                    <release>11</release>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

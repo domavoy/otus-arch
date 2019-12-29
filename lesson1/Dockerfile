@@ -1,7 +1,12 @@
-FROM openjdk:11-jre-slim
-VOLUME /tmp
-EXPOSE 8082
-RUN mkdir -p /app/
-RUN mkdir -p /app/logs/
-ADD target/finance-app-1.0.jar /app/finance.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=h2mem", "-jar", "/app/finance.jar"]
+FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
+MAINTAINER Maxim Dorofeev
+COPY pom.xml /build/
+COPY src /build/src/
+WORKDIR /build/
+RUN mvn package -DskipTests
+
+FROM openjdk:8-jre-alpine
+EXPOSE 8080
+WORKDIR /app
+COPY --from=MAVEN_BUILD /build/target/finance-app-1.0.jar /app/
+ENTRYPOINT ["java", "-Dspring.profiles.active=h2mem", "-jar", "finance-app-1.0.jar"]
