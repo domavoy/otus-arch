@@ -3,6 +3,7 @@ package ru.mdorofeev.finance.persistence.dict;
 import ru.mdorofeev.finance.exception.ServiceException;
 
 //TODO: P2: only EXPENSE/INCOME
+//TODO: P2: sync with db ?
 public enum TransactionType {
     EXPENSE(1),
     INCOME(2),

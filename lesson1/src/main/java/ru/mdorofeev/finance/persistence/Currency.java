@@ -26,7 +26,8 @@ public class Currency {
 
     public enum Values {
         RUB(1),
-        USD(2);
+        USD(2),
+        EUR(3);
 
         public int id;
 

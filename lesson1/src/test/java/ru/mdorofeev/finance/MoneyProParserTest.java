@@ -23,12 +23,7 @@ public class MoneyProParserTest {
             public void process(MoneyProData data) {
                 Assertions.assertNotNull(data);
             }
-
-            @Override
-            public void onException(String str, Exception e) {
-                Assertions.assertNull(e);
-            }
-        });
+        }, true);
     }
 
     @Test

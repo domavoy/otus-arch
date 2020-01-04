@@ -13,9 +13,12 @@ import ru.mdorofeev.finance.service.MainService;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Date;
 
+//TODO: P2: REFACTORING - rename package to import
 @Service
 public class MoneyProDataImport {
 
@@ -34,12 +37,23 @@ public class MoneyProDataImport {
             public void process(MoneyProData data) throws ServiceException {
                 importData(data, user);
             }
+        }, true);
+    }
 
-            @Override
-            public void onException(String str, Exception e) {
-                System.out.println("failed to parse string: " + str + " due exception" + e.getMessage());
-            }
-        });
+    public void dataImportFromFolder(User user, String folderName) throws IOException {
+        Files.list(Paths.get(folderName))
+                .filter(s -> s.toString().endsWith(".csv"))
+                .sorted()
+                .forEach(file -> {
+                    String fileName = file.toAbsolutePath().toString();
+                    parser.parseFile(fileName, new ParserHandler() {
+
+                        @Override
+                        public void process(MoneyProData data) throws ServiceException {
+                            importData(data, user);
+                        }
+                    });
+                });
     }
 
     private void importData(MoneyProData moneyProData, User user) throws ServiceException {

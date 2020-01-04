@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.mdorofeev.finance.persistence.Transaction;
+import ru.mdorofeev.finance.persistence.User;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.List;
 public interface TransactionRepository extends CrudRepository<Transaction, Long> {
 
     @Query("select t from Transaction t, User u, Session s where t.user.id = u.id and s.user.id = u.id and s.sessionId = :sessionId and t.date >= :date order by t.date asc")
-    List<Transaction> findByDate(@Param("sessionId") Long sessionId, @Param("date") Date date);
+    List<Transaction> findBySessionId(@Param("sessionId") Long sessionId, @Param("date") Date date);
+
+    @Query("select t from Transaction t where t.user = :user and t.date >= :date order by t.date asc")
+    List<Transaction> findByUser(@Param("user") User user, @Param("date") Date date);
 }
 

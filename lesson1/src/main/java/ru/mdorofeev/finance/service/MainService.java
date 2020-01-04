@@ -79,6 +79,10 @@ public class MainService {
     }
 
     public List<Transaction> getTransactions(Long sessionId, Date date) {
-        return transactionRepository.findByDate(sessionId, date);
+        return transactionRepository.findBySessionId(sessionId, date);
+    }
+
+    public List<Transaction> getTransactions(User user, Date date) {
+        return transactionRepository.findByUser(user, date);
     }
 }

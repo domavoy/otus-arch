@@ -87,4 +87,11 @@
             INSERT INTO public.currency (id, name, is_default, rate) VALUES (2, 'USD', false, 65);
         </sql>
     </changeSet>
+
+    <changeSet author="liquibase-docs"
+               id="add-euro">
+        <sql>
+            INSERT INTO public.currency (id, name, is_default, rate) VALUES (3, 'EUR', false, 70);
+        </sql>
+    </changeSet>
 </databaseChangeLog>

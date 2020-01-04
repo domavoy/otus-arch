@@ -4,10 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import ru.mdorofeev.finance.persistence.dict.TransactionType;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.text.ParseException;
@@ -18,22 +15,31 @@ import java.util.Locale;
 //TODO: P3: Validate imported rows by balance field from MoneyPro
 public class MoneyProParser {
 
-    public void parseFile(String fileName, ParserHandler handler) throws IOException, URISyntaxException {
+    public void parseFile(String fileName, ParserHandler handler) {
+        parseFile(fileName, handler, false);
+    }
 
-        InputStream inputStream = getClass()
-                .getClassLoader().getResourceAsStream(fileName);
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            while (reader.ready()) {
-                String line = reader.readLine();
-                if (line.startsWith("Дата;Сумма;")) {
-                    continue;
-                }
-
-                handler.process(parse(line));
+    public void parseFile(String fileName, ParserHandler handler, boolean isLocalResource) {
+        try {
+            InputStream inputStream;
+            if(isLocalResource){
+                inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+            } else {
+                inputStream = new FileInputStream(fileName);
             }
-        } catch (Exception e) {
-            handler.onException("FAILED TO PARSER FILE", e);
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                while (reader.ready()) {
+                    String line = reader.readLine();
+                    if (line.startsWith("Дата;Сумма;")) {
+                        continue;
+                    }
+
+                    handler.process(parse(line));
+                }
+            }
+        }catch (Exception e){
+            throw new MoneyProImportException("failed to parse file: " + fileName, e);
         }
     }
 
@@ -120,6 +126,7 @@ public class MoneyProParser {
         return moneyInfo;
     }
 
+    //TODO: P2: hardcoded currency => fill predefined from dict
     private String currencyFrom(String moneyProValue) {
         if (moneyProValue.equals("₽")) {
             return "RUB";
@@ -127,6 +134,10 @@ public class MoneyProParser {
 
         if (moneyProValue.equals("US$")) {
             return "USD";
+        }
+
+        if (moneyProValue.equals("€")) {
+            return "EUR";
         }
 
         throw new RuntimeException("Illegal money pro currency: " + moneyProValue);

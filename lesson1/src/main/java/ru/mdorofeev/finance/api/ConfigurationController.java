@@ -28,6 +28,6 @@ public interface ConfigurationController {
 
     @PostMapping("/addAccount")
     @ApiOperation(value = "Add account", tags = "App configuration")
-    ResponseEntity<Response> addAccount(Long sessionId, @ApiParam(value = "RUB/USD") @RequestParam(required = true) String currency, String name);
+    ResponseEntity<Response> addAccount(Long sessionId, @ApiParam(value = "RUB/USD/EUR") @RequestParam(required = true) String currency, String name);
 
 }

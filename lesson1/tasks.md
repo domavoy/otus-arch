@@ -5,7 +5,7 @@
 - use json-schema for validation
 - private Long transactionType; => pass dict to hibernate
 - importFromMoneyPro: many files + REST: https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/
-- export(User user, int format)
++ export(User user, int format)
 - appService + REST unit tests
 - WADL: https://javattitude.wordpress.com/2014/05/26/wadl-generator-for-spring-rest/
 - moneyPro import performance
@@ -18,6 +18,7 @@
 - RESEARCH: swagger @ApiParam doesn't pass to code. Use @PutMapping("/receipts/resend/{id}")
 - swagger alternative
 - actuator
+- fix RUB->USD->RUB money exchange during import from money pro
 
 ### docs
 https://www.petrikainulainen.net/spring-data-jpa-tutorial/

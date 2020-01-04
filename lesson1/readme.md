@@ -67,7 +67,7 @@ curl -X GET "http://localhost:8080/main/getTransactions?fromDate=2010-10-10&sess
     - **POST /auth/checkUser(login,password)** - проверка наличия пользователя в БД.
     - **POST /auth/createSession(login,password)** - создание сессионного ключа. Он используется для авторизации в других запросах.
 - App configuration - настройка приложения для пользователя
-    - **POST /config/addAccount(sessionId, RUB/USD, name)** - добавления нового счета
+    - **POST /config/addAccount(sessionId, RUB/USD/EUR, name)** - добавления нового счета
     - **GET /config/getAccounts** - получение всех счетов
     - **POST /config/addCategory(sessionId, INCOME/EXPENSE, name)** - добавление новой статьи расходов
     - **GET /config/getCategories** - получение списка статей расходов
