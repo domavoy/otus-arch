@@ -1,0 +1,11 @@
+FROM openjdk:11-jre-slim
+VOLUME /tmp
+RUN mkdir -p /app/
+RUN mkdir -p /app/logs/
+
+ADD  start.sh /app/start.sh
+ADD  central-service/target/lesson2-central-1.0.jar /app/central.jar
+ADD  sms-service/target/lesson2-service-sms-1.0.jar /app/sms.jar
+ADD  email-service/target/lesson2-service-email-1.0.jar /app/email.jar
+
+CMD ["bash", "/app/start.sh"]

@@ -2,12 +2,14 @@
 + save and return status for sms/email
 + research: pojo with json generation
 
-- listeners - unit tests with local amq
-- research: remove embedded amq from central and start it on docker-compose(+hawtio)
-- clean pom.xml - minimal rest
-
 - docs
 - docker
+- research: remove embedded amq from central and start it on docker-compose(+hawtio)
+
+- listeners - unit tests with local amq
+- docker with maven as kkm
+- clean pom.xml - minimal rest
+
 
 
 ### Formats

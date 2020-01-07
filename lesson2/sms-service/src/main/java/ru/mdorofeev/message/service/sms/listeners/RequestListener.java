@@ -51,6 +51,7 @@ public class RequestListener {
 
             // get fake request status
             String status = getRequestStatus(uuid);
+            logger.info("RETURN SMS STATUS: " + status);
 
             // return response to reply_to
             jmsTemplate.convertAndSend(replyTo, status, m -> {

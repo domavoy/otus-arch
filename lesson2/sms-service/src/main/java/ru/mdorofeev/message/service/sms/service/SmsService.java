@@ -12,6 +12,6 @@ public class SmsService {
     private static final Logger logger = LoggerFactory.getLogger(SmsService.class);
 
     public void sendSms(SmsData smsData){
-        logger.info("Send sms => " + smsData.getPhone() + ", " + smsData.getMessage());
+        logger.info("SEND SMS => " + smsData.getPhone() + ", " + smsData.getMessage());
     }
 }

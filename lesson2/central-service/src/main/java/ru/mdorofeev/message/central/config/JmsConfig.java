@@ -1,31 +1,32 @@
 package ru.mdorofeev.message.central.config;
 
-import org.apache.activemq.broker.BrokerService;
-import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.config.JmsListenerContainerFactory;
-
-import javax.jms.ConnectionFactory;
+import org.springframework.jms.core.JmsTemplate;
 
 @Configuration
 public class JmsConfig {
 
+    @Autowired
+    Environment env;
+
     @Bean
-    public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
-                                                    DefaultJmsListenerContainerFactoryConfigurer configurer) {
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        configurer.configure(factory, connectionFactory);
-        return factory;
+    public ActiveMQConnectionFactory connectionFactory(){
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
+        connectionFactory.setBrokerURL(env.getProperty("spring.activemq.broker-url"));
+        connectionFactory.setPassword(env.getProperty("spring.activemq.user"));
+        connectionFactory.setUserName(env.getProperty("spring.activemq.password"));
+        return connectionFactory;
     }
 
     @Bean
-    public BrokerService broker() throws Exception {
-        final BrokerService broker = new BrokerService();
-        broker.addConnector("tcp://localhost:61616");
-        broker.addConnector("vm://localhost");
-        broker.setPersistent(false);
-        return broker;
+    public JmsTemplate jmsTemplate(){
+        JmsTemplate template = new JmsTemplate();
+        template.setConnectionFactory(connectionFactory());
+        return template;
     }
 }

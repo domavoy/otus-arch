@@ -11,6 +11,6 @@ public class EmailService {
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     public void sendEmail(EmailData emailData){
-        logger.info("Send email => " + emailData.getTo() + ", " + emailData.getTitle() + ", " + emailData.getMessage());
+        logger.info("SEND EMAIL => " + emailData.getTo() + ", " + emailData.getTitle() + ", " + emailData.getMessage());
     }
 }

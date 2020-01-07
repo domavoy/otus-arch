@@ -50,6 +50,7 @@ public class RequestListener {
 
             // get fake request status
             String responseStatus = getRequestStatus(uuid);
+            logger.info("RETURN EMAIL STATUS: " + responseStatus);
 
             // return response to reply_to
             jmsTemplate.convertAndSend(replyTo, responseStatus, m -> {
