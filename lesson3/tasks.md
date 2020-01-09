@@ -3,6 +3,7 @@
 - P1: NEW service: GUI: Auth + Transaction list (Spring MVC) - 16h
     - auth ui + logic: 8h
     - transaction list ui: 8h
+    - https://microservices.io/patterns/data/database-per-service.html
 
 - P2: TBD: NEW service: GUI(настройки): курс валют + фиск внутренней логики + обновление (http://www.cbr.ru/scripts/XML_daily.asp?date_req=01/01/2020) - 8h
 - P2: TBD: fix RUB->USD->RUB money exchange during import from money pro - 4h
