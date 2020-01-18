@@ -51,10 +51,18 @@ public class AuthControllerImpl implements AuthController {
             if (user != null) {
                 authService.deactivateSession(user);
                 ru.mdorofeev.finance.auth.persistence.Session session = authService.createSession(user);
-                return new ResponseEntity<>(new Session(session.getSessionId().toString()), HttpStatus.OK);
+                return new ResponseEntity<>(new Session(session.getSessionId()), HttpStatus.OK);
             } else {
                 throw new ServiceException("USER_NOT_FOUND");
             }
+        });
+    }
+
+    @Override
+    public ResponseEntity<BooleanResponse> checkSession(Long sessionId) {
+        return Processor.wrapExceptions(() -> {
+            User value = authService.findBySession(sessionId);
+            return new ResponseEntity<>(new BooleanResponse(null, value != null), HttpStatus.OK);
         });
     }
 }

@@ -15,7 +15,7 @@ import lombok.ToString;
 public class Session extends Response {
 
     //TODO: P3: RESEARCH: when sessionId = Long => swagger cut return value
-    private String sessionId;
+    private Long sessionId;
 
     public Session(Error error) {
         super(error);

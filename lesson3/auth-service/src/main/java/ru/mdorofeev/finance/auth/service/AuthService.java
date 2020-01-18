@@ -22,6 +22,7 @@ public class AuthService {
     @Autowired
     private SessionRepository sessionRepository;
 
+    //TODO: P2: validate login/password lenght ib db, on error => throw exceptions, add tests
     public User createUser(String login, String password) throws ServiceException, IOException {
         User user = userRepository.findByLogin(login);
         if (user != null) {

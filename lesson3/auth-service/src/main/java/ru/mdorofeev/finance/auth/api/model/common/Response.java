@@ -13,6 +13,7 @@ import lombok.ToString;
 
 @ToString
 @Data
+//TODO: P2: REFACTORING: move Response for REST common
 public class Response {
 
     private Error error;

@@ -12,6 +12,7 @@
 - P3: TBD: user custom currency management - 16h
 
 ### NEXT
+- grafana/esia
 - use json-schema for validation
 - appService + REST unit tests
 - Use code validator from KKM(Lenar)

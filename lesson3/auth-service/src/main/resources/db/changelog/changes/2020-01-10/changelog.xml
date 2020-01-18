@@ -1,0 +1,36 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="auth-tables" author="mdorofeev">
+        <createTable tableName="user">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="login" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="session">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="user_id" type="int"/>
+            <column name="session_id" type="bigint"/>
+            <column name="status" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="mdorofeev" id="createSequence">
+        <sql>
+            CREATE SEQUENCE IF NOT EXISTS hibernate_sequence start 1;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

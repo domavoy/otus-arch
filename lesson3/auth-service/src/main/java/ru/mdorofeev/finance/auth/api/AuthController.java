@@ -17,6 +17,7 @@ import ru.mdorofeev.finance.auth.api.model.response.BooleanResponse;
 @Api(value = "Finance app auth REST API", tags = "User management")
 public interface AuthController {
 
+    //TODO: P2: BooleanResponse => Boolean
     @PostMapping("/createUser")
     @ApiOperation(value = "Create user", tags = "User management")
     ResponseEntity<Response> createUser(@RequestBody UserData body);
@@ -28,4 +29,8 @@ public interface AuthController {
     @PostMapping("/createSession")
     @ApiOperation(value = "Create session for user", tags = "User management")
     ResponseEntity<Session> createSession(@RequestBody UserData body);
+
+    @PostMapping("/checkSession")
+    @ApiOperation(value = "Check session by id", tags = "User management")
+    ResponseEntity<BooleanResponse> checkSession(@RequestBody Long sessionId);
 }
