@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import ru.mdorofeev.finance.core.api.model.common.Error;
 import ru.mdorofeev.finance.core.api.model.common.Response;
 import ru.mdorofeev.finance.core.exception.ServiceException;
-import ru.mdorofeev.finance.core.service.AuthProxyService;
+import ru.mdorofeev.finance.core.integration.AuthIntegrationService;
 
 public class Processor {
 
@@ -33,7 +33,7 @@ public class Processor {
     }
 
     //TODO: P2: merge logic with wrapExceptions
-    public static <T extends Response> ResponseEntity<T> wrapExceptionsAndAuth(AuthProxyService service, Long sessionId, ProcessWithUser<T> process) {
+    public static <T extends Response> ResponseEntity<T> wrapExceptionsAndAuth(AuthIntegrationService service, Long sessionId, ProcessWithUser<T> process) {
         try {
             Long userId = service.findBySession(sessionId);
             if (userId == null) {

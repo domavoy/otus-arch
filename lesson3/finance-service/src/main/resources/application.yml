@@ -1,3 +1,8 @@
+app:
+  integration:
+    auth-service-get-user-by-session-url: http://localhost:8081/auth/getUserBySession/
+
+
 server:
   address: 0.0.0.0
   port: 8080
@@ -5,7 +10,7 @@ server:
     context-path: /
 spring:
   profiles:
-    active: 'db-h2mem'
+    active: 'db-postgres'
   application:
     name: finance-core-service
   devtools:

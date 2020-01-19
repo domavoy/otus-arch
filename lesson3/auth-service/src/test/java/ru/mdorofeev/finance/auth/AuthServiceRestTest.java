@@ -11,6 +11,7 @@ import ru.mdorofeev.finance.auth.api.model.common.Response;
 import ru.mdorofeev.finance.auth.api.model.common.Session;
 import ru.mdorofeev.finance.auth.api.model.request.UserData;
 import ru.mdorofeev.finance.auth.api.model.response.BooleanResponse;
+import ru.mdorofeev.finance.auth.api.model.response.LongResponse;
 
 @ActiveProfiles("db-h2mem")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -32,13 +33,17 @@ public class AuthServiceRestTest {
         Assert.assertEquals("check user", true, checkUserResponse.getBody().getResult());
 
         ResponseEntity<Session> sessionResponse = controller.createSession(user);
-        Long sessionId = sessionResponse.getBody().getSessionId();
+        String sessionId = sessionResponse.getBody().getSessionId();
         checkStatusCode(sessionResponse);
         Assert.assertNotNull("Create sessionId", sessionId);
 
-        ResponseEntity<BooleanResponse> checkSessionResponse = controller.checkSession(sessionId);
+        ResponseEntity<BooleanResponse> checkSessionResponse = controller.checkSession(Long.valueOf(sessionId));
         checkStatusCode(checkSessionResponse);
         Assert.assertEquals("Check sessionId", true, checkSessionResponse.getBody().getResult());
+
+        ResponseEntity<LongResponse> getUserResponse = controller.getUserBySession(Long.valueOf(sessionId));
+        checkStatusCode(getUserResponse);
+        Assert.assertNotNull("check user session", getUserResponse.getBody().getResult());
     }
 
     @Test
@@ -55,6 +60,15 @@ public class AuthServiceRestTest {
         ResponseEntity<BooleanResponse> checkSessionResponse = controller.checkSession(12345678L);
         checkStatusCode(checkSessionResponse);
         Assert.assertEquals("Check sessionId: not exists", false, checkSessionResponse.getBody().getResult());
+    }
+
+    @Test
+    public void getUserSessionNotExists(){
+        ResponseEntity checkSessionResponse = controller.getUserBySession(12345678L);
+        Response response = ((Response)checkSessionResponse.getBody());
+
+        checkErrorStatusCode(checkSessionResponse);
+        Assert.assertEquals("Create sessionId: user not founnd", "SESSION_NOT_FOUND", response.getError().getMessage());
     }
 
     @Test

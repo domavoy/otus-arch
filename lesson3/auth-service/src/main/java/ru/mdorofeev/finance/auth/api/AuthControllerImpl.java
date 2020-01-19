@@ -8,11 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import ru.mdorofeev.finance.auth.api.common.ProcessWithUser;
 import ru.mdorofeev.finance.auth.api.common.Processor;
 import ru.mdorofeev.finance.auth.api.model.common.Response;
 import ru.mdorofeev.finance.auth.api.model.common.Session;
 import ru.mdorofeev.finance.auth.api.model.request.UserData;
 import ru.mdorofeev.finance.auth.api.model.response.BooleanResponse;
+import ru.mdorofeev.finance.auth.api.model.response.LongResponse;
 import ru.mdorofeev.finance.auth.persistence.User;
 import ru.mdorofeev.finance.auth.service.AuthService;
 
@@ -51,7 +53,7 @@ public class AuthControllerImpl implements AuthController {
             if (user != null) {
                 authService.deactivateSession(user);
                 ru.mdorofeev.finance.auth.persistence.Session session = authService.createSession(user);
-                return new ResponseEntity<>(new Session(session.getSessionId()), HttpStatus.OK);
+                return new ResponseEntity<>(new Session(session.getSessionId().toString()), HttpStatus.OK);
             } else {
                 throw new ServiceException("USER_NOT_FOUND");
             }
@@ -63,6 +65,16 @@ public class AuthControllerImpl implements AuthController {
         return Processor.wrapExceptions(() -> {
             User value = authService.findBySession(sessionId);
             return new ResponseEntity<>(new BooleanResponse(null, value != null), HttpStatus.OK);
+        });
+    }
+
+    @Override
+    public ResponseEntity<LongResponse> getUserBySession(Long sessionId) {
+        return Processor.wrapExceptionsAndAuth(authService, sessionId, new ProcessWithUser<LongResponse>() {
+            @Override
+            public ResponseEntity<LongResponse> process(User userId) throws Exception {
+                return new ResponseEntity<>(new LongResponse(null, userId.getId()), HttpStatus.OK);
+            }
         });
     }
 }

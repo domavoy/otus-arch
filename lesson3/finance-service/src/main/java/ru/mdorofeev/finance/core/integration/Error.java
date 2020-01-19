@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.auth.api.model.common;
+package ru.mdorofeev.finance.core.integration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -6,18 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Session extends Response {
+public class Error {
 
-    //TODO: P3: RESEARCH: when sessionId = Long => swagger cut return value
-    private String sessionId;
+    private String code;
 
-    public Session(Error error) {
-        super(error);
-    }
+    private String message;
 }

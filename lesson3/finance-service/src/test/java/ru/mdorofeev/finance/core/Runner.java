@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mdorofeev.finance.core.exception.ServiceException;
 import ru.mdorofeev.finance.core.service.ImportService;
-import ru.mdorofeev.finance.core.service.AuthProxyService;
+import ru.mdorofeev.finance.core.integration.AuthIntegrationService;
 import ru.mdorofeev.finance.core.service.ExportService;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class Runner {
 
     @Spy
     @InjectMocks
-    AuthProxyService authProxyService = new AuthProxyService();
+    AuthIntegrationService authProxyService = new AuthIntegrationService();
 
     @Autowired
     ImportService moneyProDataImport;

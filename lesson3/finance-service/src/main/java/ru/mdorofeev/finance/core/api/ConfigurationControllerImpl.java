@@ -16,7 +16,7 @@ import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.Currency;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
-import ru.mdorofeev.finance.core.service.AuthProxyService;
+import ru.mdorofeev.finance.core.integration.AuthIntegrationService;
 import ru.mdorofeev.finance.core.service.ConfigurationService;
 import ru.mdorofeev.finance.core.service.TransactionService;
 
@@ -34,7 +34,7 @@ public class ConfigurationControllerImpl implements ConfigurationController {
     @Autowired
     private TransactionService mainService;
     @Autowired
-    private AuthProxyService authService;
+    private AuthIntegrationService authService;
 
     @Override
     public ResponseEntity<StringListResponse> getCategories(Long sessionId) {
