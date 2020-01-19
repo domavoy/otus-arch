@@ -6,11 +6,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mdorofeev.finance.core.exception.ServiceException;
-import ru.mdorofeev.finance.core.parser.MoneyProDataImport;
+import ru.mdorofeev.finance.core.service.ImportService;
 import ru.mdorofeev.finance.core.service.AuthProxyService;
 import ru.mdorofeev.finance.core.service.ExportService;
 
@@ -20,9 +19,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Disabled
-//TODO: P1: rewname profiles: db-postgres, test-mock-auth
-//TODO: P1: unit tests for import
-@ActiveProfiles({"postgres"})
+@ActiveProfiles({"db-postgres"})
 @SpringBootTest
 public class Runner {
 
@@ -31,7 +28,7 @@ public class Runner {
     AuthProxyService authProxyService = new AuthProxyService();
 
     @Autowired
-    MoneyProDataImport moneyProDataImport;
+    ImportService moneyProDataImport;
 
     @Autowired
     ExportService exportService;
@@ -41,7 +38,7 @@ public class Runner {
         Mockito.when(authProxyService.findBySession(100L)).thenReturn(100L);
 
         Long userId = authProxyService.findBySession(100L);
-        moneyProDataImport.dataImportFromFolder(userId, "/Users/domavoy/.yandex.disk/21738021/Yandex.Disk.localized/Dropbox/backup/money");
+        moneyProDataImport.importMoneyProFolder(userId, "/Users/domavoy/.yandex.disk/21738021/Yandex.Disk.localized/Dropbox/backup/money");
     }
 
     @Test

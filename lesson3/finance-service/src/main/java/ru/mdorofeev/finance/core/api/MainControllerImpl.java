@@ -20,7 +20,7 @@ import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
 import ru.mdorofeev.finance.core.service.AuthProxyService;
 import ru.mdorofeev.finance.core.service.ConfigurationService;
-import ru.mdorofeev.finance.core.service.MainService;
+import ru.mdorofeev.finance.core.service.TransactionService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,7 +36,7 @@ public class MainControllerImpl implements MainController {
     @Autowired
     ConfigurationService configurationService;
     @Autowired
-    private MainService mainService;
+    private TransactionService mainService;
     @Autowired
     private AuthProxyService authService;
 

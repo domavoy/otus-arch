@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.core.parser;
+package ru.mdorofeev.finance.core.service.moneypro;
 
 import ru.mdorofeev.finance.core.exception.ServiceException;
 

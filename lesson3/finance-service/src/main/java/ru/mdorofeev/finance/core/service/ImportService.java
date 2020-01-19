@@ -1,14 +1,15 @@
-package ru.mdorofeev.finance.core.parser;
+package ru.mdorofeev.finance.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mdorofeev.finance.core.exception.ServiceException;
+import ru.mdorofeev.finance.core.service.moneypro.MoneyProData;
+import ru.mdorofeev.finance.core.service.moneypro.MoneyProParser;
+import ru.mdorofeev.finance.core.service.moneypro.ParserHandler;
 import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.Currency;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
-import ru.mdorofeev.finance.core.service.ConfigurationService;
-import ru.mdorofeev.finance.core.service.MainService;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -19,10 +20,10 @@ import java.util.Date;
 
 //TODO: P2: REFACTORING - rename package to import
 @Service
-public class MoneyProDataImport {
+public class ImportService {
 
     @Autowired
-    MainService mainService;
+    TransactionService mainService;
 
     @Autowired
     MoneyProParser parser;
@@ -30,7 +31,7 @@ public class MoneyProDataImport {
     @Autowired
     ConfigurationService configurationService;
 
-    public void dataImport(Long userId, String fileName) throws IOException, ServiceException, URISyntaxException {
+    public void importMoneyPro(Long userId, String fileName) throws IOException, ServiceException, URISyntaxException {
         parser.parseFile(fileName, new ParserHandler() {
             @Override
             public void process(MoneyProData data) throws ServiceException {
@@ -39,7 +40,7 @@ public class MoneyProDataImport {
         }, true);
     }
 
-    public void dataImportFromFolder(Long userId, String folderName) throws IOException {
+    public void importMoneyProFolder(Long userId, String folderName) throws IOException {
         Files.list(Paths.get(folderName))
                 .filter(s -> s.toString().endsWith(".csv"))
                 .sorted()

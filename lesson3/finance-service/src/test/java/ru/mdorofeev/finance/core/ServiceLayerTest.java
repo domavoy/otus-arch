@@ -3,12 +3,9 @@ package ru.mdorofeev.finance.core;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mdorofeev.finance.core.exception.ServiceException;
@@ -18,17 +15,16 @@ import ru.mdorofeev.finance.core.persistence.Currency;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
 import ru.mdorofeev.finance.core.service.AuthProxyService;
 import ru.mdorofeev.finance.core.service.ConfigurationService;
-import ru.mdorofeev.finance.core.service.MainService;
+import ru.mdorofeev.finance.core.service.TransactionService;
 
-import java.io.IOException;
 import java.util.Date;
 
-@ActiveProfiles({"h2mem"})
+@ActiveProfiles({"db-h2mem"})
 @SpringBootTest
-class RepositoryTest {
+class ServiceLayerTest {
 
     @Autowired
-    MainService mainService;
+    TransactionService mainService;
 
     @Spy
     @InjectMocks

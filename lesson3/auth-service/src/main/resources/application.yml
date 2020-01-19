@@ -5,7 +5,7 @@ server:
     context-path: /
 spring:
   profiles:
-    active: 'h2mem'
+    active: 'db-h2mem'
   application:
     name: finance-auth-service
   devtools:
@@ -39,7 +39,7 @@ logging:
 ---
 
 spring:
-  profiles: postgres
+  profiles: db-postgres
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     show-sql: true
@@ -67,7 +67,7 @@ spring:
 ---
 
 spring:
-  profiles: h2mem
+  profiles: db-h2mem
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: false

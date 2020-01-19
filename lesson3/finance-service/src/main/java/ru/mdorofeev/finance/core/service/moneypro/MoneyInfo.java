@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.core.parser;
+package ru.mdorofeev.finance.core.service.moneypro;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

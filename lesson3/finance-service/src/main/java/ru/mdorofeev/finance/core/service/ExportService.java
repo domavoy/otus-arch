@@ -13,7 +13,7 @@ import java.util.*;
 public class ExportService {
 
     @Autowired
-    MainService mainService;
+    TransactionService mainService;
 
     @Autowired
     ConfigurationService configurationService;

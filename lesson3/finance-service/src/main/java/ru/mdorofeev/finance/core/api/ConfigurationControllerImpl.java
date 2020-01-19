@@ -18,7 +18,7 @@ import ru.mdorofeev.finance.core.persistence.Currency;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
 import ru.mdorofeev.finance.core.service.AuthProxyService;
 import ru.mdorofeev.finance.core.service.ConfigurationService;
-import ru.mdorofeev.finance.core.service.MainService;
+import ru.mdorofeev.finance.core.service.TransactionService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +32,7 @@ public class ConfigurationControllerImpl implements ConfigurationController {
     @Autowired
     ConfigurationService configurationService;
     @Autowired
-    private MainService mainService;
+    private TransactionService mainService;
     @Autowired
     private AuthProxyService authService;
 

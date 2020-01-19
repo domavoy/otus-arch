@@ -12,7 +12,7 @@ import ru.mdorofeev.finance.auth.api.model.common.Session;
 import ru.mdorofeev.finance.auth.api.model.request.UserData;
 import ru.mdorofeev.finance.auth.api.model.response.BooleanResponse;
 
-@ActiveProfiles("h2mem")
+@ActiveProfiles("db-h2mem")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AuthServiceRestTest {
 

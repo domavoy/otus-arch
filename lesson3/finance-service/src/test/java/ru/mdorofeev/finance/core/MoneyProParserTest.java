@@ -2,9 +2,9 @@ package ru.mdorofeev.finance.core;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.mdorofeev.finance.core.parser.MoneyProData;
-import ru.mdorofeev.finance.core.parser.MoneyProParser;
-import ru.mdorofeev.finance.core.parser.ParserHandler;
+import ru.mdorofeev.finance.core.service.moneypro.MoneyProData;
+import ru.mdorofeev.finance.core.service.moneypro.MoneyProParser;
+import ru.mdorofeev.finance.core.service.moneypro.ParserHandler;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
 
 import java.io.IOException;

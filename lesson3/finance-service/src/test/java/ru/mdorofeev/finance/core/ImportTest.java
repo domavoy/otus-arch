@@ -6,11 +6,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mdorofeev.finance.core.exception.ServiceException;
-import ru.mdorofeev.finance.core.parser.MoneyProDataImport;
+import ru.mdorofeev.finance.core.service.ImportService;
 import ru.mdorofeev.finance.core.service.AuthProxyService;
 import ru.mdorofeev.finance.core.service.ConfigurationService;
 
@@ -19,9 +18,9 @@ import java.net.URISyntaxException;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 
-@ActiveProfiles({"h2mem"})
+@ActiveProfiles({"db-h2mem"})
 @SpringBootTest
-public class MoneyProImportTest {
+public class ImportTest {
 
     @Spy
     @InjectMocks
@@ -31,14 +30,14 @@ public class MoneyProImportTest {
     ConfigurationService configurationService;
 
     @Autowired
-    MoneyProDataImport moneyProDataImport;
+    ImportService moneyProDataImport;
 
     @Test
-    void dataImport() throws IOException, ServiceException, URISyntaxException {
+    void moneyProImport() throws IOException, ServiceException, URISyntaxException {
         Mockito.when(authProxyService.findBySession(anyLong())).thenReturn(101L);
 
         Long userId = authProxyService.findBySession(101L);
-        moneyProDataImport.dataImport(userId, "moneyPro.csv");
+        moneyProDataImport.importMoneyPro(userId, "moneyPro.csv");
 
         Assertions.assertEquals(0.0, configurationService.getAccountByName(userId, "Сберегательный").getAmount(), "cur account");
         Assertions.assertEquals(0.0, configurationService.getAccountByName(userId, "Доллары citi").getAmount(), "cur account");

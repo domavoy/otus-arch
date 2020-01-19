@@ -9,4 +9,4 @@ FROM openjdk:8-jre-alpine
 EXPOSE 8080
 WORKDIR /app
 COPY --from=MAVEN_BUILD /build/target/finance-app-1.0.jar /app/
-ENTRYPOINT ["java", "-Dspring.profiles.active=h2mem", "-jar", "finance-app-1.0.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=db-h2mem", "-jar", "finance-app-1.0.jar"]

@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.core.parser;
+package ru.mdorofeev.finance.core.service.moneypro;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

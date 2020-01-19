@@ -5,11 +5,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mdorofeev.finance.core.exception.ServiceException;
-import ru.mdorofeev.finance.core.parser.MoneyProDataImport;
+import ru.mdorofeev.finance.core.service.ImportService;
 import ru.mdorofeev.finance.core.service.AuthProxyService;
 import ru.mdorofeev.finance.core.service.ExportService;
 
@@ -19,7 +18,7 @@ import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.Date;
 
-@ActiveProfiles({"h2mem"})
+@ActiveProfiles({"db-h2mem"})
 @SpringBootTest
 public class ExportTest {
 
@@ -28,7 +27,7 @@ public class ExportTest {
     AuthProxyService authProxyService = new AuthProxyService();
 
     @Autowired
-    MoneyProDataImport moneyProDataImport;
+    ImportService moneyProDataImport;
 
     @Autowired
     ExportService exportService;
@@ -38,7 +37,7 @@ public class ExportTest {
         Mockito.when(authProxyService.findBySession(100L)).thenReturn(100L);
 
         Long userId = authProxyService.findBySession(100L);
-        moneyProDataImport.dataImport(userId, "moneyPro.csv");
+        moneyProDataImport.importMoneyPro(userId, "moneyPro.csv");
 
         //TODO: File.createTempFile("test.csv", ".csv");
         String location = exportService.export(File.createTempFile("test.csv", ".csv").getAbsolutePath(), userId, new Date(LocalDate.parse("2010-01-01").toEpochDay()));

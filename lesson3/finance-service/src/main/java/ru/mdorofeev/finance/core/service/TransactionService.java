@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class MainService {
+public class TransactionService {
 
     @Autowired
     private AccountRepository accountRepository;
