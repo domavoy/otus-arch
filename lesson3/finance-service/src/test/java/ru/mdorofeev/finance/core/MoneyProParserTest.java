@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance;
+package ru.mdorofeev.finance.core;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

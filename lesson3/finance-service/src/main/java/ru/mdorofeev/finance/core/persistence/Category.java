@@ -20,8 +20,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @OneToOne
-    private User user;
+    private Long userId;
 
     private Integer transactionType;
 

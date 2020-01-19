@@ -6,7 +6,6 @@ import ru.mdorofeev.finance.core.exception.ServiceException;
 import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.Currency;
-import ru.mdorofeev.finance.core.persistence.User;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
 import ru.mdorofeev.finance.core.repository.AccountRepository;
 import ru.mdorofeev.finance.core.repository.CategoryRepository;
@@ -35,35 +34,35 @@ public class ConfigurationService {
         return cur;
     }
 
-    public Category createCategory(User user, TransactionType type, String name) throws ServiceException {
-        Category acc = categoryRepository.findByUserAndTransactionTypeAndName(user, type.id, name);
+    public Category createCategory(Long userId, TransactionType type, String name) throws ServiceException {
+        Category acc = categoryRepository.findByUserIdAndTransactionTypeAndName(userId, type.id, name);
         if (acc != null) {
             throw new ServiceException("CATEGORY_ALREADY_EXISTS");
         }
         Category category = new Category();
-        category.setUser(user);
+        category.setUserId(userId);
         category.setTransactionType(type.id);
         category.setName(name);
 
         return categoryRepository.save(category);
     }
 
-    public Category getCategory(User user, TransactionType type, String name) {
-        return categoryRepository.findByUserAndTransactionTypeAndName(user, type.id, name);
+    public Category getCategory(Long userId, TransactionType type, String name) {
+        return categoryRepository.findByUserIdAndTransactionTypeAndName(userId, type.id, name);
     }
 
-    public Category getCategory(User user, String name) {
-        return categoryRepository.findByUserAndName(user, name);
+    public Category getCategory(Long userId, String name) {
+        return categoryRepository.findByUserIdAndName(userId, name);
     }
 
-    public Account createAccount(User user, Currency currency, String name) throws ServiceException {
-        Account acc = accountRepository.findByUserAndCurrencyAndName(user, currency, name);
+    public Account createAccount(Long userId, Currency currency, String name) throws ServiceException {
+        Account acc = accountRepository.findByUserIdAndCurrencyAndName(userId, currency, name);
         if (acc != null) {
             throw new ServiceException("ACCOUNT_ALREADY_EXISTS");
         }
 
         Account account = new Account();
-        account.setUser(user);
+        account.setUserId(userId);
         account.setCurrency(currency);
         account.setName(name);
         account.setAmount(0.0);
@@ -71,16 +70,16 @@ public class ConfigurationService {
         return accountRepository.save(account);
     }
 
-    public Account getAccount(User user, Currency currency, String name) {
-        return accountRepository.findByUserAndCurrencyAndName(user, currency, name);
+    public Account getAccount(Long userId, Currency currency, String name) {
+        return accountRepository.findByUserIdAndCurrencyAndName(userId, currency, name);
     }
 
-    public Account getAccountByName(User user, String name) {
-        return accountRepository.findByUserAndName(user, name);
+    public Account getAccountByName(Long userId, String name) {
+        return accountRepository.findByUserIdAndName(userId, name);
     }
 
     public List<Category> getCategories(Long sessionId) {
-        return categoryRepository.getBySession(sessionId);
+        return categoryRepository.findByUserId(sessionId);
     }
 
 }

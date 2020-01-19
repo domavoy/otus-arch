@@ -3,20 +3,7 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet id="1" author="mdorofeev">
-        <createTable tableName="user">
-            <column name="id" type="int">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-
-            <column name="login" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="password" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
+    <changeSet id="finance-service-tables" author="mdorofeev">
         <createTable tableName="currency">
             <column name="id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
@@ -45,17 +32,6 @@
             <column name="name" type="varchar(100)"/>
         </createTable>
 
-        <createTable tableName="session">
-            <column name="id" type="int">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-
-            <column name="user_id" type="int"/>
-            <column name="session_id" type="bigint"/>
-            <column name="status" type="int"/>
-
-        </createTable>
-
         <createTable tableName="transaction">
             <column name="id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
@@ -74,23 +50,16 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="mdorofeev" id="createSequence">
+    <changeSet author="mdorofeev" id="finance-service-sequence">
         <sql>
             CREATE SEQUENCE IF NOT EXISTS hibernate_sequence start 1;
         </sql>
     </changeSet>
 
-    <changeSet author="liquibase-docs"
-               id="data">
+    <changeSet author="mdorofeev" id="finance-service-data">
         <sql>
             INSERT INTO public.currency (id, name, is_default, rate) VALUES (1, 'RUB', true, 1);
             INSERT INTO public.currency (id, name, is_default, rate) VALUES (2, 'USD', false, 65);
-        </sql>
-    </changeSet>
-
-    <changeSet author="liquibase-docs"
-               id="add-euro">
-        <sql>
             INSERT INTO public.currency (id, name, is_default, rate) VALUES (3, 'EUR', false, 70);
         </sql>
     </changeSet>

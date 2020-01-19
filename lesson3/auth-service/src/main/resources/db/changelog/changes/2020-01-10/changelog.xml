@@ -3,7 +3,7 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet id="auth-tables" author="mdorofeev">
+    <changeSet id="auth-service-tables" author="mdorofeev">
         <createTable tableName="user">
             <column name="id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
@@ -28,7 +28,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="mdorofeev" id="createSequence">
+    <changeSet author="mdorofeev" id="auth-service-sequence">
         <sql>
             CREATE SEQUENCE IF NOT EXISTS hibernate_sequence start 1;
         </sql>

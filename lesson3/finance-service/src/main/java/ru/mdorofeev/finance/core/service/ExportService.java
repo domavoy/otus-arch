@@ -3,7 +3,6 @@ package ru.mdorofeev.finance.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mdorofeev.finance.core.persistence.Transaction;
-import ru.mdorofeev.finance.core.persistence.User;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
 
 import java.io.FileWriter;
@@ -21,14 +20,14 @@ public class ExportService {
 
     public static final String UTF8_BOM = "\uFEFF";
 
-    public String export(String fileName, User user, Date fromDate) throws IOException {
+    public String export(String fileName, Long userId, Date fromDate) throws IOException {
         FileWriter writer = new FileWriter(fileName);
         writer.write(UTF8_BOM);
 
         CSVUtils.writeLine(writer, Arrays.asList("Year", "Month", "Day", "Year-Month",
                 "TransactionType", "Account", "Category", "Amount", "Comment"));
 
-        List<Transaction> transactions = mainService.getTransactions(user, fromDate);
+        List<Transaction> transactions = mainService.getTransactions(userId, fromDate);
         transactions.stream().forEach(transaction -> {
             try {
                 Calendar calendar = new GregorianCalendar();

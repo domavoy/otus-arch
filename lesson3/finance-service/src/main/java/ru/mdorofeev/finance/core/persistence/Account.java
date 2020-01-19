@@ -20,8 +20,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @OneToOne
-    private User user;
+    private Long userId;
 
     @OneToOne
     private Currency currency;

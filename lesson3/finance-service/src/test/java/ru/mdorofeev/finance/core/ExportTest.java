@@ -1,13 +1,16 @@
-package ru.mdorofeev.finance;
+package ru.mdorofeev.finance.core;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mdorofeev.finance.core.exception.ServiceException;
 import ru.mdorofeev.finance.core.parser.MoneyProDataImport;
-import ru.mdorofeev.finance.core.persistence.User;
-import ru.mdorofeev.finance.core.service.AuthService;
+import ru.mdorofeev.finance.core.service.AuthProxyService;
 import ru.mdorofeev.finance.core.service.ExportService;
 
 import java.io.File;
@@ -16,12 +19,13 @@ import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.Date;
 
-@ActiveProfiles("h2mem")
+@ActiveProfiles({"h2mem"})
 @SpringBootTest
 public class ExportTest {
 
-    @Autowired
-    AuthService authService;
+    @Spy
+    @InjectMocks
+    AuthProxyService authProxyService = new AuthProxyService();
 
     @Autowired
     MoneyProDataImport moneyProDataImport;
@@ -31,11 +35,13 @@ public class ExportTest {
 
     @Test
     public void export() throws IOException, ServiceException, URISyntaxException {
-        User user = authService.createUser("user1", "password1");
-        moneyProDataImport.dataImport(user, "moneyPro.csv");
+        Mockito.when(authProxyService.findBySession(100L)).thenReturn(100L);
+
+        Long userId = authProxyService.findBySession(100L);
+        moneyProDataImport.dataImport(userId, "moneyPro.csv");
 
         //TODO: File.createTempFile("test.csv", ".csv");
-        String location = exportService.export(File.createTempFile("test.csv", ".csv").getAbsolutePath(), user, new Date(LocalDate.parse("2010-01-01").toEpochDay()));
+        String location = exportService.export(File.createTempFile("test.csv", ".csv").getAbsolutePath(), userId, new Date(LocalDate.parse("2010-01-01").toEpochDay()));
         System.out.println(location);
     }
 }

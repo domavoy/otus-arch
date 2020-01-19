@@ -26,8 +26,7 @@ public class Transaction {
 
     private Integer transactionType;
 
-    @OneToOne
-    private User user;
+    private Long userId;
 
     @OneToOne
     private Account account;

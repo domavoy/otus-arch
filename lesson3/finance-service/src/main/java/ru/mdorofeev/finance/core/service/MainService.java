@@ -7,7 +7,6 @@ import ru.mdorofeev.finance.core.exception.ServiceException;
 import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.Transaction;
-import ru.mdorofeev.finance.core.persistence.User;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
 import ru.mdorofeev.finance.core.repository.AccountRepository;
 import ru.mdorofeev.finance.core.repository.TransactionRepository;
@@ -26,20 +25,20 @@ public class MainService {
     private TransactionRepository transactionRepository;
 
     @Transactional
-    public void createTransaction(User user, Date date, Account account, Category category, Double amount, String comment) throws ServiceException {
+    public void createTransaction(Long userId, Date date, Account account, Category category, Double amount, String comment) throws ServiceException {
         TransactionType transactionType = TransactionType.from(category.getTransactionType());
-        createTransactionNative(user, date, transactionType, account, null, category, amount, null, comment);
+        createTransactionNative(userId, date, transactionType, account, null, category, amount, null, comment);
     }
 
     @Transactional
-    public void moneyTransfer(User user, Date date, Account fromAccount, Account toAccount, Double amount, String comment) throws ServiceException {
-        createTransactionNative(user, date, TransactionType.MONEY_TRANSFER, fromAccount, toAccount,
+    public void moneyTransfer(Long userId, Date date, Account fromAccount, Account toAccount, Double amount, String comment) throws ServiceException {
+        createTransactionNative(userId, date, TransactionType.MONEY_TRANSFER, fromAccount, toAccount,
                 null, amount, amount, comment);
     }
 
-    public void createTransactionNative(User user, Date date, TransactionType type, Account account, Account toAccount, Category category, Double amount, Double toAmount, String comment) {
+    public void createTransactionNative(Long userId, Date date, TransactionType type, Account account, Account toAccount, Category category, Double amount, Double toAmount, String comment) {
         Transaction transaction = new Transaction();
-        transaction.setUser(user);
+        transaction.setUserId(userId);
         transaction.setDate(date);
         transaction.setAccount(account);
         transaction.setToAccount(toAccount);
@@ -74,15 +73,11 @@ public class MainService {
         }
     }
 
-    public List<Account> getAccounts(Long sessionId) {
-        return accountRepository.getBySession(sessionId);
+    public List<Account> getAccounts(Long userId) {
+        return accountRepository.findByUserId(userId);
     }
 
-    public List<Transaction> getTransactions(Long sessionId, Date date) {
-        return transactionRepository.findBySessionId(sessionId, date);
-    }
-
-    public List<Transaction> getTransactions(User user, Date date) {
-        return transactionRepository.findByUser(user, date);
+    public List<Transaction> getTransactions(Long userId, Date date) {
+        return transactionRepository.findByUserId(userId, date);
     }
 }

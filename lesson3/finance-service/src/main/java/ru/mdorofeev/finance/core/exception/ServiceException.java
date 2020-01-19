@@ -1,5 +1,6 @@
 package ru.mdorofeev.finance.core.exception;
 
+//TODO: P2: REFACTORING: move Response for common
 public class ServiceException extends Exception {
 
     //TODO: P3: Code to enum ?

@@ -11,8 +11,10 @@ import ru.mdorofeev.finance.core.service.PredefinedDataLoader;
 public class FinanceApplication implements CommandLineRunner {
 
     public static final String DATA_LOAD_PROFILE = "h2mem";
+
     @Value("${spring.profiles.active}")
     private String activeProfile;
+
     @Autowired
     private PredefinedDataLoader predefinedDataLoader;
 
@@ -25,7 +27,7 @@ public class FinanceApplication implements CommandLineRunner {
 
         //for h2mem profile => load predefined data
         if (DATA_LOAD_PROFILE.equals(activeProfile)) {
-            predefinedDataLoader.loadData("login", "password", "moneyPro.csv");
+            predefinedDataLoader.loadData(1L, "moneyPro.csv");
         }
     }
 }
