@@ -1,6 +1,12 @@
 app:
   integration:
-    auth-service-get-user-by-session-url: http://localhost:8081/auth/getUserBySession/
+    auth-service-rest:
+      base: http://localhost:8081/auth
+      uri:
+        create-user: /createUser
+        create-session: /createSession
+        get-user-by-session: /getUserBySession/
+
 
 
 server:
@@ -10,7 +16,7 @@ server:
     context-path: /
 spring:
   profiles:
-    active: 'db-postgres'
+    active: 'db-h2mem'
   application:
     name: finance-core-service
   devtools:

@@ -17,6 +17,7 @@
 - appService + REST unit tests
 - Use code validator from KKM(Lenar)
 - swagger alternative
+- spring boot contract: https://aboullaite.me/a-practical-introduction-to-spring-cloud-contract/
 
 - fix common sonar warnings
 - use java money: https://www.baeldung.com/java-money-and-currency
