@@ -11,6 +11,6 @@
         <module>auth-service</module>
         <module>finance-service</module>
         <module>scheduler-service</module>
-        <module>ui-service</module>
+        <module>budget-service</module>
     </modules>
 </project>

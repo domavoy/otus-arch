@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.mdorofeev.finance</groupId>
-    <artifactId>lesson3-ui-service</artifactId>
+    <artifactId>lesson3-budget-service</artifactId>
     <version>1.0</version>
 
     <properties>
