@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.budget.api.model.request;
+package ru.mdorofeev.finance.repeated.api.model.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

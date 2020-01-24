@@ -1,10 +1,9 @@
-package ru.mdorofeev.finance.budget.api.model.request;
+package ru.mdorofeev.finance.repeated.api.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.mdorofeev.finance.budget.persistence.dict.Granularity;
 
 import java.util.Date;
 

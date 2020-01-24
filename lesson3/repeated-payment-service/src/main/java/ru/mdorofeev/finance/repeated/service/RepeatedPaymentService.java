@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.budget.service;
+package ru.mdorofeev.finance.repeated.service;
 
 import org.springframework.stereotype.Service;
 

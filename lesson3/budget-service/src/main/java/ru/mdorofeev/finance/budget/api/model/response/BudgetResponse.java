@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.mdorofeev.finance.budget.persistence.dict.Granularity;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 

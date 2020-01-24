@@ -12,5 +12,6 @@
         <module>finance-service</module>
         <module>scheduler-service</module>
         <module>budget-service</module>
+        <module>repeated-payment-service</module>
     </modules>
 </project>

@@ -1,10 +1,10 @@
-package ru.mdorofeev.finance.budget.api.model.response;
+package ru.mdorofeev.finance.repeated.api.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.mdorofeev.finance.budget.persistence.dict.Granularity;
+import ru.mdorofeev.finance.repeated.persistence.dict.Granularity;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -23,10 +23,10 @@ public class RepeatedPaymentResponse extends Response{
 
     private Granularity granularity;
 
-    private List budgetList = new LinkedList();
+    private List repeatedPaymentList = new LinkedList();
 
-    public void add(RepeatedPayment budget){
-        budgetList.add(budget);
+    public void add(RepeatedPayment repeatedPayment){
+        repeatedPaymentList.add(repeatedPayment);
     }
 
     public class RepeatedPayment {

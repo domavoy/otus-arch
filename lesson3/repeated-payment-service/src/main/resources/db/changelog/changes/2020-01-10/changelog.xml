@@ -3,19 +3,24 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet id="budget-service-tables" author="mdorofeev">
-        <createTable tableName="budget">
+    <changeSet id="repeated-payment-service-tables" author="mdorofeev">
+        <createTable tableName="repeated_payment">
             <column name="id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
 
             <column name="user_id" type="int"/>
             <column name="category_id" type="int"/>
+
+            <column name="granularity" type="int"/>
             <column name="amount" type="NUMERIC(16,2)"/>
+
+            <column name="start" type="Date"/>
+            <column name="end" type="Date"/>
         </createTable>
     </changeSet>
 
-    <changeSet author="mdorofeev" id="budget-service-sequence">
+    <changeSet author="mdorofeev" id="repeated-payment-service-sequence">
         <sql>
             CREATE SEQUENCE IF NOT EXISTS hibernate_sequence start 1;
         </sql>

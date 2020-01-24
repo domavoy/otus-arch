@@ -1,6 +1,6 @@
-package ru.mdorofeev.finance.budget.persistence.dict;
+package ru.mdorofeev.finance.repeated.persistence.dict;
 
-import ru.mdorofeev.finance.budget.exception.ServiceException;
+import ru.mdorofeev.finance.repeated.exception.ServiceException;
 
 public enum Granularity {
     NONE, DAILY, WEEKLY, YEARLY;

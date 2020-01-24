@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.budget.persistence;
+package ru.mdorofeev.finance.repeated.persistence;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "budget", schema = "public")
+@Table(name = "repeated_payment", schema = "public")
 public class RepeatedPayment {
 
     @Id
