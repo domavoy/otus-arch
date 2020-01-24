@@ -9,7 +9,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BudgetDataUpdate extends BudgetData{
+public class BudgetDataUpdate {
 
     private Long budgetId;
+
+    private Long categoryId;
+
+    private Double amount;
 }

@@ -21,6 +21,8 @@
 - swagger on oauth 3
 - grafana/esia
 
+- feature: export/import all data: dict + repeatedPayment + budget. now - transactions only
+
 - fix common sonar warnings
 - use java money: https://www.baeldung.com/java-money-and-currency
 - moneyPro import performance

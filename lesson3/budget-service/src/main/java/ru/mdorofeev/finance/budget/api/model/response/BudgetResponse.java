@@ -22,7 +22,14 @@ public class BudgetResponse extends Response{
         budgetList.add(budget);
     }
 
-    public class Budget{
+    public List getBudgetList() {
+        return budgetList;
+    }
+
+    @ToString
+    @NoArgsConstructor
+    @Data
+    public class Budget {
         private Long categoryId;
         private Double amount;
     }
