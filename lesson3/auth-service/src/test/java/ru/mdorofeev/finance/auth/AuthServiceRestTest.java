@@ -20,8 +20,6 @@ public class AuthServiceRestTest {
     @Autowired
     private AuthControllerImpl controller;
 
-    public static final String CREATE_USER = "{ \"login\": \"string\", \"passsword\": \"string\"}";
-
     @Test
     public void fullTest(){
         UserData user = new UserData("user", "password");

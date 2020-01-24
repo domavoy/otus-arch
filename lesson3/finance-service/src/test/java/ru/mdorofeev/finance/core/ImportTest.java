@@ -24,7 +24,7 @@ public class ImportTest {
 
     @Spy
     @InjectMocks
-    AuthIntegrationService authProxyService = new AuthIntegrationService();
+    AuthIntegrationService authProxyService = Mockito.mock(AuthIntegrationService.class);
 
     @Autowired
     ConfigurationService configurationService;

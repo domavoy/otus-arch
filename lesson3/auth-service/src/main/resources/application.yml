@@ -46,7 +46,7 @@ spring:
   datasource:
     driverClassName: org.postgresql.Driver
     password: finance
-    url: jdbc:postgresql://localhost:5432/finance
+    url: jdbc:postgresql://localhost:5432/finance-auth
     username: finance
 
 ---
@@ -59,7 +59,7 @@ spring:
   datasource:
     driverClassName: org.h2.Driver
     password: password
-    url: jdbc:h2:file:~/h2db/finance;AUTO_SERVER=TRUE
+    url: jdbc:h2:file:~/h2db/finance-auth;AUTO_SERVER=TRUE
     username: sa
   h2:
     console:
@@ -74,7 +74,7 @@ spring:
   datasource:
     driverClassName: org.h2.Driver
     password: password
-    url: jdbc:h2:mem:db
+    url: jdbc:h2:mem:finance-auth
     username: sa
   h2:
     console:

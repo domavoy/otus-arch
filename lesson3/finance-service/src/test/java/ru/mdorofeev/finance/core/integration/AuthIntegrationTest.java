@@ -4,11 +4,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationListener;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import ru.mdorofeev.finance.core.exception.ServiceException;
-import ru.mdorofeev.finance.core.integration.AuthIntegrationService;
 
 import java.util.UUID;
 
@@ -31,4 +32,12 @@ public class AuthIntegrationTest {
         Long data = authIntegrationService.findBySession(session);
         Assertions.assertNotNull(data, "getUserBySession");
     }
+
+
+//     System.getProperties().put( "server.port", 8081);
+//        new SpringApplicationBuilder().sources(FinanceApplication .class).
+//    listeners((ApplicationListener<ApplicationReadyEvent>) event -> {
+//
+//    }).run();
+
 }

@@ -28,7 +28,7 @@ class ServiceLayerTest {
 
     @Spy
     @InjectMocks
-    AuthIntegrationService authProxyService = new AuthIntegrationService();
+    AuthIntegrationService authProxyService = Mockito.mock(AuthIntegrationService.class);
 
     @Autowired
     ConfigurationService configurationService;

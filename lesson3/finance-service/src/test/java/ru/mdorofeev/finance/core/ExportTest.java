@@ -2,6 +2,7 @@ package ru.mdorofeev.finance.core;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ExportTest {
 
     @Spy
     @InjectMocks
-    AuthIntegrationService authProxyService = new AuthIntegrationService();
+    AuthIntegrationService authProxyService = Mockito.mock(AuthIntegrationService.class);
 
     @Autowired
     ImportService moneyProDataImport;
