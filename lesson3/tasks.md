@@ -12,12 +12,14 @@
 - P3: TBD: user custom currency management - 16h
 
 ### NEXT
-- grafana/esia
 - use json-schema for validation
 - appService + REST unit tests
 - Use code validator from KKM(Lenar)
 - swagger alternative
-- spring boot contract: https://aboullaite.me/a-practical-introduction-to-spring-cloud-contract/
+- GOOGLE: best practices - spring boot contract: https://aboullaite.me/a-practical-introduction-to-spring-cloud-contract/
+- GOOGLE: best practices - how to pass dict to rest. now - string and validate using dict in persistence
+- swagger on oauth 3
+- grafana/esia
 
 - fix common sonar warnings
 - use java money: https://www.baeldung.com/java-money-and-currency

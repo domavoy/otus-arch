@@ -15,17 +15,25 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @Data
-//TODO: FEATURE: BUDGET: add start/end and granularity
-public class BudgetResponse extends Response{
+public class RepeatedPaymentResponse extends Response{
+
+    private Date start;
+
+    private Date end;
+
+    private Granularity granularity;
 
     private List budgetList = new LinkedList();
 
-    public void add(Budget budget){
+    public void add(RepeatedPayment budget){
         budgetList.add(budget);
     }
 
-    public class Budget{
+    public class RepeatedPayment {
+        private Long userId;
         private Long categoryId;
+
+        private String name;
         private Double amount;
     }
 }

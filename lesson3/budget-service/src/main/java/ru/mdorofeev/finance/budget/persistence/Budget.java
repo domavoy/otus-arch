@@ -1,17 +1,24 @@
-package ru.mdorofeev.finance.budget.api.model.request;
+package ru.mdorofeev.finance.budget.persistence;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.util.Date;
 
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BudgetData {
+@Entity
+@Table(name = "budget", schema = "public")
+public class Budget {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
 
     private Long userId;
 

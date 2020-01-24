@@ -4,31 +4,33 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <changeSet id="budget-service-tables" author="mdorofeev">
-        <createTable tableName="user">
-            <column name="id" type="int">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-
-            <column name="login" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="password" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <createTable tableName="session">
+        <createTable tableName="repeated_payment">
             <column name="id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
 
             <column name="user_id" type="int"/>
-            <column name="session_id" type="bigint"/>
-            <column name="status" type="int"/>
+            <column name="category_id" type="int"/>
+
+            <column name="granularity" type="int"/>
+            <column name="amount" type="NUMERIC(16,2)"/>
+
+            <column name="start" type="Date"/>
+            <column name="end" type="Date"/>
+        </createTable>
+
+        <createTable tableName="budget">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="user_id" type="int"/>
+            <column name="category_id" type="int"/>
+            <column name="amount" type="NUMERIC(16,2)"/>
         </createTable>
     </changeSet>
 
-    <changeSet author="mdorofeev" id="auth-service-sequence">
+    <changeSet author="mdorofeev" id="budget-service-sequence">
         <sql>
             CREATE SEQUENCE IF NOT EXISTS hibernate_sequence start 1;
         </sql>
