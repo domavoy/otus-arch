@@ -23,8 +23,12 @@
 - GOOGLE: best practices - how to pass dict to rest. now - string and validate using dict in persistence
 - swagger on oauth 3
 - grafana/esia
+- move all dependencies to root pom
+- gradle ?
 
 - feature: export/import all data: dict + repeatedPayment + budget. now - transactions only
+- thinks on common-services
+- think entity naming: api(request/reponse)/entity
 
 - fix common sonar warnings
 - use java money: https://www.baeldung.com/java-money-and-currency

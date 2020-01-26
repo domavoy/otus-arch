@@ -11,6 +11,10 @@ import ru.mdorofeev.finance.budget.api.model.request.BudgetData;
 import ru.mdorofeev.finance.budget.api.model.request.BudgetDataUpdate;
 import ru.mdorofeev.finance.budget.api.model.response.BudgetResponse;
 import ru.mdorofeev.finance.budget.api.model.response.LongResponse;
+import ru.mdorofeev.finance.common.api.model.response.Response;
+import ru.mdorofeev.finance.common.exception.ServiceException;
+
+import javax.validation.constraints.AssertTrue;
 
 @ActiveProfiles({"db-h2mem"})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -32,17 +36,28 @@ public class BudgetServiceRestTest {
 
         // get budget
         ResponseEntity<BudgetResponse> data = budgetController.getBudgetData(1L);
-        Assertions.assertEquals(new BudgetData(1L, 1L, 100.0),
+        Assertions.assertEquals(new BudgetResponse.Budget(1L, 1L, 1L, 100.0),
                 data.getBody().getBudgetList().get(0), "budget: first");
-        Assertions.assertEquals(new BudgetData(1L, 2L, 200.0),
-                data.getBody().getBudgetList().get(0), "budget: second");
+        Assertions.assertEquals(new BudgetResponse.Budget(2L, 1L, 2L, 200.0),
+                data.getBody().getBudgetList().get(1), "budget: second");
 
         // update budget
         budgetController.updateBudget(new BudgetDataUpdate(id2,44L, 300.0));
         data = budgetController.getBudgetData(1L);
-        Assertions.assertEquals(new BudgetData(1L, 1L, 100.0),
+        Assertions.assertEquals(new BudgetResponse.Budget(1L, 1L, 1L, 100.0),
                 data.getBody().getBudgetList().get(0), "budget: first");
-        Assertions.assertEquals(new BudgetData(1L, 44L, 300.0),
-                data.getBody().getBudgetList().get(0), "budget: second");
+        Assertions.assertEquals(new BudgetResponse.Budget(2L, 1L, 44L, 300.0),
+                data.getBody().getBudgetList().get(1), "budget: second");
+
+        // no data
+        data = budgetController.getBudgetData(999L);
+        Assertions.assertEquals(0, data.getBody().getBudgetList().size(), "no data");
+    }
+
+    @Test
+    public void budgetNotFound(){
+        ResponseEntity<Response> data = budgetController.updateBudget(new BudgetDataUpdate(100L, 44L, 300.0));
+        Assertions.assertEquals(500, data.getStatusCode().value());
+        Assertions.assertNotNull(data.getBody().getError().getCode());
     }
 }

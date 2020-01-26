@@ -7,12 +7,12 @@ import lombok.ToString;
 @Data
 public class Response {
 
-    private Error error;
+    private ErrorResponse error;
 
     public Response() {
     }
 
-    public Response(Error error) {
+    public Response(ErrorResponse error) {
         this.error = error;
     }
 }

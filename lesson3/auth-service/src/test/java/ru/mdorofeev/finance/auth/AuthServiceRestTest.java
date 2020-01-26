@@ -80,6 +80,7 @@ public class AuthServiceRestTest {
     }
 
 
+    //TODO: P2: to common ?
     private void checkStatusCode(ResponseEntity responseEntity){
         Assert.assertEquals("create user Http status", 200, responseEntity.getStatusCode().value());
     }
