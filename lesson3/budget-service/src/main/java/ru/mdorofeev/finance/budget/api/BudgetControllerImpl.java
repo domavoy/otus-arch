@@ -8,7 +8,7 @@ import ru.mdorofeev.finance.budget.api.model.request.BudgetData;
 import ru.mdorofeev.finance.budget.api.model.request.BudgetDataUpdate;
 import ru.mdorofeev.finance.budget.api.model.response.BudgetResponse;
 import ru.mdorofeev.finance.budget.api.model.response.LongResponse;
-import ru.mdorofeev.finance.budget.api.model.response.Response;
+import ru.mdorofeev.finance.common.api.model.response.Response;
 
 import java.util.Date;
 

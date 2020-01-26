@@ -8,6 +8,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>services-common</module>
         <module>auth-service</module>
         <module>finance-service</module>
         <module>scheduler-service</module>

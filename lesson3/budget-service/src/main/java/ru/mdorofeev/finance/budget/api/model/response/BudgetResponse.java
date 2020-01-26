@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import ru.mdorofeev.finance.common.api.model.response.Response;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 //TODO: FEATURE: BUDGET: add start/end and granularity
-public class BudgetResponse extends Response{
+public class BudgetResponse extends Response {
 
     private List budgetList = new LinkedList();
 

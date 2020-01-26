@@ -1,6 +1,5 @@
-package ru.mdorofeev.finance.budget.exception;
+package ru.mdorofeev.finance.common.exception;
 
-//TODO: P2: REFACTORING: move Exception for common
 public class ServiceException extends Exception {
 
     //TODO: P3: Code to enum ?

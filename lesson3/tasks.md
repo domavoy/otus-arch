@@ -1,4 +1,7 @@
 #### Lesson 3
+//TODO: P1: set <skipTests>false</skipTests>
+
+
 - P1: Split on auth + logic - 4h
 - P1: NEW service: GUI: Auth + Transaction list (Spring MVC) - 16h
     - auth ui + logic: 8h
