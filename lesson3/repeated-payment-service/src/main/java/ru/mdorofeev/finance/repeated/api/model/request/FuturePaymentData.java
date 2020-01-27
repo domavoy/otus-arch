@@ -11,19 +11,13 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class RepeatedPaymentDataUpdate {
+public class FuturePaymentData {
 
-    private Long repeatedPaymentId;
+    private Long userId;
 
     private Long categoryId;
 
     private Double amount;
-
-    private String granularity;
-
-    private Date start;
-
-    private Date end;
 
     private String comment;
 }

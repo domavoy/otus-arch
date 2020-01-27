@@ -25,6 +25,8 @@
 - grafana/esia
 - move all dependencies to root pom
 - gradle ?
+- liquibase test with postgres as lenar
+- one swagger for all
 
 - feature: export/import all data: dict + repeatedPayment + budget. now - transactions only
 - thinks on common-services
@@ -40,6 +42,7 @@
 - RESEARCH: return List<CategoryResponse>
 - RESEARCH: swagger @ApiParam doesn't pass to code. Use @PutMapping("/receipts/resend/{id}")
 - actuator
+- FEATURE: repeated-service => getPaymentData for specific granularity
 
 ### docs
 https://www.petrikainulainen.net/spring-data-jpa-tutorial/

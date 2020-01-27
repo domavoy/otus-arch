@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.repeated.persistence.dict.Granularity;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @Data
-public class RepeatedPaymentResponse extends Response{
+public class RepeatedPaymentResponse extends Response {
 
     private Date start;
 
@@ -29,11 +30,14 @@ public class RepeatedPaymentResponse extends Response{
         repeatedPaymentList.add(repeatedPayment);
     }
 
-    public class RepeatedPayment {
+    @ToString
+    @NoArgsConstructor
+    @Data
+    public static class RepeatedPayment {
         private Long userId;
         private Long categoryId;
 
-        private String name;
+        private String comment;
         private Double amount;
     }
 }

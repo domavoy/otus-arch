@@ -24,4 +24,6 @@ public class RepeatedPaymentData {
     private Date start;
 
     private Date end;
+
+    private String comment;
 }

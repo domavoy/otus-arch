@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.repeated.api.model.response;
+package ru.mdorofeev.finance.common.api.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -6,10 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
-/**
- * The Root Schema
- * <p>
- */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @ToString
@@ -19,7 +15,11 @@ public class LongResponse extends Response {
 
     private Long result;
 
-    public LongResponse(Error error, Long result) {
+    public LongResponse(Long result) {
+        this.result = result;
+    }
+
+    public LongResponse(ErrorResponse error, Long result) {
         super(error);
         this.result = result;
     }

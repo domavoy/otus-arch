@@ -1,9 +1,22 @@
 package ru.mdorofeev.finance.repeated.persistence.dict;
 
-import ru.mdorofeev.finance.repeated.exception.ServiceException;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 
 public enum Granularity {
-    NONE, DAILY, WEEKLY, YEARLY;
+
+    NONE(1L),
+    MONTHLY(2L),
+    YEARLY(3L);
+
+    private Long id;
+
+    Granularity(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public static Granularity from(String value) throws ServiceException {
         for (Granularity type : Granularity.values()) {

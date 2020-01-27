@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.common;
+package ru.mdorofeev.finance.common.api;
 
 import org.springframework.http.ResponseEntity;
 

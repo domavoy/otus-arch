@@ -17,6 +17,8 @@
 
             <column name="start" type="Date"/>
             <column name="end" type="Date"/>
+
+            <column name="comment" type="varchar(100)"/>
         </createTable>
     </changeSet>
 

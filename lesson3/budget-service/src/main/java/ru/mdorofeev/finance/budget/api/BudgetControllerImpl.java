@@ -12,9 +12,8 @@ import ru.mdorofeev.finance.budget.api.model.response.BudgetResponse;
 import ru.mdorofeev.finance.budget.api.model.response.LongResponse;
 import ru.mdorofeev.finance.budget.persistence.Budget;
 import ru.mdorofeev.finance.budget.service.BudgetService;
-import ru.mdorofeev.finance.common.Processor;
+import ru.mdorofeev.finance.common.api.Processor;
 import ru.mdorofeev.finance.common.api.model.response.Response;
-import ru.mdorofeev.finance.common.exception.ServiceException;
 
 import java.util.List;
 

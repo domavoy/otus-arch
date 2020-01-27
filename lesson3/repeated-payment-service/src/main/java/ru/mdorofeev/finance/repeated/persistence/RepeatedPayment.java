@@ -18,7 +18,7 @@ public class RepeatedPayment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private Long id;
 
     private Long userId;
 
@@ -31,4 +31,6 @@ public class RepeatedPayment {
     private Date start;
 
     private Date end;
+
+    private String comment;
 }
