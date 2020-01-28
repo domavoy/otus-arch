@@ -24,7 +24,7 @@ public class RepeatedPaymentResponse extends Response {
 
     private Granularity granularity;
 
-    private List repeatedPaymentList = new LinkedList();
+    private List<RepeatedPayment> repeatedPaymentList = new LinkedList<>();
 
     public void add(RepeatedPayment repeatedPayment){
         repeatedPaymentList.add(repeatedPayment);

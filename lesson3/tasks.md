@@ -26,7 +26,7 @@
 - move all dependencies to root pom
 - gradle ?
 - liquibase test with postgres as lenar
-- one swagger for all
+- one swagger for all - https://github.com/GnanaJeyam/microservice-patterns
 
 - feature: export/import all data: dict + repeatedPayment + budget. now - transactions only
 - thinks on common-services

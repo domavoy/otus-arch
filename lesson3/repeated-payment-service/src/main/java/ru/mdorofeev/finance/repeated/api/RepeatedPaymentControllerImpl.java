@@ -86,33 +86,15 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
 
     @Override
     public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(Long userId, Date date) {
-        //return getPaymentData(userId, date, date, Granularity.NONE.name());
-
         return Processor.wrapExceptions(() -> {
-            List<RepeatedPayment> data = paymentService.findByUserId(userId, date, date);
+            List<RepeatedPayment> data = paymentService.findForDate(date, userId);
             RepeatedPaymentResponse response = new RepeatedPaymentResponse();
             response.setStart(date);
             response.setEnd(date);
             response.setGranularity(Granularity.NONE);
+
             for(RepeatedPayment repeatedPayment : data){
-                if(repeatedPayment.getGranularity().equals(Granularity.NONE.getId())){
-                    response.add(to(repeatedPayment));
-                }
-
-                Date today = new Date();
-                if(repeatedPayment.getGranularity().equals(Granularity.MONTHLY.getId())){
-                    Date paymentStart = repeatedPayment.getStart();
-                    if(paymentStart.getDate() == today.getDate()){
-                        response.add(to(repeatedPayment));
-                    }
-                }
-
-                if(repeatedPayment.getGranularity().equals(Granularity.YEARLY.getId())){
-                    Date paymentStart = repeatedPayment.getStart();
-                    if(paymentStart.getDate() == today.getDate() && paymentStart.getMonth() == today.getMonth()){
-                        response.add(to(repeatedPayment));
-                    }
-                }
+                response.add(to(repeatedPayment));
             }
 
             return new ResponseEntity<>(response, HttpStatus.OK);

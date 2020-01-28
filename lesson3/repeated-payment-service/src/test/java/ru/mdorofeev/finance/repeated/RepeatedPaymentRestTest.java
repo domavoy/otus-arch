@@ -1,41 +1,86 @@
 package ru.mdorofeev.finance.repeated;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mdorofeev.finance.common.util.DateUtil;
+import ru.mdorofeev.finance.repeated.api.RepeatedPaymentController;
 import ru.mdorofeev.finance.repeated.api.RepeatedPaymentControllerImpl;
 import ru.mdorofeev.finance.repeated.api.model.request.RepeatedPaymentData;
+import ru.mdorofeev.finance.repeated.api.model.request.RepeatedPaymentDataUpdate;
+import ru.mdorofeev.finance.repeated.api.model.response.RepeatedPaymentResponse;
 import ru.mdorofeev.finance.repeated.persistence.dict.Granularity;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 @ActiveProfiles({"db-h2mem"})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RepeatedPaymentRestTest {
 
     @Autowired
-    private RepeatedPaymentControllerImpl repeatedPaymentController;
+    private RepeatedPaymentControllerImpl controller;
 
     @Test
     public void repeatedPaymentTest(){
 
         // jan - none
-        repeatedPaymentController.addPayment(new RepeatedPaymentData(1L, 1L,
-                100.0, Granularity.NONE.name(), DateUtil.date("2020-01-01"), DateUtil.date("2020-01-30"), ""));
+        Long id = controller.addPayment(new RepeatedPaymentData(1L, 1L,
+                100.0, Granularity.NONE.name(), DateUtil.date("2020-01-01"), DateUtil.date("2020-01-30"), "comm")).getBody().getResult();
 
         // feb - monthly
-        repeatedPaymentController.addPayment(new RepeatedPaymentData(1L, 1L,
-                100.0, Granularity.MONTHLY.name(), DateUtil.date("2020-02-01"), DateUtil.date("2020-02-28"), ""));
+        controller.addPayment(new RepeatedPaymentData(1L, 1L,
+                100.0, Granularity.MONTHLY.name(), DateUtil.date("2020-02-01"), DateUtil.date("2020-05-28"), ""));
 
         // march - early
-        repeatedPaymentController.addPayment(new RepeatedPaymentData(1L, 1L,
-                100.0, Granularity.YEARLY.name(), DateUtil.date("2020-03-01"), DateUtil.date("2020-03-28"), ""));
+        controller.addPayment(new RepeatedPaymentData(1L, 1L,
+                100.0, Granularity.YEARLY.name(), DateUtil.date("2020-03-01"), DateUtil.date("2022-03-28"), ""));
 
+        // none
+        check("2020-01-01", 1);
+        check("2019-01-01", 0);
+        check("2021-01-01", 0);
 
+        // month
+        check("2020-02-01", 1);
+        check("2020-05-01", 1);
+        check("2020-06-01", 0);
+        check("2019-02-01", 0);
+
+        // year
+        check("2020-03-01", 2);
+        check("2022-03-01", 1);
+        check("2023-03-01", 0);
+        check("2019-03-01", 0);
+
+        // check one
+        ResponseEntity<RepeatedPaymentResponse> data = controller.getPaymentForDate(1L, DateUtil.date("2020-01-01"));
+        Assertions.assertEquals(DateUtil.date("2020-01-01"), data.getBody().getStart());
+        Assertions.assertEquals(DateUtil.date("2020-01-01"), data.getBody().getEnd());
+        Assertions.assertEquals(Granularity.NONE, data.getBody().getGranularity());
+        Assertions.assertEquals(1, data.getBody().getRepeatedPaymentList().size());
+        check(data, 1, 1l, 1l, 100.0, "comm");
+
+        // update
+        controller.updatePayment(new RepeatedPaymentDataUpdate(id, 3L, 200.0, Granularity.MONTHLY.name(), DateUtil.date("2020-01-01"), DateUtil.date("2021-01-01"), "sss"));
+
+        data = controller.getPaymentForDate(1L, DateUtil.date("2020-01-01"));
+        check(data, 1, 1l, 3l, 200.0, "sss");
+
+        // delete
+        controller.deletePayment(1L, id);
+        check("2020-01-01", 0);
     }
 
+    private void check(ResponseEntity<RepeatedPaymentResponse> data, int index, Long userId, Long categoryId, Double amount, String comment){
+        Assertions.assertEquals(categoryId, data.getBody().getRepeatedPaymentList().get(0).getCategoryId());
+        Assertions.assertEquals(userId, data.getBody().getRepeatedPaymentList().get(0).getUserId());
+        Assertions.assertEquals(comment, data.getBody().getRepeatedPaymentList().get(0).getComment());
+        Assertions.assertEquals(amount, data.getBody().getRepeatedPaymentList().get(0).getAmount());
+    }
 
+    private void check(String searchDate, int expectedArraySize){
+        ResponseEntity<RepeatedPaymentResponse> data = controller.getPaymentForDate(1L, DateUtil.date(searchDate));
+        Assertions.assertEquals(expectedArraySize, data.getBody().getRepeatedPaymentList().size());
+    }
 }

@@ -10,6 +10,10 @@ import java.util.List;
 
 public interface RepeatedRepository extends JpaRepository<RepeatedPayment, Long> {
 
-    @Query("select u from RepeatedPayment u where u.userId = :userId and :startDate > u.start and (:endDate > u.end or u.end is null) order by u.id asc")
-    List<RepeatedPayment> findAllByUserId(@Param("userId") Long userId, @Param("startDate") Date start, @Param("endDate") Date end);
+//TODO: P2: search using date
+//    @Query("select u from RepeatedPayment u where u.userId = :userId and :startDate > u.start and (:endDate > u.end or u.end is null) order by u.id asc")
+//    List<RepeatedPayment> findAllByUserId(@Param("userId") Long userId, @Param("startDate") Date start, @Param("endDate") Date end);
+
+    @Query("select u from RepeatedPayment u where u.userId = :userId")
+    List<RepeatedPayment> findAllByUserId(@Param("userId") Long userId);
 }

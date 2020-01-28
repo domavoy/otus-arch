@@ -43,7 +43,7 @@ public interface RepeatedPaymentController {
 
 
     @GetMapping("/getForDate")
-    @ApiOperation(value = "Get patments for date", tags = "Repeated payment management")
+    @ApiOperation(value = "Get payments for date", tags = "Repeated payment management")
     public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(Long userId, Date date);
 
 //    @GetMapping("/getRepeatedPayments")

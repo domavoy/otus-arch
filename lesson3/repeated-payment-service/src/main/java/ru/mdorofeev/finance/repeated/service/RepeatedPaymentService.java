@@ -17,6 +17,9 @@ public class RepeatedPaymentService {
     @Autowired
     RepeatedRepository repeatedRepository;
 
+    @Autowired
+    IntervalSearchBean intervalSearchBean;
+
     public Long addPayment(Long userId, Long categoryId, Double amount, Granularity granularity, Date start, Date end, String comment){
         RepeatedPayment payment = new RepeatedPayment();
         payment.setUserId(userId);
@@ -50,7 +53,8 @@ public class RepeatedPaymentService {
         repeatedRepository.deleteById(repeatedPaymentId);
     }
 
-    public List<RepeatedPayment> findByUserId(Long id, Date start, Date end){
-        return repeatedRepository.findAllByUserId(id, start, end);
+    public List<RepeatedPayment> findForDate(Date date, Long id){
+        List<RepeatedPayment> data = repeatedRepository.findAllByUserId(id);
+        return intervalSearchBean.findForDay(date, data);
     }
 }
