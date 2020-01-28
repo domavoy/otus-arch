@@ -1,9 +1,12 @@
-package ru.mdorofeev.finance.core.integration;
+package ru.mdorofeev.finance.common.api.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.List;
+
 
 /**
  * The Root Schema
@@ -14,11 +17,11 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @Data
-public class LongResponse extends Response {
+public class StringListResponse extends Response {
 
-    private Long result;
+    private List<String> result;
 
-    public LongResponse(Error error, Long result) {
+    public StringListResponse(ErrorResponse error, List<String> result) {
         super(error);
         this.result = result;
     }

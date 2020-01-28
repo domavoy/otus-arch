@@ -1,12 +1,9 @@
-package ru.mdorofeev.finance.auth.api.model.response;
+package ru.mdorofeev.finance.auth.client.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.mdorofeev.finance.auth.api.model.common.Response;
-import ru.mdorofeev.finance.auth.api.model.common.Error;
-
 
 /**
  * The Root Schema
@@ -17,11 +14,11 @@ import ru.mdorofeev.finance.auth.api.model.common.Error;
 @ToString
 @NoArgsConstructor
 @Data
-public class BooleanResponse extends Response {
+public class LongResponse extends Response {
 
-    private Boolean result;
+    private Long result;
 
-    public BooleanResponse(Error error, Boolean result) {
+    public LongResponse(Error error, Long result) {
         super(error);
         this.result = result;
     }

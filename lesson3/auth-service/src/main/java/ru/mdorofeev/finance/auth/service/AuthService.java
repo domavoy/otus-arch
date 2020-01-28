@@ -1,6 +1,5 @@
 package ru.mdorofeev.finance.auth.service;
 
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mdorofeev.finance.auth.persistence.Session;
@@ -8,7 +7,7 @@ import ru.mdorofeev.finance.auth.persistence.User;
 import ru.mdorofeev.finance.auth.persistence.dict.SessionStatus;
 import ru.mdorofeev.finance.auth.repository.SessionRepository;
 import ru.mdorofeev.finance.auth.repository.UserRepository;
-import ru.mdorofeev.finance.auth.api.model.common.Error;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -26,10 +25,6 @@ public class AuthService {
     public User createUser(String login, String password) throws ServiceException, IOException {
         User user = userRepository.findByLogin(login);
         if (user != null) {
-            Error error = new Error();
-            error.setCode("USER_ALREADY_EXISTS");
-            error.setMessage("User already exists");
-
             throw new ServiceException("USER_ALREADY_EXISTS");
         }
 

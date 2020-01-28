@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationListener;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import ru.mdorofeev.finance.core.exception.ServiceException;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 
 import java.util.UUID;
 
@@ -27,9 +27,9 @@ public class AuthIntegrationTest {
     @Test
     public void test() throws ServiceException {
         String login = UUID.randomUUID().toString();
-        authIntegrationService.createUser(login, login);
-        Long session = authIntegrationService.createSession(login, login);
-        Long data = authIntegrationService.findBySession(session);
+        authIntegrationService.client().createUser(login, login);
+        Long session = authIntegrationService.client().createSession(login, login);
+        Long data = authIntegrationService.client().findBySession(session);
         Assertions.assertNotNull(data, "getUserBySession");
     }
 

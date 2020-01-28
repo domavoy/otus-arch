@@ -8,7 +8,9 @@ import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import ru.mdorofeev.finance.core.exception.ServiceException;
+
+import ru.mdorofeev.finance.auth.client.AuthServiceClient;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.Currency;
@@ -18,6 +20,8 @@ import ru.mdorofeev.finance.core.service.ConfigurationService;
 import ru.mdorofeev.finance.core.service.TransactionService;
 
 import java.util.Date;
+
+import static org.mockito.ArgumentMatchers.anyLong;
 
 @ActiveProfiles({"db-h2mem"})
 @SpringBootTest
@@ -30,14 +34,19 @@ class ServiceLayerTest {
     @InjectMocks
     AuthIntegrationService authProxyService = Mockito.mock(AuthIntegrationService.class);
 
+    @Spy
+    @InjectMocks
+    AuthServiceClient authClient = Mockito.mock(AuthServiceClient.class);
+
     @Autowired
     ConfigurationService configurationService;
 
     @Test
     void transactionLogic() throws ServiceException {
-        Mockito.when(authProxyService.findBySession(100L)).thenReturn(100L);
+        Mockito.when(authProxyService.client()).thenReturn(authClient);
+        Mockito.when(authClient.findBySession(anyLong())).thenReturn(100L);
 
-        Long userId = authProxyService.findBySession(100l);
+        Long userId = authProxyService.client().findBySession(100l);
         Currency currency = configurationService.createOrUpdateCurrency("RUB");
 
         Account account = configurationService.createAccount(userId, currency, "наличка");

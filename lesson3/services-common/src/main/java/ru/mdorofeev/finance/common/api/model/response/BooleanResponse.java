@@ -1,11 +1,9 @@
-package ru.mdorofeev.finance.auth.api.model.response;
+package ru.mdorofeev.finance.common.api.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.mdorofeev.finance.auth.api.model.common.Error;
-import ru.mdorofeev.finance.auth.api.model.common.Response;
 
 
 /**
@@ -17,11 +15,11 @@ import ru.mdorofeev.finance.auth.api.model.common.Response;
 @ToString
 @NoArgsConstructor
 @Data
-public class LongResponse extends Response {
+public class BooleanResponse extends Response {
 
-    private Long result;
+    private Boolean result;
 
-    public LongResponse(Error error, Long result) {
+    public BooleanResponse(ErrorResponse error, Boolean result) {
         super(error);
         this.result = result;
     }

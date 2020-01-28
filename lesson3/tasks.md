@@ -1,20 +1,6 @@
-#### Lesson 3
-//TODO: P1: set <skipTests>false</skipTests>
-
-
-- P1: Split on auth + logic - 4h
-- P1: NEW service: GUI: Auth + Transaction list (Spring MVC) - 16h
-    - auth ui + logic: 8h
-    - transaction list ui: 8h
-    - https://microservices.io/patterns/data/database-per-service.html
-
-- P2: TBD: NEW service: GUI(настройки): курс валют + фиск внутренней логики + обновление (http://www.cbr.ru/scripts/XML_daily.asp?date_req=01/01/2020) - 8h
-- P2: TBD: fix RUB->USD->RUB money exchange during import from money pro - 4h
-
-- P3: TBD: GUI: export/import (https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/) - 16h
-- P3: TBD: user custom currency management - 16h
-
 ### NEXT
+- GUI: Auth + Transaction list (Spring MVC), Configurations
+- GUI: export/import (https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/)
 - use json-schema for validation
 - appService + REST unit tests
 - Use code validator from KKM(Lenar)
@@ -22,11 +8,14 @@
 - GOOGLE: best practices - spring boot contract: https://aboullaite.me/a-practical-introduction-to-spring-cloud-contract/
 - GOOGLE: best practices - how to pass dict to rest. now - string and validate using dict in persistence
 - swagger on oauth 3
+- fix RUB->USD->RUB money exchange during import from money pro
+- user custom currency management
 - grafana/esia
 - move all dependencies to root pom
 - gradle ?
 - liquibase test with postgres as lenar
 - one swagger for all - https://github.com/GnanaJeyam/microservice-patterns
+- generate code coverage ...., check style ...
 
 - feature: export/import all data: dict + repeatedPayment + budget. now - transactions only
 - thinks on common-services

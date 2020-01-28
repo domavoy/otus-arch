@@ -3,7 +3,7 @@ package ru.mdorofeev.finance.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.mdorofeev.finance.core.exception.ServiceException;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.Transaction;

@@ -1,6 +1,5 @@
 package ru.mdorofeev.finance.auth.api;
 
-import org.hibernate.service.spi.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.mdorofeev.finance.auth.api.common.ProcessWithUser;
-import ru.mdorofeev.finance.auth.api.common.Processor;
-import ru.mdorofeev.finance.auth.api.model.common.Response;
 import ru.mdorofeev.finance.auth.api.model.common.Session;
 import ru.mdorofeev.finance.auth.api.model.request.UserData;
-import ru.mdorofeev.finance.auth.api.model.response.BooleanResponse;
-import ru.mdorofeev.finance.auth.api.model.response.LongResponse;
+import ru.mdorofeev.finance.common.api.Processor;
+import ru.mdorofeev.finance.common.api.model.response.BooleanResponse;
 import ru.mdorofeev.finance.auth.persistence.User;
 import ru.mdorofeev.finance.auth.service.AuthService;
+import ru.mdorofeev.finance.common.api.model.response.LongResponse;
+import ru.mdorofeev.finance.common.api.model.response.Response;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 
 import javax.transaction.Transactional;
 
@@ -70,10 +69,12 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     public ResponseEntity<LongResponse> getUserBySession(Long sessionId) {
-        return Processor.wrapExceptionsAndAuth(authService, sessionId, new ProcessWithUser<LongResponse>() {
-            @Override
-            public ResponseEntity<LongResponse> process(User userId) throws Exception {
-                return new ResponseEntity<>(new LongResponse(null, userId.getId()), HttpStatus.OK);
+        return Processor.wrapExceptions(() -> {
+            User user = authService.findBySession(sessionId);
+            if (user != null) {
+                return new ResponseEntity<>(new LongResponse(null, user.getId()), HttpStatus.OK);
+            } else {
+                throw new ServiceException("USER_NOT_FOUND");
             }
         });
     }

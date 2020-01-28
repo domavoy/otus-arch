@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ru.mdorofeev.finance.core.api.common.Processor;
+import ru.mdorofeev.finance.common.exception.ServiceException;
+import ru.mdorofeev.finance.auth.client.ProcessWithUserWrapper;
 import ru.mdorofeev.finance.core.api.model.common.Response;
 import ru.mdorofeev.finance.core.api.model.response.AccountListResponse;
 import ru.mdorofeev.finance.core.api.model.response.AccountResponse;
 import ru.mdorofeev.finance.core.api.model.response.StringListResponse;
-import ru.mdorofeev.finance.core.exception.ServiceException;
 import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.Currency;
@@ -38,7 +38,7 @@ public class ConfigurationControllerImpl implements ConfigurationController {
 
     @Override
     public ResponseEntity<StringListResponse> getCategories(Long sessionId) {
-        return Processor.wrapExceptionsAndAuth(authService, sessionId, user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), sessionId, user -> {
             List<Category> data = configurationService.getCategories(sessionId);
             List<String> names = data.stream().map(a -> a.getName()).collect(Collectors.toList());
             return new ResponseEntity<>(new StringListResponse(null, names), HttpStatus.OK);
@@ -47,7 +47,7 @@ public class ConfigurationControllerImpl implements ConfigurationController {
 
     @Override
     public ResponseEntity<Response> addCategory(Long sessionId, String categoryType, String name) {
-        return Processor.wrapExceptionsAndAuth(authService, sessionId, user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), sessionId, user -> {
             if (!Arrays.asList(TransactionType.EXPENSE.name(), TransactionType.INCOME.name()).
                     contains(categoryType)) {
                 throw new ServiceException("Incorrect categoryType: should be: " +
@@ -63,7 +63,7 @@ public class ConfigurationControllerImpl implements ConfigurationController {
 
     @Override
     public ResponseEntity<AccountListResponse> getAccounts(Long sessionId) {
-        return Processor.wrapExceptionsAndAuth(authService, sessionId, user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), sessionId, user -> {
             List<Account> data = mainService.getAccounts(sessionId);
             List<AccountResponse> names = data.stream().map(temp -> {
                 AccountResponse response = new AccountResponse();
@@ -77,7 +77,7 @@ public class ConfigurationControllerImpl implements ConfigurationController {
 
     @Override
     public ResponseEntity<Response> addAccount(Long sessionId, String currency, String name) {
-        return Processor.wrapExceptionsAndAuth(authService, sessionId, user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), sessionId, user -> {
             Currency cur = configurationService.createOrUpdateCurrency(currency);
             configurationService.createAccount(user, cur, name);
             return new ResponseEntity<>(new Response(), HttpStatus.OK);

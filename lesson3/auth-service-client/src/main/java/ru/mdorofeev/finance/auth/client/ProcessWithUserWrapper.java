@@ -1,20 +1,26 @@
-package ru.mdorofeev.finance.common.api;
+package ru.mdorofeev.finance.auth.client;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.api.model.response.ErrorResponse;
+import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 
-public class Processor {
 
-    private Processor() {
+public class ProcessWithUserWrapper {
+
+    private ProcessWithUserWrapper() {
         throw new UnsupportedOperationException();
     }
 
-    public static <T extends Response> ResponseEntity<T> wrapExceptions(Process<T> process) {
+    //TODO: P2: merge logic with wrapExceptions
+    public static <T> ResponseEntity<T> wrapExceptionsAndAuth(AuthServiceClient service, Long sessionId, ProcessWithUser<T> process) {
         try {
-            return process.process();
+            Long userId = service.findBySession(sessionId);
+            if (userId == null) {
+                throw new ServiceException("SESSION_NOT_FOUND");
+            }
+            return process.process(userId);
         } catch (ServiceException e) {
             ErrorResponse error = new ErrorResponse();
             error.setCode(e.getCode());

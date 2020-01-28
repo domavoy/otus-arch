@@ -7,11 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mdorofeev.finance.auth.api.AuthControllerImpl;
-import ru.mdorofeev.finance.auth.api.model.common.Response;
 import ru.mdorofeev.finance.auth.api.model.common.Session;
 import ru.mdorofeev.finance.auth.api.model.request.UserData;
-import ru.mdorofeev.finance.auth.api.model.response.BooleanResponse;
-import ru.mdorofeev.finance.auth.api.model.response.LongResponse;
+import ru.mdorofeev.finance.common.api.model.response.BooleanResponse;
+import ru.mdorofeev.finance.common.api.model.response.LongResponse;
+import ru.mdorofeev.finance.common.api.model.response.Response;
 
 @ActiveProfiles("db-h2mem")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -62,10 +62,10 @@ public class AuthServiceRestTest {
 
     @Test
     public void getUserSessionNotExists(){
-        ResponseEntity checkSessionResponse = controller.getUserBySession(12345678L);
+        ResponseEntity checkSessionResponse = controller.getUserBySession(123456783L);
         Response response = ((Response)checkSessionResponse.getBody());
 
-        checkErrorStatusCode(checkSessionResponse);
+        checkStatusCode(checkSessionResponse);
         Assert.assertEquals("Create sessionId: user not founnd", "SESSION_NOT_FOUND", response.getError().getMessage());
     }
 
@@ -75,17 +75,13 @@ public class AuthServiceRestTest {
         ResponseEntity sessionResponse = controller.createSession(user);
         Response response = ((Response)sessionResponse.getBody());
 
-        checkErrorStatusCode(sessionResponse);
-        Assert.assertEquals("Create sessionId: user not founnd", "USER_NOT_FOUND", response.getError().getMessage());
+        checkStatusCode(sessionResponse);
+        Assert.assertEquals("Create sessionId: user not found", "USER_NOT_FOUND", response.getError().getMessage());
     }
 
 
     //TODO: P2: to common ?
     private void checkStatusCode(ResponseEntity responseEntity){
         Assert.assertEquals("create user Http status", 200, responseEntity.getStatusCode().value());
-    }
-
-    private void checkErrorStatusCode(ResponseEntity responseEntity){
-        Assert.assertEquals("create user Http status", 500, responseEntity.getStatusCode().value());
     }
 }

@@ -2,7 +2,7 @@ package ru.mdorofeev.finance.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.mdorofeev.finance.core.exception.ServiceException;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.core.service.moneypro.MoneyProData;
 import ru.mdorofeev.finance.core.service.moneypro.MoneyProParser;
 import ru.mdorofeev.finance.core.service.moneypro.ParserHandler;

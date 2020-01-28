@@ -4,11 +4,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.mdorofeev.finance.auth.api.model.common.Response;
 import ru.mdorofeev.finance.auth.api.model.common.Session;
 import ru.mdorofeev.finance.auth.api.model.request.UserData;
-import ru.mdorofeev.finance.auth.api.model.response.BooleanResponse;
-import ru.mdorofeev.finance.auth.api.model.response.LongResponse;
+import ru.mdorofeev.finance.common.api.model.response.BooleanResponse;
+import ru.mdorofeev.finance.common.api.model.response.ErrorResponse;
+import ru.mdorofeev.finance.common.api.model.response.LongResponse;
+import ru.mdorofeev.finance.common.api.model.response.Response;
 
 @RestController
 @RequestMapping(name = "finance controller", produces = "application/json", path = "auth")

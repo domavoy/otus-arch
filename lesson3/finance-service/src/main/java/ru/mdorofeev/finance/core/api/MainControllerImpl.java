@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ru.mdorofeev.finance.core.api.common.Processor;
+import ru.mdorofeev.finance.common.exception.ServiceException;
+import ru.mdorofeev.finance.auth.client.ProcessWithUserWrapper;
 import ru.mdorofeev.finance.core.api.model.common.Response;
 import ru.mdorofeev.finance.core.api.model.request.TransactionRequest;
 import ru.mdorofeev.finance.core.api.model.request.TransactionTransferRequest;
@@ -14,7 +15,6 @@ import ru.mdorofeev.finance.core.api.model.response.AccountStatListResponse;
 import ru.mdorofeev.finance.core.api.model.response.AccountStatResponse;
 import ru.mdorofeev.finance.core.api.model.response.TransactionListResponse;
 import ru.mdorofeev.finance.core.api.model.response.TransactionResponse;
-import ru.mdorofeev.finance.core.exception.ServiceException;
 import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
@@ -42,7 +42,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public ResponseEntity<TransactionListResponse> getTransactions(Long sessionId, String fromDate) {
-        return Processor.wrapExceptionsAndAuth(authService, sessionId, user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), sessionId, user -> {
             Date date;
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -73,7 +73,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public ResponseEntity<Response> addTransaction(TransactionRequest request) {
-        return Processor.wrapExceptionsAndAuth(authService, request.getSessionId(), user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), request.getSessionId(), user -> {
             Account account = configurationService.getAccountByName(user, request.getAccountName());
             if (account == null) {
                 throw new ServiceException("ACCOUNT_NOT_FOUND");
@@ -92,7 +92,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public ResponseEntity<Response> moneyTransfer(TransactionTransferRequest request) {
-        return Processor.wrapExceptionsAndAuth(authService, request.getSessionId(), user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), request.getSessionId(), user -> {
             Account fromAccount = configurationService.getAccountByName(user, request.getFromAccount());
             if (fromAccount == null) {
                 throw new ServiceException("FROM_ACCOUNT_NOT_FOUND");
@@ -111,7 +111,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public ResponseEntity<AccountStatListResponse> getAccountStat(Long sessionId) {
-        return Processor.wrapExceptionsAndAuth(authService, sessionId, user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), sessionId, user -> {
             List<AccountStatResponse> resp = mainService.getAccounts(sessionId).stream().map(temp -> {
                 AccountStatResponse response = new AccountStatResponse();
                 response.setAccounName(temp.getName());

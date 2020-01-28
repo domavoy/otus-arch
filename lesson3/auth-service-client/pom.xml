@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>ru.mdorofeev.finance</groupId>
-    <artifactId>lesson3-finance-common</artifactId>
+    <artifactId>lesson3-auth-service-client</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -20,6 +20,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>ru.mdorofeev.finance</groupId>
+            <artifactId>lesson3-finance-common</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

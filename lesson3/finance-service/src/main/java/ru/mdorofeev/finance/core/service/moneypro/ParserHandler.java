@@ -1,6 +1,6 @@
 package ru.mdorofeev.finance.core.service.moneypro;
 
-import ru.mdorofeev.finance.core.exception.ServiceException;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 
 public interface ParserHandler {
     void process(MoneyProData data) throws MoneyProImportException, ServiceException;

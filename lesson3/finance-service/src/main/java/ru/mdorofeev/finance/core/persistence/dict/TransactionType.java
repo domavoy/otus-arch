@@ -1,6 +1,7 @@
 package ru.mdorofeev.finance.core.persistence.dict;
 
-import ru.mdorofeev.finance.core.exception.ServiceException;
+
+import ru.mdorofeev.finance.common.exception.ServiceException;
 
 //TODO: P2: only EXPENSE/INCOME
 //TODO: P2: sync with db ?

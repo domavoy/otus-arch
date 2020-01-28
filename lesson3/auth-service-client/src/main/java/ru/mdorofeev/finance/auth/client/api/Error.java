@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.auth.api.model.common;
+package ru.mdorofeev.finance.auth.client.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

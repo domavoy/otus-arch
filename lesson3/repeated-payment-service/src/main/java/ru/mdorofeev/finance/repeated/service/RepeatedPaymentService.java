@@ -1,8 +1,8 @@
 package ru.mdorofeev.finance.repeated.service;
 
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.repeated.persistence.RepeatedPayment;
 import ru.mdorofeev.finance.repeated.persistence.dict.Granularity;
 import ru.mdorofeev.finance.repeated.repository.RepeatedRepository;

@@ -57,7 +57,7 @@ public class BudgetServiceRestTest {
     @Test
     public void budgetNotFound(){
         ResponseEntity<Response> data = budgetController.updateBudget(new BudgetDataUpdate(100L, 44L, 300.0));
-        Assertions.assertEquals(500, data.getStatusCode().value());
+        Assertions.assertEquals(200, data.getStatusCode().value());
         Assertions.assertNotNull(data.getBody().getError().getCode());
     }
 }
