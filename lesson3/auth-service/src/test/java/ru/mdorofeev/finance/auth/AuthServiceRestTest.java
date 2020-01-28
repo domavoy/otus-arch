@@ -66,7 +66,7 @@ public class AuthServiceRestTest {
         Response response = ((Response)checkSessionResponse.getBody());
 
         checkStatusCode(checkSessionResponse);
-        Assert.assertEquals("Create sessionId: user not founnd", "SESSION_NOT_FOUND", response.getError().getMessage());
+        Assert.assertEquals("Create sessionId: user not founnd", "USER_NOT_FOUND", response.getError().getMessage());
     }
 
     @Test

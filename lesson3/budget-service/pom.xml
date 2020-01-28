@@ -21,6 +21,11 @@
     <dependencies>
         <dependency>
             <groupId>ru.mdorofeev.finance</groupId>
+            <artifactId>lesson3-auth-service-client</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.mdorofeev.finance</groupId>
             <artifactId>lesson3-finance-common</artifactId>
             <version>1.0</version>
         </dependency>

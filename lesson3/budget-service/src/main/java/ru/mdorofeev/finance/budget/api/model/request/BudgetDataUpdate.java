@@ -11,6 +11,8 @@ import lombok.ToString;
 @Data
 public class BudgetDataUpdate {
 
+    private Long sessionId;
+
     private Long budgetId;
 
     private Long categoryId;

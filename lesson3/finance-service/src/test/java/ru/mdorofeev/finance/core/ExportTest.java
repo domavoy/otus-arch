@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mdorofeev.finance.auth.client.AuthServiceClient;
 import ru.mdorofeev.finance.common.exception.ServiceException;
-import ru.mdorofeev.finance.core.integration.AuthIntegrationService;
 import ru.mdorofeev.finance.core.service.ImportService;
 import ru.mdorofeev.finance.core.service.ExportService;
 
@@ -26,12 +25,7 @@ public class ExportTest {
 
     @Spy
     @InjectMocks
-    AuthIntegrationService authProxyService = Mockito.mock(AuthIntegrationService.class);
-
-    @Spy
-    @InjectMocks
     AuthServiceClient authClient = Mockito.mock(AuthServiceClient.class);
-
 
     @Autowired
     ImportService moneyProDataImport;
@@ -41,10 +35,9 @@ public class ExportTest {
 
     @Test
     public void export() throws IOException, ServiceException, URISyntaxException {
-        Mockito.when(authProxyService.client()).thenReturn(authClient);
         Mockito.when(authClient.findBySession(100L)).thenReturn(100L);
 
-        Long userId = authProxyService.client().findBySession(100L);
+        Long userId = authClient.findBySession(100L);
         moneyProDataImport.importMoneyPro(userId, "moneyPro.csv");
 
         //TODO: File.createTempFile("test.csv", ".csv");

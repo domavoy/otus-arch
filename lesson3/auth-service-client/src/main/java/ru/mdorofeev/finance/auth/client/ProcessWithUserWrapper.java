@@ -2,6 +2,7 @@ package ru.mdorofeev.finance.auth.client;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 import ru.mdorofeev.finance.common.api.model.response.ErrorResponse;
 import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
@@ -14,9 +15,9 @@ public class ProcessWithUserWrapper {
     }
 
     //TODO: P2: merge logic with wrapExceptions
-    public static <T> ResponseEntity<T> wrapExceptionsAndAuth(AuthServiceClient service, Long sessionId, ProcessWithUser<T> process) {
+    public static <T> ResponseEntity<T> wrapExceptionsAndAuth(AuthServiceClient authServiceClient, Long sessionId, ProcessWithUser<T> process) {
         try {
-            Long userId = service.findBySession(sessionId);
+            Long userId = authServiceClient.findBySession(sessionId);
             if (userId == null) {
                 throw new ServiceException("SESSION_NOT_FOUND");
             }

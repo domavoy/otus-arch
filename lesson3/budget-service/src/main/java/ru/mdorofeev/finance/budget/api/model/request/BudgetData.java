@@ -11,7 +11,7 @@ import java.util.Date;
 @EqualsAndHashCode
 public class BudgetData {
 
-    private Long userId;
+    private Long sessionId;
 
     private Long categoryId;
 

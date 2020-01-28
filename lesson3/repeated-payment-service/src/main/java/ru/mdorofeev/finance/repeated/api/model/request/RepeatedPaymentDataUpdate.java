@@ -13,6 +13,8 @@ import java.util.Date;
 @Data
 public class RepeatedPaymentDataUpdate {
 
+    private long sessionId;
+
     private Long repeatedPaymentId;
 
     private Long categoryId;

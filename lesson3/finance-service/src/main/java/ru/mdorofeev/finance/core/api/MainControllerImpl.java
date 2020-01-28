@@ -3,9 +3,12 @@ package ru.mdorofeev.finance.core.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.mdorofeev.finance.auth.client.AuthServiceClient;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.auth.client.ProcessWithUserWrapper;
 import ru.mdorofeev.finance.core.api.model.common.Response;
@@ -18,7 +21,6 @@ import ru.mdorofeev.finance.core.api.model.response.TransactionResponse;
 import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
-import ru.mdorofeev.finance.core.integration.AuthIntegrationService;
 import ru.mdorofeev.finance.core.service.ConfigurationService;
 import ru.mdorofeev.finance.core.service.TransactionService;
 
@@ -37,12 +39,21 @@ public class MainControllerImpl implements MainController {
     ConfigurationService configurationService;
     @Autowired
     private TransactionService mainService;
+
+    @Value("${app.integration.auth-service-rest.base}")
+    private String authServiceBase;
+
     @Autowired
-    private AuthIntegrationService authService;
+    private AuthServiceClient authClient;
+
+    @Bean
+    public AuthServiceClient authClient() {
+        return new AuthServiceClient(authServiceBase);
+    }
 
     @Override
     public ResponseEntity<TransactionListResponse> getTransactions(Long sessionId, String fromDate) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), sessionId, user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authClient, sessionId, user -> {
             Date date;
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -73,7 +84,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public ResponseEntity<Response> addTransaction(TransactionRequest request) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), request.getSessionId(), user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authClient, request.getSessionId(), user -> {
             Account account = configurationService.getAccountByName(user, request.getAccountName());
             if (account == null) {
                 throw new ServiceException("ACCOUNT_NOT_FOUND");
@@ -92,7 +103,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public ResponseEntity<Response> moneyTransfer(TransactionTransferRequest request) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), request.getSessionId(), user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authClient, request.getSessionId(), user -> {
             Account fromAccount = configurationService.getAccountByName(user, request.getFromAccount());
             if (fromAccount == null) {
                 throw new ServiceException("FROM_ACCOUNT_NOT_FOUND");
@@ -111,7 +122,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public ResponseEntity<AccountStatListResponse> getAccountStat(Long sessionId) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authService.client(), sessionId, user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authClient, sessionId, user -> {
             List<AccountStatResponse> resp = mainService.getAccounts(sessionId).stream().map(temp -> {
                 AccountStatResponse response = new AccountStatResponse();
                 response.setAccounName(temp.getName());

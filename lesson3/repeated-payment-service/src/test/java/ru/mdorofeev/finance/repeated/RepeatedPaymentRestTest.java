@@ -2,10 +2,14 @@ package ru.mdorofeev.finance.repeated;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import ru.mdorofeev.finance.auth.client.AuthServiceClient;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.common.util.DateUtil;
 import ru.mdorofeev.finance.repeated.api.RepeatedPaymentController;
 import ru.mdorofeev.finance.repeated.api.RepeatedPaymentControllerImpl;
@@ -21,8 +25,12 @@ public class RepeatedPaymentRestTest {
     @Autowired
     private RepeatedPaymentControllerImpl controller;
 
+    @MockBean
+    AuthServiceClient authServiceClient;
+
     @Test
-    public void repeatedPaymentTest(){
+    public void repeatedPaymentTest() throws ServiceException {
+        Mockito.when(authServiceClient.findBySession(1L)).thenReturn(1L);
 
         // jan - none
         Long id = controller.addPayment(new RepeatedPaymentData(1L, 1L,
@@ -62,7 +70,7 @@ public class RepeatedPaymentRestTest {
         check(data, 1, 1l, 1l, 100.0, "comm");
 
         // update
-        controller.updatePayment(new RepeatedPaymentDataUpdate(id, 3L, 200.0, Granularity.MONTHLY.name(), DateUtil.date("2020-01-01"), DateUtil.date("2021-01-01"), "sss"));
+        controller.updatePayment(new RepeatedPaymentDataUpdate(100L, id, 3L, 200.0, Granularity.MONTHLY.name(), DateUtil.date("2020-01-01"), DateUtil.date("2021-01-01"), "sss"));
 
         data = controller.getPaymentForDate(1L, DateUtil.date("2020-01-01"));
         check(data, 1, 1l, 3l, 200.0, "sss");

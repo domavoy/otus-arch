@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import ru.mdorofeev.finance.core.service.DataLoaderService;
 
+@ComponentScan({"ru.mdorofeev.finance.auth.client", "ru.mdorofeev.finance.core"})
 @SpringBootApplication
 public class FinanceApplication implements CommandLineRunner {
 

@@ -1,3 +1,9 @@
+app:
+  integration:
+    auth-service-rest:
+      base: http://localhost:8081/auth
+
+
 server:
   address: 0.0.0.0
   port: 8083

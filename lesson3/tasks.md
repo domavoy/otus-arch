@@ -16,6 +16,7 @@
 - liquibase test with postgres as lenar
 - one swagger for all - https://github.com/GnanaJeyam/microservice-patterns
 - generate code coverage ...., check style ...
+- auth-service REST + auth-service-client CLIENT versioning ? other services ?
 
 - feature: export/import all data: dict + repeatedPayment + budget. now - transactions only
 - thinks on common-services
@@ -32,6 +33,7 @@
 - RESEARCH: swagger @ApiParam doesn't pass to code. Use @PutMapping("/receipts/resend/{id}")
 - actuator
 - FEATURE: repeated-service => getPaymentData for specific granularity
+- gRPC/thrift for internal communication
 
 ### docs
 https://www.petrikainulainen.net/spring-data-jpa-tutorial/

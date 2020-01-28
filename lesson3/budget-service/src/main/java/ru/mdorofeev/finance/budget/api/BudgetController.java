@@ -28,5 +28,5 @@ public interface BudgetController {
 
     @GetMapping("/getBudget")
     @ApiOperation(value = "Get budget data", tags = "Budget management")
-    ResponseEntity<BudgetResponse> getBudgetData(Long userId);
+    ResponseEntity<BudgetResponse> getBudgetData(Long sessionId);
 }

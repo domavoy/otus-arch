@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 public class InfinitePaymentData {
 
-    private Long userId;
+    private Long sessionId;
 
     private Long categoryId;
 

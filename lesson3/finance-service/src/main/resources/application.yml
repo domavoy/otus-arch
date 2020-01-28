@@ -2,12 +2,6 @@ app:
   integration:
     auth-service-rest:
       base: http://localhost:8081/auth
-      uri:
-        create-user: /createUser
-        create-session: /createSession
-        get-user-by-session: /getUserBySession/
-
-
 
 server:
   address: 0.0.0.0

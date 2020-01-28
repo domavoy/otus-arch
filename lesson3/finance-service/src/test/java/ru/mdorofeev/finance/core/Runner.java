@@ -11,7 +11,6 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.mdorofeev.finance.auth.client.AuthServiceClient;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.core.service.ImportService;
-import ru.mdorofeev.finance.core.integration.AuthIntegrationService;
 import ru.mdorofeev.finance.core.service.ExportService;
 
 import java.io.IOException;
@@ -28,10 +27,6 @@ public class Runner {
 
     @Spy
     @InjectMocks
-    AuthIntegrationService authProxyService =Mockito.mock(AuthIntegrationService.class);
-
-    @Spy
-    @InjectMocks
     AuthServiceClient authClient = Mockito.mock(AuthServiceClient.class);
 
     @Autowired
@@ -42,18 +37,17 @@ public class Runner {
 
     @Test
     void importMoneyProFolder() throws IOException, ServiceException {
-        Mockito.when(authProxyService.client()).thenReturn(authClient);
         Mockito.when(authClient.findBySession(anyLong())).thenReturn(100L);
 
-        Long userId = authProxyService.client().findBySession(100L);
+        Long userId = authClient.findBySession(100L);
         moneyProDataImport.importMoneyProFolder(userId, "/Users/domavoy/.yandex.disk/21738021/Yandex.Disk.localized/Dropbox/backup/money");
     }
 
     @Test
     public void exportToFile() throws IOException, ServiceException, URISyntaxException {
-        Mockito.when(authProxyService.client().findBySession(100L)).thenReturn(100L);
+        Mockito.when(authClient.findBySession(100L)).thenReturn(100L);
 
-        Long userId = authProxyService.client().findBySession(100L);
+        Long userId = authClient.findBySession(100L);
 
         exportService.export(
                 "/Users/domavoy/.yandex.disk/21738021/Yandex.Disk.localized/Dropbox/backup/money.csv",

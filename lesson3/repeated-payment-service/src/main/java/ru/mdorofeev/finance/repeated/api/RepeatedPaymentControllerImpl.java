@@ -3,10 +3,13 @@ package ru.mdorofeev.finance.repeated.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ru.mdorofeev.finance.common.api.Processor;
+import ru.mdorofeev.finance.auth.client.AuthServiceClient;
+import ru.mdorofeev.finance.auth.client.ProcessWithUserWrapper;
 import ru.mdorofeev.finance.common.api.model.response.LongResponse;
 import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
@@ -28,24 +31,35 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
 
     private static final Logger LOG = LoggerFactory.getLogger(RepeatedPaymentControllerImpl.class);
 
+    @Value("${app.integration.auth-service-rest.base}")
+    private String authServiceBase;
+
     @Autowired
     RepeatedPaymentService paymentService;
 
+    @Autowired
+    private AuthServiceClient authServiceClient;
+
+    @Bean
+    public AuthServiceClient authServiceClient() {
+        return new AuthServiceClient(authServiceBase);
+    }
+
     @Override
     public ResponseEntity<LongResponse> addFuturePayment(FuturePaymentData body) {
-        return addPayment(new RepeatedPaymentData(body.getUserId(), body.getCategoryId(),
+        return addPayment(new RepeatedPaymentData(body.getSessionId(), body.getCategoryId(),
                 body.getAmount(), Granularity.NONE.name(), new Date(), null, body.getComment()));
     }
 
     @Override
     public ResponseEntity<LongResponse> addInfinitePayment(InfinitePaymentData body) {
-        return addPayment(new RepeatedPaymentData(body.getUserId(), body.getCategoryId(),
+        return addPayment(new RepeatedPaymentData(body.getSessionId(), body.getCategoryId(),
                 body.getAmount(), body.getGranularity(), new Date(), null, body.getComment()));
     }
 
     @Override
     public ResponseEntity<LongResponse> addPayment(RepeatedPaymentData body) {
-        return Processor.wrapExceptions(() -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, body.getSessionId(), user -> {
 
             Granularity granularity;
             try {
@@ -54,7 +68,7 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
                 throw new ServiceException("Incorrect granularity: should be: " + Granularity.values());
             }
 
-            Long id = paymentService.addPayment(body.getUserId(), body.getCategoryId(),
+            Long id = paymentService.addPayment(user, body.getCategoryId(),
                     body.getAmount(), granularity, body.getStart(), body.getEnd(), body.getComment());
             return new ResponseEntity<>(new LongResponse(id), HttpStatus.OK);
         });
@@ -62,7 +76,7 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
 
     @Override
     public ResponseEntity<Response> updatePayment(RepeatedPaymentDataUpdate body) {
-        return Processor.wrapExceptions(() -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, body.getSessionId(), user -> {
             Granularity granularity;
             try {
                 granularity = Granularity.from(body.getGranularity());
@@ -77,17 +91,17 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
     }
 
     @Override
-    public ResponseEntity<Response> deletePayment(Long userId, Long paymentId) {
-        return Processor.wrapExceptions(() -> {
+    public ResponseEntity<Response> deletePayment(Long sessionId, Long paymentId) {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
             paymentService.removePayment(paymentId);
             return new ResponseEntity<>(new Response(), HttpStatus.OK);
         });
     }
 
     @Override
-    public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(Long userId, Date date) {
-        return Processor.wrapExceptions(() -> {
-            List<RepeatedPayment> data = paymentService.findForDate(date, userId);
+    public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(Long sessionId, Date date) {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
+            List<RepeatedPayment> data = paymentService.findForDate(date, user);
             RepeatedPaymentResponse response = new RepeatedPaymentResponse();
             response.setStart(date);
             response.setEnd(date);

@@ -38,13 +38,13 @@ public interface RepeatedPaymentController {
 
     @GetMapping("/deleteRepeatedPayment")
     @ApiOperation(value = "Delete payment data", tags = "Repeated payment management")
-    ResponseEntity<Response> deletePayment(Long userId, Long paymentId);
+    ResponseEntity<Response> deletePayment(Long sessionId, Long paymentId);
 
 
 
     @GetMapping("/getForDate")
     @ApiOperation(value = "Get payments for date", tags = "Repeated payment management")
-    public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(Long userId, Date date);
+    public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(Long sessionId, Date date);
 
 //    @GetMapping("/getRepeatedPayments")
 //    @ApiOperation(value = "Get repeated data", tags = "Repeated payment management")

@@ -15,7 +15,6 @@ import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.Currency;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
-import ru.mdorofeev.finance.core.integration.AuthIntegrationService;
 import ru.mdorofeev.finance.core.service.ConfigurationService;
 import ru.mdorofeev.finance.core.service.TransactionService;
 
@@ -32,10 +31,6 @@ class ServiceLayerTest {
 
     @Spy
     @InjectMocks
-    AuthIntegrationService authProxyService = Mockito.mock(AuthIntegrationService.class);
-
-    @Spy
-    @InjectMocks
     AuthServiceClient authClient = Mockito.mock(AuthServiceClient.class);
 
     @Autowired
@@ -43,10 +38,9 @@ class ServiceLayerTest {
 
     @Test
     void transactionLogic() throws ServiceException {
-        Mockito.when(authProxyService.client()).thenReturn(authClient);
         Mockito.when(authClient.findBySession(anyLong())).thenReturn(100L);
 
-        Long userId = authProxyService.client().findBySession(100l);
+        Long userId = authClient.findBySession(100l);
         Currency currency = configurationService.createOrUpdateCurrency("RUB");
 
         Account account = configurationService.createAccount(userId, currency, "наличка");
