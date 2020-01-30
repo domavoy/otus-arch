@@ -1,5 +1,6 @@
 package ru.mdorofeev.finance.core.api;
 
+import org.checkerframework.checker.units.qual.C;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.mdorofeev.finance.auth.client.AuthServiceClient;
+import ru.mdorofeev.finance.common.api.Process;
+import ru.mdorofeev.finance.common.api.Processor;
 import ru.mdorofeev.finance.common.api.model.response.CurrencyResponse;
+import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.auth.client.ProcessWithUserWrapper;
-import ru.mdorofeev.finance.core.api.model.common.Response;
 import ru.mdorofeev.finance.core.api.model.response.AccountListResponse;
 import ru.mdorofeev.finance.core.api.model.response.AccountResponse;
 import ru.mdorofeev.finance.core.api.model.response.StringListResponse;
@@ -89,24 +92,24 @@ public class ConfigurationControllerImpl implements ConfigurationController {
     }
 
     @Override
-    public ResponseEntity<Response> updateCurrency(Long sessionId, String currencyName, Double rate) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
-            Currency currency = configurationService.updateCurrency(currencyName, rate);
+    public ResponseEntity<Response> updateCurrency(String currencyName, Double rate) {
+        return Processor.wrapExceptions(() -> {
+            configurationService.updateCurrency(currencyName, rate);
             return new ResponseEntity<>(new Response(), HttpStatus.OK);
         });
     }
 
     @Override
-    public ResponseEntity<CurrencyResponse> getCurrency(Long sessionId, String currency) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
+    public ResponseEntity<CurrencyResponse> getCurrency(String currency) {
+        return Processor.wrapExceptions(() -> {
             BigDecimal value = configurationService.getCurrency(currency).getRate();
             return new ResponseEntity<>(new CurrencyResponse(value.doubleValue()), HttpStatus.OK);
         });
     }
 
     @Override
-    public ResponseEntity<Response> createCurrency(Long sessionId, String currency, Double rate) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
+    public ResponseEntity<Response> createCurrency(String currency, Double rate) {
+        return Processor.wrapExceptions(() -> {
             configurationService.createCurrency(currency, rate);
             return new ResponseEntity<>(new Response(), HttpStatus.OK);
         });

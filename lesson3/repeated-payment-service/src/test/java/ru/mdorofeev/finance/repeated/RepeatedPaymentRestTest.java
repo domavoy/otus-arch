@@ -62,7 +62,7 @@ public class RepeatedPaymentRestTest {
         check("2019-03-01", 0);
 
         // check one
-        ResponseEntity<RepeatedPaymentResponse> data = controller.getPaymentForDate(1L, "2020-01-01");
+        ResponseEntity<RepeatedPaymentResponse> data = controller.getPaymentForDate( "2020-01-01");
         Assertions.assertEquals(DateUtil.date("2020-01-01"), data.getBody().getStart());
         Assertions.assertEquals(DateUtil.date("2020-01-01"), data.getBody().getEnd());
         Assertions.assertEquals(Granularity.NONE, data.getBody().getGranularity());
@@ -72,7 +72,7 @@ public class RepeatedPaymentRestTest {
         // update
         controller.updatePayment(new RepeatedPaymentDataUpdate(100L, id, 3L, 200.0, Granularity.MONTHLY.name(), "2020-01-01", "2021-01-01", "sss"));
 
-        data = controller.getPaymentForDate(1L, "2020-01-01");
+        data = controller.getPaymentForDate("2020-01-01");
         check(data, 1, 1l, 3l, 200.0, "sss");
 
         // delete
@@ -88,7 +88,7 @@ public class RepeatedPaymentRestTest {
     }
 
     private void check(String searchDate, int expectedArraySize){
-        ResponseEntity<RepeatedPaymentResponse> data = controller.getPaymentForDate(1L, searchDate);
+        ResponseEntity<RepeatedPaymentResponse> data = controller.getPaymentForDate(searchDate);
         Assertions.assertEquals(expectedArraySize, data.getBody().getRepeatedPaymentList().size());
     }
 }

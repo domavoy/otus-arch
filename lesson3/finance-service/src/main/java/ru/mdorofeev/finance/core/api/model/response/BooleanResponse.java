@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.mdorofeev.finance.core.api.model.common.Error;
-import ru.mdorofeev.finance.core.api.model.common.Response;
+import ru.mdorofeev.finance.common.api.model.response.ErrorResponse;
+import ru.mdorofeev.finance.common.api.model.response.Response;
 
 
 /**
@@ -21,7 +21,7 @@ public class BooleanResponse extends Response {
 
     private Boolean result;
 
-    public BooleanResponse(Error error, Boolean result) {
+    public BooleanResponse(ErrorResponse error, Boolean result) {
         super(error);
         this.result = result;
     }

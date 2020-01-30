@@ -53,8 +53,8 @@ public class RepeatedPaymentService {
         repeatedRepository.deleteById(repeatedPaymentId);
     }
 
-    public List<RepeatedPayment> findForDate(Date date, Long id){
-        List<RepeatedPayment> data = repeatedRepository.findAllByUserId(id);
+    public List<RepeatedPayment> findForDate(Date date){
+        List<RepeatedPayment> data = repeatedRepository.findAllByDate(date);
         return intervalSearchBean.findForDay(date, data);
     }
 }

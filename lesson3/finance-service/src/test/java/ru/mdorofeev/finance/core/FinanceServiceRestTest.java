@@ -24,19 +24,15 @@ public class FinanceServiceRestTest {
     @Autowired
     private ConfigurationController configurationController;
 
-    @MockBean
-    AuthServiceClient authClient;
-
     @Test
     public void currencyTest() throws ServiceException {
-        Mockito.when(authClient.findBySession(100L)).thenReturn(100L);
 
-        configurationController.createCurrency(100L, "LAL", 23.0);
-        ResponseEntity<CurrencyResponse> cur = configurationController.getCurrency(100L, "LAL");
+        configurationController.createCurrency( "LAL", 23.0);
+        ResponseEntity<CurrencyResponse> cur = configurationController.getCurrency("LAL");
         Assertions.assertEquals(23.0, cur.getBody().getResult());
 
-        configurationController.updateCurrency(100L, "LAL", 24.0);
-        cur = configurationController.getCurrency(100L, "LAL");
+        configurationController.updateCurrency("LAL", 24.0);
+        cur = configurationController.getCurrency("LAL");
         Assertions.assertEquals(24.0, cur.getBody().getResult());
     }
 }

@@ -38,15 +38,15 @@ public class FinanceServiceClientTest {
         financeClient.createAccount(session, "account");
         financeClient.createCategory(session, "category");
         financeClient.createTransaction(session, "category", "account", 100.0, "100");
-        TransactionListResponse trs = financeClient.getTransactions("2010-10-10", session);
+        TransactionListResponse trs = financeClient.getTransactions("2010-10-10");
         Assertions.assertNotNull(trs);
 
-        financeClient.createCurrency( login, 23.0, session);
-        Double cur = financeClient.getCurrency( login, session);
+        financeClient.createCurrency( login, 23.0);
+        Double cur = financeClient.getCurrency( login);
         Assertions.assertEquals(23.0, cur);
 
-        financeClient.updateCurrency( login, 24.0, session);
-        cur = financeClient.getCurrency( login, session);
+        financeClient.updateCurrency( login, 24.0);
+        cur = financeClient.getCurrency( login);
         Assertions.assertEquals(24.0, cur);
     }
 }

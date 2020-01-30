@@ -42,9 +42,10 @@ public interface RepeatedPaymentController {
 
 
 
+    //TODO: P1: secure
     @GetMapping("/getForDate")
     @ApiOperation(value = "Get payments for date", tags = "Repeated payment management")
-    public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(Long sessionId, String date);
+    public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(String date);
 
 //    @GetMapping("/getRepeatedPayments")
 //    @ApiOperation(value = "Get repeated data", tags = "Repeated payment management")

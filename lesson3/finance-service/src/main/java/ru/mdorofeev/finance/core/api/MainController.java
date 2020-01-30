@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.mdorofeev.finance.core.api.model.common.Response;
+import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.core.api.model.request.TransactionRequest;
 import ru.mdorofeev.finance.core.api.model.request.TransactionTransferRequest;
 import ru.mdorofeev.finance.core.api.model.response.AccountStatListResponse;

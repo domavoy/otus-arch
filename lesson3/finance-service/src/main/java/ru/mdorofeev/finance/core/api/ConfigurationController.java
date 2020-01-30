@@ -6,8 +6,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mdorofeev.finance.common.api.model.response.CurrencyResponse;
-import ru.mdorofeev.finance.common.api.model.response.StringResponse;
-import ru.mdorofeev.finance.core.api.model.common.Response;
+import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.core.api.model.response.AccountListResponse;
 import ru.mdorofeev.finance.core.api.model.response.StringListResponse;
 
@@ -32,15 +31,18 @@ public interface ConfigurationController {
     @ApiOperation(value = "Add account", tags = "App configuration")
     ResponseEntity<Response> addAccount(Long sessionId, @ApiParam(value = "RUB/USD/EUR") @RequestParam(required = true) String currency, String name);
 
+    //TODO: P1: secure
     @GetMapping("/updateCurrency")
     @ApiOperation(value = "Update currency", tags = "App configuration")
-    ResponseEntity<Response> updateCurrency(Long sessionId, String currency, Double rate);
+    ResponseEntity<Response> updateCurrency(String currency, Double rate);
 
+    //TODO: P1: secure
     @GetMapping("/getCurrency")
     @ApiOperation(value = "Get currency", tags = "App configuration")
-    ResponseEntity<CurrencyResponse> getCurrency(Long sessionId, String currency);
+    ResponseEntity<CurrencyResponse> getCurrency(String currency);
 
+    //TODO: P1: secure
     @GetMapping("/createCurrency")
     @ApiOperation(value = "Create currency", tags = "App configuration")
-    ResponseEntity<Response> createCurrency(Long sessionId, String currency, Double rate);
+    ResponseEntity<Response> createCurrency(String currency, Double rate);
 }

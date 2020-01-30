@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.mdorofeev.finance.auth.client.AuthServiceClient;
 import ru.mdorofeev.finance.auth.client.ProcessWithUserWrapper;
+import ru.mdorofeev.finance.common.api.Processor;
 import ru.mdorofeev.finance.common.api.model.response.LongResponse;
 import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
@@ -133,8 +134,8 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
     }
 
     @Override
-    public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(Long sessionId, String dateStr) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
+    public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(String dateStr) {
+        return Processor.wrapExceptions(() -> {
             Date date;
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -143,7 +144,7 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
                 throw new ServiceException("Incorrect date format: " + dateStr + ". Expected: yyyy-MM-dd");
             }
 
-            List<RepeatedPayment> data = paymentService.findForDate(date, user);
+            List<RepeatedPayment> data = paymentService.findForDate(date);
             RepeatedPaymentResponse response = new RepeatedPaymentResponse();
             response.setStart(date);
             response.setEnd(date);
