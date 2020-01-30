@@ -1,5 +1,5 @@
 ### NEXT
-- GUI: Auth + Transaction list (Spring MVC), Configurations
+- GUI: Auth + Transaction list (Spring MVC or Vaadin), Configurations
 - GUI: export/import (https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/)
 - use json-schema for validation
 - appService + REST unit tests
@@ -31,9 +31,10 @@
 - change default values for swagger - http://springfox.github.io/springfox/docs/snapshot/#q27
 - RESEARCH: return List<CategoryResponse>
 - RESEARCH: swagger @ApiParam doesn't pass to code. Use @PutMapping("/receipts/resend/{id}")
+- RESEARCH: общение между микросервисами - thrift/grpc ? Сейчас java client classes или отдельный модкль для авторизации
 - actuator
 - FEATURE: repeated-service => getPaymentData for specific granularity
-- gRPC/thrift for internal communication
+- bugfix: date => Date + time (transaction for example)
 
 ### docs
 https://www.petrikainulainen.net/spring-data-jpa-tutorial/

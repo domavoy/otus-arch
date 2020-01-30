@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+//TODO: P3: refactoring - rename to ScheduledPaymentService ?
 @ComponentScan({"ru.mdorofeev.finance.auth.client", "ru.mdorofeev.finance.repeated"})
 @SpringBootApplication
 public class RepeatedPaymentApplication {

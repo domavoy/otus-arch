@@ -58,13 +58,13 @@ public class ImportService {
 
     private void importData(MoneyProData moneyProData, Long userId) throws ServiceException {
         if (moneyProData.getType() == TransactionType.NEW_ACCOUNT) {
-            Currency currency = configurationService.createOrUpdateCurrency(moneyProData.getCurrency());
+            Currency currency = configurationService.getCurrency(moneyProData.getCurrency());
             configurationService.createAccount(userId, currency, moneyProData.getAccount());
         }
 
         if (Arrays.asList(TransactionType.MONEY_TRANSFER, TransactionType.INCOME, TransactionType.EXPENSE).
                 contains(moneyProData.getType())) {
-            Currency currency = configurationService.createOrUpdateCurrency(moneyProData.getCurrency());
+            Currency currency = configurationService.getCurrency(moneyProData.getCurrency());
             Category category = configurationService.getCategory(userId, moneyProData.getType(), moneyProData.getCategory());
             if (TransactionType.MONEY_TRANSFER != moneyProData.getType() && category == null) {
                 category = configurationService.createCategory(userId, moneyProData.getType(), moneyProData.getCategory());

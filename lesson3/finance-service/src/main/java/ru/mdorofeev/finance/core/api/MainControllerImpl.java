@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,23 +38,16 @@ public class MainControllerImpl implements MainController {
     private static final Logger LOG = LoggerFactory.getLogger(MainControllerImpl.class);
     @Autowired
     ConfigurationService configurationService;
+
     @Autowired
     private TransactionService mainService;
 
-    @Value("${app.integration.auth-service-rest.base}")
-    private String authServiceBase;
-
     @Autowired
-    private AuthServiceClient authClient;
-
-    @Bean
-    public AuthServiceClient authClient() {
-        return new AuthServiceClient(authServiceBase);
-    }
+    private AuthServiceClient authServiceClient;
 
     @Override
     public ResponseEntity<TransactionListResponse> getTransactions(Long sessionId, String fromDate) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authClient, sessionId, user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
             Date date;
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -62,7 +56,7 @@ public class MainControllerImpl implements MainController {
                 throw new ServiceException("Incorrect date format: " + fromDate + ". Expected: yyyy-MM-dd");
             }
 
-            List<TransactionResponse> resp = mainService.getTransactions(sessionId, date).stream().map(temp -> {
+            List<TransactionResponse> resp = mainService.getTransactions(user, date).stream().map(temp -> {
                 TransactionResponse response = new TransactionResponse();
                 response.setAccountName(temp.getAccount().getName());
                 response.setCategoryName(temp.getCategory() != null ? temp.getCategory().getName() : "");
@@ -84,7 +78,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public ResponseEntity<Response> addTransaction(TransactionRequest request) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authClient, request.getSessionId(), user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, request.getSessionId(), user -> {
             Account account = configurationService.getAccountByName(user, request.getAccountName());
             if (account == null) {
                 throw new ServiceException("ACCOUNT_NOT_FOUND");
@@ -103,7 +97,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public ResponseEntity<Response> moneyTransfer(TransactionTransferRequest request) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authClient, request.getSessionId(), user -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, request.getSessionId(), user -> {
             Account fromAccount = configurationService.getAccountByName(user, request.getFromAccount());
             if (fromAccount == null) {
                 throw new ServiceException("FROM_ACCOUNT_NOT_FOUND");
@@ -122,8 +116,8 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public ResponseEntity<AccountStatListResponse> getAccountStat(Long sessionId) {
-        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authClient, sessionId, user -> {
-            List<AccountStatResponse> resp = mainService.getAccounts(sessionId).stream().map(temp -> {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
+            List<AccountStatResponse> resp = mainService.getAccounts(user).stream().map(temp -> {
                 AccountStatResponse response = new AccountStatResponse();
                 response.setAccounName(temp.getName());
                 response.setCurrency(temp.getCurrency().getName());

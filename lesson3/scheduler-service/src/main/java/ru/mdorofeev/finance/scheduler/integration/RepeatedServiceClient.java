@@ -24,7 +24,12 @@ public class RepeatedServiceClient {
         this.restTemplate = new RestTemplateBuilder().build();
     }
 
-    public void getScheduledData(Long userId){
+    public void addScheduledData(Long sessionId, String category, Double amount){
+
+    }
+
+    public String getScheduledData(Long sessionId){
         // pass all transactions
+        return null;
     }
 }

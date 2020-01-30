@@ -1,7 +1,6 @@
 app:
   integration:
-    auth-service-rest:
-      base: http://localhost:8081/auth
+    auth-service-rest-base: http://localhost:8081/auth
 
 server:
   address: 0.0.0.0
@@ -10,7 +9,7 @@ server:
     context-path: /
 spring:
   profiles:
-    active: 'db-h2mem'
+    active: 'db-postgres'
   application:
     name: finance-core-service
   devtools:
@@ -50,8 +49,8 @@ spring:
     show-sql: true
   datasource:
     driverClassName: org.postgresql.Driver
-    password: finance
     url: jdbc:postgresql://localhost:5432/finance-app
+    password: finance
     username: finance
 
 ---

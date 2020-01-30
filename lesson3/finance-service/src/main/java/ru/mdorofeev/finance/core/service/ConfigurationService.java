@@ -2,6 +2,7 @@ package ru.mdorofeev.finance.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
@@ -11,6 +12,7 @@ import ru.mdorofeev.finance.core.repository.AccountRepository;
 import ru.mdorofeev.finance.core.repository.CategoryRepository;
 import ru.mdorofeev.finance.core.repository.CurrencyRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -25,11 +27,39 @@ public class ConfigurationService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public Currency createOrUpdateCurrency(String name) throws ServiceException {
+    public Currency getCurrency(String name) throws ServiceException {
         Currency cur = currencyRepository.findByName(name);
         if (cur == null) {
             throw new ServiceException("CURRENCY_NOT_FOUND");
         }
+
+        return cur;
+    }
+
+    public Currency createCurrency(String name, Double rate) throws ServiceException {
+        Currency cur = currencyRepository.findByName(name);
+        if (cur != null) {
+            throw new ServiceException("CURRENCY_ALREADY_EXISTS");
+        }
+
+        Currency currency = new Currency();
+        currency.setName(name);
+        currency.setRate(BigDecimal.valueOf(rate));
+        currency.setIsDefault(false);
+
+        currencyRepository.save(currency);
+        return currency;
+    }
+
+    @Transactional
+    public Currency updateCurrency(String name, Double rate) throws ServiceException {
+        Currency cur = currencyRepository.findByName(name);
+        if (cur == null) {
+            throw new ServiceException("CURRENCY_NOT_FOUND");
+        }
+
+        cur.setRate(BigDecimal.valueOf(rate));
+        currencyRepository.save(cur);
 
         return cur;
     }

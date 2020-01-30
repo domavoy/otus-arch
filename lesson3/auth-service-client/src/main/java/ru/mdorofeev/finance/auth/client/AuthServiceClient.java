@@ -13,7 +13,6 @@ import ru.mdorofeev.finance.auth.client.api.UserData;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 
 //TODO: P2: check is normal pattern to call externtal webservices ?
-@Service
 public class AuthServiceClient {
 
     private final String authServiceBase;
@@ -23,13 +22,7 @@ public class AuthServiceClient {
     private String authServiceCreateUserSession = "/createSession";
     private String authGetUserBySessionUri = "/getUserBySession/";
 
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
-    }
-
-    @Autowired
-    public AuthServiceClient(@Value("authServiceBase") String authServiceBase) {
+    public AuthServiceClient(String authServiceBase) {
         this.authServiceBase = authServiceBase;
         this.restTemplate = new RestTemplateBuilder().build();
     }

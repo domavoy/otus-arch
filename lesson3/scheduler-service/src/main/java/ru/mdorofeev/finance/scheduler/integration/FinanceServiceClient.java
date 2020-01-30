@@ -6,12 +6,27 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.mdorofeev.finance.common.api.model.response.CurrencyResponse;
+import ru.mdorofeev.finance.common.api.model.response.Response;
+import ru.mdorofeev.finance.common.exception.ServiceException;
+
+import java.util.Date;
 
 @Service
 public class FinanceServiceClient {
 
     private final String financeServiceBase;
     private RestTemplate restTemplate;
+
+    public static final String financeAddTransactionUri = "/main/addTransaction";
+    public static final String financeGetTransactionListUri = "/main/getTransactions?fromDate={fromDate}&sessionId={sessionId}";
+
+    public static final String financeAddCategory = "/config/addCategory?categoryType={categoryType}&name={categoryName}&sessionId={sessionId}";
+    public static final String financeAddAccount = "/config/addAccount?currency={currency}&name={categoryName}&sessionId={sessionid}";
+
+    public static final String createCurrency = "/config/createCurrency?currency={currency}&rate={rate}&sessionId={sessionId}";
+    public static final String getCurrency = "/config/getCurrency?currency={currency}&sessionId={sessionId}";
+    public static final String updateCurrency = "/config/updateCurrency?currencyName={currency}&rate={rate}&sessionId={sessionId}";
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
@@ -24,13 +39,70 @@ public class FinanceServiceClient {
         this.restTemplate = new RestTemplateBuilder().build();
     }
 
-    public void createTransaction(Long userId){
-        // pass all transactions
+    public void createAccount(Long sessionId, String accountName) throws ServiceException {
+        Response result = restTemplate.postForEntity(financeServiceBase + financeAddAccount, null,
+                Response.class, "RUB", accountName, sessionId).getBody();
+        if(result.getError() != null){
+            throw new ServiceException(result.getError().getMessage(), result.getError().getCode());
+        }
     }
 
-    public void updateCurrency(String currencyName, Double value){
-        // create method on finance
-        // finance currency => manual field
-        // update all not manual
+    public void createCategory(Long sessionId, String category) throws ServiceException {
+        Response result = restTemplate.postForEntity(financeServiceBase + financeAddCategory, null,
+                Response.class, "INCOME", category, sessionId).getBody();
+        if(result.getError() != null){
+            throw new ServiceException(result.getError().getMessage(), result.getError().getCode());
+        }
+    }
+
+    public void createTransaction(Long sessionId, String categoryName, String accountName, Double money, String comment) throws ServiceException {
+        TransactionRequest transactionRequest = new TransactionRequest();
+        transactionRequest.setSessionId(sessionId);
+        transactionRequest.setAccountName(accountName);
+        transactionRequest.setCategoryName(categoryName);
+        transactionRequest.setComment(comment);
+        transactionRequest.setMoney(money);
+
+        Response result = restTemplate.postForEntity(financeServiceBase + financeAddTransactionUri,
+                transactionRequest, Response.class).getBody();
+        if(result.getError() != null){
+            throw new ServiceException(result.getError().getCode());
+        }
+    }
+
+    public TransactionListResponse getTransactions(String forDate, Long sessionId) throws ServiceException {
+        TransactionListResponse result = restTemplate.getForEntity(financeServiceBase + financeGetTransactionListUri,
+                TransactionListResponse.class, forDate, sessionId).getBody();
+        if(result.getError() != null){
+            throw new ServiceException(result.getError().getCode());
+        }
+
+        return result;
+    }
+
+    public void updateCurrency(String currencyName, Double rate, Long sessionId) throws ServiceException {
+        Response result = restTemplate.getForEntity(financeServiceBase + updateCurrency,
+                Response.class, currencyName, rate, sessionId).getBody();
+        if(result.getError() != null){
+            throw new ServiceException(result.getError().getCode());
+        }
+    }
+
+    public void createCurrency(String currencyName, Double rate, Long sessionId) throws ServiceException {
+        Response result = restTemplate.getForEntity(financeServiceBase + createCurrency,
+                Response.class, currencyName, rate, sessionId).getBody();
+        if(result.getError() != null){
+            throw new ServiceException(result.getError().getCode());
+        }
+    }
+
+    public Double getCurrency(String currencyName, Long sessionId) throws ServiceException {
+        CurrencyResponse result = restTemplate.getForEntity(financeServiceBase + getCurrency,
+                CurrencyResponse.class, currencyName, sessionId).getBody();
+        if(result.getError() != null){
+            throw new ServiceException(result.getError().getCode());
+        }
+
+        return  result.getResult();
     }
 }

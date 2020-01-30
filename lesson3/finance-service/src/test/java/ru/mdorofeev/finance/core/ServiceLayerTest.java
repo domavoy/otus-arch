@@ -41,7 +41,7 @@ class ServiceLayerTest {
         Mockito.when(authClient.findBySession(anyLong())).thenReturn(100L);
 
         Long userId = authClient.findBySession(100l);
-        Currency currency = configurationService.createOrUpdateCurrency("RUB");
+        Currency currency = configurationService.getCurrency("RUB");
 
         Account account = configurationService.createAccount(userId, currency, "наличка");
         Account toAccount = configurationService.createAccount(userId, currency, "кредитка");

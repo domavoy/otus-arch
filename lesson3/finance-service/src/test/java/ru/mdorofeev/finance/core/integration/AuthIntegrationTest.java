@@ -22,11 +22,11 @@ import java.util.UUID;
 @ActiveProfiles({"db-h2mem"})
 @SpringBootTest
 @TestPropertySource(properties = {
-        "app.integration.auth-service-rest.base=http://localhost:8081/auth",
+        "app.integration.auth-service-rest-base=http://localhost:8081/auth",
 })
 public class AuthIntegrationTest {
 
-    @Value("${app.integration.auth-service-rest.base}")
+    @Value("${app.integration.auth-service-rest-base}")
     private String authServiceBase;
 
     @Test

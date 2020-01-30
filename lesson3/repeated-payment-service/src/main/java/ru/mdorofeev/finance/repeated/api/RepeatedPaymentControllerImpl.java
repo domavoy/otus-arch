@@ -31,7 +31,7 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
 
     private static final Logger LOG = LoggerFactory.getLogger(RepeatedPaymentControllerImpl.class);
 
-    @Value("${app.integration.auth-service-rest.base}")
+    @Value("${app.integration.auth-service-rest-base}")
     private String authServiceBase;
 
     @Autowired

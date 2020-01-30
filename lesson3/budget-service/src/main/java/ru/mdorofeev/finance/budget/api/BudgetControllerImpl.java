@@ -28,7 +28,7 @@ public class BudgetControllerImpl implements BudgetController {
 
     private static final Logger LOG = LoggerFactory.getLogger(BudgetControllerImpl.class);
 
-    @Value("${app.integration.auth-service-rest.base}")
+    @Value("${app.integration.auth-service-rest-base}")
     private String authServiceBase;
 
     @Autowired
