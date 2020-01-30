@@ -9,13 +9,15 @@ import org.springframework.web.client.RestTemplate;
 import ru.mdorofeev.finance.common.api.model.response.CurrencyResponse;
 import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
-
-import java.util.Date;
+import ru.mdorofeev.finance.scheduler.integration.api.TransactionListResponse;
+import ru.mdorofeev.finance.scheduler.integration.api.TransactionRequest;
 
 @Service
 public class FinanceServiceClient {
 
-    private final String financeServiceBase;
+    @Value("${app.integration.finance-service-rest-base}")
+    private String financeServiceBase;
+
     private RestTemplate restTemplate;
 
     public static final String financeAddTransactionUri = "/main/addTransaction";

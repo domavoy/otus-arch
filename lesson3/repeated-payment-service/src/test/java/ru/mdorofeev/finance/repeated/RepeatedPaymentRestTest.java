@@ -34,15 +34,15 @@ public class RepeatedPaymentRestTest {
 
         // jan - none
         Long id = controller.addPayment(new RepeatedPaymentData(1L, 1L,
-                100.0, Granularity.NONE.name(), DateUtil.date("2020-01-01"), DateUtil.date("2020-01-30"), "comm")).getBody().getResult();
+                100.0, Granularity.NONE.name(), "2020-01-01", "2020-01-30", "comm")).getBody().getResult();
 
         // feb - monthly
         controller.addPayment(new RepeatedPaymentData(1L, 1L,
-                100.0, Granularity.MONTHLY.name(), DateUtil.date("2020-02-01"), DateUtil.date("2020-05-28"), ""));
+                100.0, Granularity.MONTHLY.name(), "2020-02-01", "2020-05-28", ""));
 
         // march - early
         controller.addPayment(new RepeatedPaymentData(1L, 1L,
-                100.0, Granularity.YEARLY.name(), DateUtil.date("2020-03-01"), DateUtil.date("2022-03-28"), ""));
+                100.0, Granularity.YEARLY.name(), "2020-03-01", "2022-03-28", ""));
 
         // none
         check("2020-01-01", 1);
@@ -62,7 +62,7 @@ public class RepeatedPaymentRestTest {
         check("2019-03-01", 0);
 
         // check one
-        ResponseEntity<RepeatedPaymentResponse> data = controller.getPaymentForDate(1L, DateUtil.date("2020-01-01"));
+        ResponseEntity<RepeatedPaymentResponse> data = controller.getPaymentForDate(1L, "2020-01-01");
         Assertions.assertEquals(DateUtil.date("2020-01-01"), data.getBody().getStart());
         Assertions.assertEquals(DateUtil.date("2020-01-01"), data.getBody().getEnd());
         Assertions.assertEquals(Granularity.NONE, data.getBody().getGranularity());
@@ -70,9 +70,9 @@ public class RepeatedPaymentRestTest {
         check(data, 1, 1l, 1l, 100.0, "comm");
 
         // update
-        controller.updatePayment(new RepeatedPaymentDataUpdate(100L, id, 3L, 200.0, Granularity.MONTHLY.name(), DateUtil.date("2020-01-01"), DateUtil.date("2021-01-01"), "sss"));
+        controller.updatePayment(new RepeatedPaymentDataUpdate(100L, id, 3L, 200.0, Granularity.MONTHLY.name(), "2020-01-01", "2021-01-01", "sss"));
 
-        data = controller.getPaymentForDate(1L, DateUtil.date("2020-01-01"));
+        data = controller.getPaymentForDate(1L, "2020-01-01");
         check(data, 1, 1l, 3l, 200.0, "sss");
 
         // delete
@@ -88,7 +88,7 @@ public class RepeatedPaymentRestTest {
     }
 
     private void check(String searchDate, int expectedArraySize){
-        ResponseEntity<RepeatedPaymentResponse> data = controller.getPaymentForDate(1L, DateUtil.date(searchDate));
+        ResponseEntity<RepeatedPaymentResponse> data = controller.getPaymentForDate(1L, searchDate);
         Assertions.assertEquals(expectedArraySize, data.getBody().getRepeatedPaymentList().size());
     }
 }

@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.scheduler.integration.FinanceServiceClient;
 import ru.mdorofeev.finance.scheduler.integration.RepeatedServiceClient;
+import ru.mdorofeev.finance.scheduler.integration.api.RepeatedPaymentResponse;
+
+import java.util.Date;
 
 @Service
 public class ScheduledService {
@@ -15,11 +18,18 @@ public class ScheduledService {
     @Autowired
     RepeatedServiceClient repeatedServiceClient;
 
-    public void executeCurrencyUpload() throws ServiceException {
+    public void executeCurrencyUpload() throws ServiceException{
 
     }
 
     public void executeCreateRepeatedPayment() throws ServiceException{
+        RepeatedPaymentResponse data = repeatedServiceClient.getScheduledDataForUser(1L, new Date());
+        if(data == null){
+            throw new ServiceException("executeCreateRepeatedPayment: scheduled data no found");
+        }
 
+        for(RepeatedPaymentResponse.RepeatedPayment payment : data.getRepeatedPaymentList()){
+            //financeServiceClient.createTransaction();
+        }
     }
 }

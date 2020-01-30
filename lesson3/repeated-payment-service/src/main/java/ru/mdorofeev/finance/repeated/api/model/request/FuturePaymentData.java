@@ -15,6 +15,8 @@ public class FuturePaymentData {
 
     private Long sessionId;
 
+    private String date;
+
     private Long categoryId;
 
     private Double amount;

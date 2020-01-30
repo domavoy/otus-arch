@@ -23,9 +23,9 @@ public class RepeatedPaymentDataUpdate {
 
     private String granularity;
 
-    private Date start;
+    private String start;
 
-    private Date end;
+    private String end;
 
     private String comment;
 }

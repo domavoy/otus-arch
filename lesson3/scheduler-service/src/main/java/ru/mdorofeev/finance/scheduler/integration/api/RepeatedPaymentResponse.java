@@ -1,11 +1,10 @@
-package ru.mdorofeev.finance.repeated.api.model.response;
+package ru.mdorofeev.finance.scheduler.integration.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ru.mdorofeev.finance.common.api.model.response.Response;
-import ru.mdorofeev.finance.repeated.persistence.dict.Granularity;
 
 import java.util.Date;
 import java.util.LinkedList;

@@ -35,6 +35,7 @@
 - actuator
 - FEATURE: repeated-service => getPaymentData for specific granularity
 - bugfix: date => Date + time (transaction for example)
+- store scheduled cron in db
 
 ### docs
 https://www.petrikainulainen.net/spring-data-jpa-tutorial/

@@ -22,6 +22,8 @@ import ru.mdorofeev.finance.repeated.persistence.RepeatedPayment;
 import ru.mdorofeev.finance.repeated.persistence.dict.Granularity;
 import ru.mdorofeev.finance.repeated.service.RepeatedPaymentService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -48,18 +50,35 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
     @Override
     public ResponseEntity<LongResponse> addFuturePayment(FuturePaymentData body) {
         return addPayment(new RepeatedPaymentData(body.getSessionId(), body.getCategoryId(),
-                body.getAmount(), Granularity.NONE.name(), new Date(), null, body.getComment()));
+                body.getAmount(), Granularity.NONE.name(), body.getDate(), null, body.getComment()));
     }
 
     @Override
     public ResponseEntity<LongResponse> addInfinitePayment(InfinitePaymentData body) {
         return addPayment(new RepeatedPaymentData(body.getSessionId(), body.getCategoryId(),
-                body.getAmount(), body.getGranularity(), new Date(), null, body.getComment()));
+                body.getAmount(), body.getGranularity(), body.getDate(), null, body.getComment()));
     }
 
     @Override
     public ResponseEntity<LongResponse> addPayment(RepeatedPaymentData body) {
         return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, body.getSessionId(), user -> {
+            Date dateStart, dateEnd = null;
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                dateStart = format.parse(body.getStart());
+            } catch (NullPointerException | ParseException e) {
+                throw new ServiceException("Incorrect date format: " + body.getStart() + ". Expected: yyyy-MM-dd");
+            }
+
+            if(body.getEnd() != null){
+                try {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    dateEnd = format.parse(body.getEnd());
+                } catch (NullPointerException | ParseException e) {
+                    throw new ServiceException("Incorrect date format: " + body.getEnd() + ". Expected: yyyy-MM-dd");
+                }
+            }
+
 
             Granularity granularity;
             try {
@@ -69,7 +88,7 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
             }
 
             Long id = paymentService.addPayment(user, body.getCategoryId(),
-                    body.getAmount(), granularity, body.getStart(), body.getEnd(), body.getComment());
+                    body.getAmount(), granularity, dateStart, dateEnd, body.getComment());
             return new ResponseEntity<>(new LongResponse(id), HttpStatus.OK);
         });
     }
@@ -77,6 +96,21 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
     @Override
     public ResponseEntity<Response> updatePayment(RepeatedPaymentDataUpdate body) {
         return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, body.getSessionId(), user -> {
+            Date dateStart, dateEnd;
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                dateStart = format.parse(body.getStart());
+            } catch (NullPointerException | ParseException e) {
+                throw new ServiceException("Incorrect date format: " + body.getStart() + ". Expected: yyyy-MM-dd");
+            }
+
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                dateEnd = format.parse(body.getEnd());
+            } catch (NullPointerException | ParseException e) {
+                throw new ServiceException("Incorrect date format: " + body.getEnd() + ". Expected: yyyy-MM-dd");
+            }
+
             Granularity granularity;
             try {
                 granularity = Granularity.from(body.getGranularity());
@@ -85,7 +119,7 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
             }
 
             paymentService.updatePayment(body.getRepeatedPaymentId(), body.getCategoryId(),
-                    body.getAmount(), granularity, body.getStart(), body.getEnd(), body.getComment());
+                    body.getAmount(), granularity, dateStart, dateEnd, body.getComment());
             return new ResponseEntity<>(new Response(), HttpStatus.OK);
         });
     }
@@ -99,13 +133,21 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
     }
 
     @Override
-    public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(Long sessionId, Date date) {
+    public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(Long sessionId, String dateStr) {
         return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
+            Date date;
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                date = format.parse(dateStr);
+            } catch (NullPointerException | ParseException e) {
+                throw new ServiceException("Incorrect date format: " + dateStr + ". Expected: yyyy-MM-dd");
+            }
+
             List<RepeatedPayment> data = paymentService.findForDate(date, user);
             RepeatedPaymentResponse response = new RepeatedPaymentResponse();
             response.setStart(date);
             response.setEnd(date);
-            response.setGranularity(Granularity.NONE);
+            response.setGranularity(Granularity.NONE.toString());
 
             for(RepeatedPayment repeatedPayment : data){
                 response.add(to(repeatedPayment));

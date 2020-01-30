@@ -1,4 +1,4 @@
-package ru.mdorofeev.finance.scheduler.integration;
+package ru.mdorofeev.finance.scheduler.integration.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

@@ -5,17 +5,14 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import ru.mdorofeev.finance.auth.client.AuthServiceClient;
-import ru.mdorofeev.finance.common.api.model.response.CurrencyResponse;
 import ru.mdorofeev.finance.common.exception.ServiceException;
+import ru.mdorofeev.finance.scheduler.integration.api.TransactionListResponse;
 
 import java.util.UUID;
 
 @Disabled
-@ActiveProfiles({"db-h2mem"})
 @SpringBootTest
 @TestPropertySource(properties = {
         "app.integration.finance-service-rest-base=http://localhost:8080",
