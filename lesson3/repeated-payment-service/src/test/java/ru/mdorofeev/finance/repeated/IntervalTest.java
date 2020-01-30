@@ -13,7 +13,6 @@ import ru.mdorofeev.finance.repeated.service.IntervalSearchBean;
 
 import java.util.*;
 
-@Disabled
 public class IntervalTest {
 
     @Test

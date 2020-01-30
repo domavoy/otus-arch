@@ -36,6 +36,7 @@
 - FEATURE: repeated-service => getPaymentData for specific granularity
 - bugfix: date => Date + time (transaction for example)
 - store scheduled cron in db
+- spring cloud architecture
 
 ### docs
 https://www.petrikainulainen.net/spring-data-jpa-tutorial/

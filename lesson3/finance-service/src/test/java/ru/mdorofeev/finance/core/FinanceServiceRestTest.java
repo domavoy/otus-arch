@@ -18,7 +18,7 @@ import ru.mdorofeev.finance.core.api.ConfigurationController;
 import ru.mdorofeev.finance.core.api.MainController;
 
 @ActiveProfiles({"db-h2mem"})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 public class FinanceServiceRestTest {
 
     @Autowired
