@@ -11,6 +11,7 @@ import ru.mdorofeev.finance.auth.client.AuthServiceClient;
 import ru.mdorofeev.finance.common.api.Process;
 import ru.mdorofeev.finance.common.api.Processor;
 import ru.mdorofeev.finance.common.api.model.response.CurrencyResponse;
+import ru.mdorofeev.finance.common.api.model.response.LongResponse;
 import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.auth.client.ProcessWithUserWrapper;
@@ -46,14 +47,14 @@ public class ConfigurationControllerImpl implements ConfigurationController {
     @Override
     public ResponseEntity<StringListResponse> getCategories(Long sessionId) {
         return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
-            List<Category> data = configurationService.getCategories(sessionId);
+            List<Category> data = configurationService.getCategories(user);
             List<String> names = data.stream().map(a -> a.getName()).collect(Collectors.toList());
             return new ResponseEntity<>(new StringListResponse(null, names), HttpStatus.OK);
         });
     }
 
     @Override
-    public ResponseEntity<Response> addCategory(Long sessionId, String categoryType, String name) {
+    public ResponseEntity<LongResponse> addCategory(Long sessionId, String categoryType, String name) {
         return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
             if (!Arrays.asList(TransactionType.EXPENSE.name(), TransactionType.INCOME.name()).
                     contains(categoryType)) {
@@ -61,17 +62,15 @@ public class ConfigurationControllerImpl implements ConfigurationController {
                         TransactionType.EXPENSE.name() + "/" + TransactionType.INCOME.name());
             }
 
-            configurationService.createCategory(user, TransactionType.from(categoryType), name);
-            List<Category> data = configurationService.getCategories(sessionId);
-            List<String> names = data.stream().map(a -> a.getName()).collect(Collectors.toList());
-            return new ResponseEntity<>(new Response(), HttpStatus.OK);
+            Category category = configurationService.createCategory(user, TransactionType.from(categoryType), name);
+            return new ResponseEntity<>(new LongResponse(category.getId()), HttpStatus.OK);
         });
     }
 
     @Override
     public ResponseEntity<AccountListResponse> getAccounts(Long sessionId) {
         return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
-            List<Account> data = mainService.getAccounts(sessionId);
+            List<Account> data = mainService.getAccounts(user);
             List<AccountResponse> names = data.stream().map(temp -> {
                 AccountResponse response = new AccountResponse();
                 response.setName(temp.getName());
@@ -83,11 +82,11 @@ public class ConfigurationControllerImpl implements ConfigurationController {
     }
 
     @Override
-    public ResponseEntity<Response> addAccount(Long sessionId, String currency, String name) {
+    public ResponseEntity<LongResponse> addAccount(Long sessionId, String currency, String name) {
         return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
             Currency cur = configurationService.getCurrency(currency);
-            configurationService.createAccount(user, cur, name);
-            return new ResponseEntity<>(new Response(), HttpStatus.OK);
+            Account account = configurationService.createAccount(user, cur, name);
+            return new ResponseEntity<>(new LongResponse(account.getId()), HttpStatus.OK);
         });
     }
 

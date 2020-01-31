@@ -19,6 +19,8 @@ public class FuturePaymentData {
 
     private Long categoryId;
 
+    private Long accountId;
+
     private Double amount;
 
     private String comment;

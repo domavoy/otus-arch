@@ -50,13 +50,13 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
 
     @Override
     public ResponseEntity<LongResponse> addFuturePayment(FuturePaymentData body) {
-        return addPayment(new RepeatedPaymentData(body.getSessionId(), body.getCategoryId(),
+        return addPayment(new RepeatedPaymentData(body.getSessionId(), body.getCategoryId(), body.getAccountId(),
                 body.getAmount(), Granularity.NONE.name(), body.getDate(), null, body.getComment()));
     }
 
     @Override
     public ResponseEntity<LongResponse> addInfinitePayment(InfinitePaymentData body) {
-        return addPayment(new RepeatedPaymentData(body.getSessionId(), body.getCategoryId(),
+        return addPayment(new RepeatedPaymentData(body.getSessionId(), body.getCategoryId(), body.getAccountId(),
                 body.getAmount(), body.getGranularity(), body.getDate(), null, body.getComment()));
     }
 
@@ -88,7 +88,7 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
                 throw new ServiceException("Incorrect granularity: should be: " + Granularity.values());
             }
 
-            Long id = paymentService.addPayment(user, body.getCategoryId(),
+            Long id = paymentService.addPayment(user, body.getCategoryId(), body.getAccountId(),
                     body.getAmount(), granularity, dateStart, dateEnd, body.getComment());
             return new ResponseEntity<>(new LongResponse(id), HttpStatus.OK);
         });
@@ -119,7 +119,7 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
                 throw new ServiceException("Incorrect granularity: should be: " + Granularity.values());
             }
 
-            paymentService.updatePayment(body.getRepeatedPaymentId(), body.getCategoryId(),
+            paymentService.updatePayment(body.getRepeatedPaymentId(), body.getCategoryId(), body.getAccountId(),
                     body.getAmount(), granularity, dateStart, dateEnd, body.getComment());
             return new ResponseEntity<>(new Response(), HttpStatus.OK);
         });
@@ -162,6 +162,7 @@ public class RepeatedPaymentControllerImpl implements RepeatedPaymentController 
         RepeatedPaymentResponse.RepeatedPayment payment = new RepeatedPaymentResponse.RepeatedPayment();
         payment.setUserId(repeatedPayment.getUserId());
         payment.setCategoryId(repeatedPayment.getCategoryId());
+        payment.setAccountId(repeatedPayment.getAccountId());
         payment.setAmount(repeatedPayment.getAmount());
         payment.setComment(repeatedPayment.getComment());
         return payment;

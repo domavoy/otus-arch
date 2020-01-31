@@ -23,13 +23,14 @@ public class ScheduledService {
     }
 
     public void executeCreateRepeatedPayment() throws ServiceException{
-        RepeatedPaymentResponse data = repeatedServiceClient.getScheduledDataForUser(1L, new Date());
+        RepeatedPaymentResponse data = repeatedServiceClient.getScheduledData(new Date());
         if(data == null){
             throw new ServiceException("executeCreateRepeatedPayment: scheduled data no found");
         }
 
         for(RepeatedPaymentResponse.RepeatedPayment payment : data.getRepeatedPaymentList()){
-            //financeServiceClient.createTransaction();
+            financeServiceClient.createInternalTransaction(payment.getUserId(), payment.getCategoryId(),
+                    payment.getAccountId(), payment.getAmount(), payment.getComment());
         }
     }
 }

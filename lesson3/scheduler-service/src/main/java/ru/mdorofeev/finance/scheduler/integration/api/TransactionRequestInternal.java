@@ -12,13 +12,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class TransactionRequest {
+//TODO: P1: use to create transaction in schedule
+public class TransactionRequestInternal {
 
-    private Long sessionId;
+    private Long userId;
 
-    private String categoryName;
+    private Long categoryId;
 
-    private String accountName;
+    private Long accountId;
 
     //TODO: P2: pass BigDecimal ?
     private Double money;

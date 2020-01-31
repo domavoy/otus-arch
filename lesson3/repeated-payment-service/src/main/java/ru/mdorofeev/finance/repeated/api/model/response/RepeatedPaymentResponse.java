@@ -36,6 +36,7 @@ public class RepeatedPaymentResponse extends Response {
     public static class RepeatedPayment {
         private Long userId;
         private Long categoryId;
+        private Long accountId;
 
         private String comment;
         private Double amount;

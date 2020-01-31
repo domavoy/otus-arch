@@ -7,10 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.mdorofeev.finance.common.api.model.response.CurrencyResponse;
+import ru.mdorofeev.finance.common.api.model.response.LongResponse;
 import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.scheduler.integration.api.TransactionListResponse;
-import ru.mdorofeev.finance.scheduler.integration.api.TransactionRequest;
+import ru.mdorofeev.finance.scheduler.integration.api.TransactionRequestInternal;
 
 @Service
 public class FinanceServiceClient {
@@ -20,8 +21,8 @@ public class FinanceServiceClient {
 
     private RestTemplate restTemplate;
 
-    public static final String financeAddTransactionUri = "/main/addTransaction";
-    public static final String financeGetTransactionListUri = "/main/getTransactions?fromDate={fromDate}";
+    public static final String financeAddTransactionUri = "/main/addInternalTransaction";
+    public static final String financeGetTransactionListUri = "/main/getTransactions?fromDate={fromDate}&sessionId={sessionId}";
 
     public static final String financeAddCategory = "/config/addCategory?categoryType={categoryType}&name={categoryName}&sessionId={sessionId}";
     public static final String financeAddAccount = "/config/addAccount?currency={currency}&name={categoryName}&sessionId={sessionid}";
@@ -41,29 +42,34 @@ public class FinanceServiceClient {
         this.restTemplate = new RestTemplateBuilder().build();
     }
 
-    public void createAccount(Long sessionId, String accountName) throws ServiceException {
-        Response result = restTemplate.postForEntity(financeServiceBase + financeAddAccount, null,
-                Response.class, "RUB", accountName, sessionId).getBody();
+    public Long createAccount(Long sessionId, String accountName) throws ServiceException {
+        LongResponse result = restTemplate.postForEntity(financeServiceBase + financeAddAccount, null,
+                LongResponse.class, "RUB", accountName, sessionId).getBody();
         if(result.getError() != null){
             throw new ServiceException(result.getError().getMessage(), result.getError().getCode());
         }
+
+        return result.getResult();
     }
 
-    public void createCategory(Long sessionId, String category) throws ServiceException {
-        Response result = restTemplate.postForEntity(financeServiceBase + financeAddCategory, null,
-                Response.class, "INCOME", category, sessionId).getBody();
+    public Long createCategory(Long sessionId, String category) throws ServiceException {
+        LongResponse result = restTemplate.postForEntity(financeServiceBase + financeAddCategory, null,
+                LongResponse.class, "INCOME", category, sessionId).getBody();
         if(result.getError() != null){
             throw new ServiceException(result.getError().getMessage(), result.getError().getCode());
         }
+
+        return result.getResult();
     }
 
-    public void createTransaction(Long sessionId, String categoryName, String accountName, Double money, String comment) throws ServiceException {
-        TransactionRequest transactionRequest = new TransactionRequest();
-        transactionRequest.setSessionId(sessionId);
-        transactionRequest.setAccountName(accountName);
-        transactionRequest.setCategoryName(categoryName);
+    public void createInternalTransaction(Long userId, Long categoryId, Long accountId, Double money, String comment) throws ServiceException {
+        TransactionRequestInternal transactionRequest = new TransactionRequestInternal();
+        transactionRequest.setUserId(userId);
+        transactionRequest.setAccountId(accountId);
+        transactionRequest.setCategoryId(categoryId);
         transactionRequest.setComment(comment);
         transactionRequest.setMoney(money);
+        System.out.println(transactionRequest);
 
         Response result = restTemplate.postForEntity(financeServiceBase + financeAddTransactionUri,
                 transactionRequest, Response.class).getBody();
@@ -72,9 +78,9 @@ public class FinanceServiceClient {
         }
     }
 
-    public TransactionListResponse getTransactions(String forDate) throws ServiceException {
+    public TransactionListResponse getTransactions(String forDate, Long sessionId) throws ServiceException {
         TransactionListResponse result = restTemplate.getForEntity(financeServiceBase + financeGetTransactionListUri,
-                TransactionListResponse.class, forDate).getBody();
+                TransactionListResponse.class, forDate, sessionId).getBody();
         if(result.getError() != null){
             throw new ServiceException(result.getError().getCode());
         }

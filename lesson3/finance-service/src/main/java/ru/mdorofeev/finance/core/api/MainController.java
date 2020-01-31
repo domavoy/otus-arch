@@ -7,10 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.core.api.model.request.TransactionRequest;
+import ru.mdorofeev.finance.core.api.model.request.TransactionRequestInternal;
 import ru.mdorofeev.finance.core.api.model.request.TransactionTransferRequest;
 import ru.mdorofeev.finance.core.api.model.response.AccountStatListResponse;
 import ru.mdorofeev.finance.core.api.model.response.TransactionListResponse;
 
+//TODO: P2: move 'main' to yml
 @RestController
 @RequestMapping(name = "finance controller", produces = "application/json", path = "main")
 @Api(value = "Finance app main REST API", tags = "Basic operations")
@@ -33,4 +35,10 @@ public interface MainController {
     @GetMapping("/getAccountStat")
     @ApiOperation(value = "Get account status", tags = "Basic operations")
     ResponseEntity<AccountStatListResponse> getAccountStat(Long sessionId);
+
+
+    //TODO: P1: secure
+    @PostMapping("/addInternalTransaction")
+    @ApiOperation(value = "Add transaction", tags = "Basic operations")
+    ResponseEntity<Response> addInternalTransaction(@RequestBody TransactionRequestInternal request);
 }

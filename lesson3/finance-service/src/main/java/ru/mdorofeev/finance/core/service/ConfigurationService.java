@@ -14,6 +14,7 @@ import ru.mdorofeev.finance.core.repository.CurrencyRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConfigurationService {
@@ -106,6 +107,24 @@ public class ConfigurationService {
 
     public Account getAccountByName(Long userId, String name) {
         return accountRepository.findByUserIdAndName(userId, name);
+    }
+
+    public Account getAccountById(Long accountId) throws ServiceException {
+        Optional<Account> data = accountRepository.findById(accountId);
+        if(!data.isPresent()){
+            throw new ServiceException("ACCOUNT_ID_NOT_FOUND");
+        }
+
+        return data.get();
+    }
+
+    public Category getCategoryById(Long categoryId) throws ServiceException {
+        Optional<Category> data = categoryRepository.findById(categoryId);
+        if(!data.isPresent()){
+            throw new ServiceException("CATEGORY_ID_NOT_FOUND");
+        }
+
+        return data.get();
     }
 
     public List<Category> getCategories(Long sessionId) {

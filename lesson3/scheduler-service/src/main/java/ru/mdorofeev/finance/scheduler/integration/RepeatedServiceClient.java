@@ -23,7 +23,7 @@ public class RepeatedServiceClient {
     private RestTemplate restTemplate;
 
     public static final String addInfitePayment = "/addInfinitePayment/";
-    public static final String getPayments = "/getForDate?dateStr={forDate}&sessionId={sessionId}";
+    public static final String getPayments = "/getForDate?dateStr={forDate}";
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
@@ -36,10 +36,11 @@ public class RepeatedServiceClient {
         this.restTemplate = new RestTemplateBuilder().build();
     }
 
-    public void addScheduledData(Long sessionId, Long categoryId, Double amount, String date) throws ServiceException {
+    public void addScheduledData(Long sessionId, Long categoryId, Long accountId, Double amount, String date) throws ServiceException {
         InfinitePaymentData infinitePaymentData = new InfinitePaymentData();
         infinitePaymentData.setSessionId(sessionId);
         infinitePaymentData.setAmount(amount);
+        infinitePaymentData.setAccountId(accountId);
         infinitePaymentData.setCategoryId(10L);
         infinitePaymentData.setGranularity("MONTHLY");
         infinitePaymentData.setDate(date);
@@ -51,11 +52,11 @@ public class RepeatedServiceClient {
         }
     }
 
-    public RepeatedPaymentResponse getScheduledDataForUser(Long sessionId, Date forDate) throws ServiceException {
+    public RepeatedPaymentResponse getScheduledData(Date date) throws ServiceException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         RepeatedPaymentResponse result = restTemplate.getForEntity(repeatedServiceBase + getPayments,
-                RepeatedPaymentResponse.class, format.format(forDate), sessionId).getBody();
+                RepeatedPaymentResponse.class, format.format(date)).getBody();
         if(result.getError() != null){
             throw new ServiceException(result.getError().getCode());
         }

@@ -19,7 +19,7 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;

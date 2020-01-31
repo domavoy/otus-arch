@@ -1,5 +1,6 @@
 package ru.mdorofeev.finance.core;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

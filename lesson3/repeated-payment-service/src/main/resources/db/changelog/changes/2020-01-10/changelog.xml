@@ -11,6 +11,7 @@
 
             <column name="user_id" type="int"/>
             <column name="category_id" type="int"/>
+            <column name="account_id" type="int"/>
 
             <column name="granularity" type="int"/>
             <column name="amount" type="NUMERIC(16,2)"/>

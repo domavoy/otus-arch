@@ -42,6 +42,12 @@ public class AuthServiceRestTest {
         ResponseEntity<LongResponse> getUserResponse = controller.getUserBySession(Long.valueOf(sessionId));
         checkStatusCode(getUserResponse);
         Assert.assertNotNull("check user session", getUserResponse.getBody().getResult());
+
+        // user id exists
+        Assert.assertTrue(controller.checkUserId(getUserResponse.getBody().getResult()).getBody().getResult());
+
+        // not exists
+        Assert.assertFalse(controller.checkUserId(4374L).getBody().getResult());
     }
 
     @Test

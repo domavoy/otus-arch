@@ -18,7 +18,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private Long id;
 
     private Long userId;
 

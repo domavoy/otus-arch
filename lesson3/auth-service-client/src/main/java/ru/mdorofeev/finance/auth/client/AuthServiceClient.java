@@ -10,6 +10,7 @@ import ru.mdorofeev.finance.auth.client.api.LongResponse;
 import ru.mdorofeev.finance.auth.client.api.Response;
 import ru.mdorofeev.finance.auth.client.api.Session;
 import ru.mdorofeev.finance.auth.client.api.UserData;
+import ru.mdorofeev.finance.common.api.model.response.BooleanResponse;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 
 //TODO: P2: check is normal pattern to call externtal webservices ?
@@ -21,6 +22,7 @@ public class AuthServiceClient {
     private String authServiceCreateUserUri = "/createUser";
     private String authServiceCreateUserSession = "/createSession";
     private String authGetUserBySessionUri = "/getUserBySession/";
+    private String authCheckUserIdUri = "/checkUserId/{userId}";
 
     public AuthServiceClient(String authServiceBase) {
         this.authServiceBase = authServiceBase;
@@ -47,6 +49,15 @@ public class AuthServiceClient {
 
     public Long findBySession(Long sessionId) throws ServiceException {
         LongResponse result = restTemplate.getForEntity(authServiceBase + authGetUserBySessionUri + sessionId, LongResponse.class).getBody();
+        if(result.getError() != null){
+            throw new ServiceException(result.getError().getCode());
+        }
+        return result.getResult();
+    }
+
+    public Boolean checkUserId(Long userId) throws ServiceException {
+        BooleanResponse result = restTemplate.getForEntity(authServiceBase + authCheckUserIdUri,
+                BooleanResponse.class, userId).getBody();
         if(result.getError() != null){
             throw new ServiceException(result.getError().getCode());
         }

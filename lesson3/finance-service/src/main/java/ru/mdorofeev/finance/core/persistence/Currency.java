@@ -18,7 +18,7 @@ public class Currency {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private Long id;
 
     private String name;
     private Boolean isDefault;

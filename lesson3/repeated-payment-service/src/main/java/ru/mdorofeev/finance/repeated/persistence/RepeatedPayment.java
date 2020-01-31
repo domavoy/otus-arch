@@ -24,6 +24,8 @@ public class RepeatedPayment {
 
     private Long categoryId;
 
+    private Long accountId;
+
     private Double amount;
 
     private Long granularity;

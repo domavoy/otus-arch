@@ -17,6 +17,8 @@ public class InfinitePaymentData {
 
     private Long categoryId;
 
+    private Long accountId;
+
     private Double amount;
 
     private String granularity;

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mdorofeev.finance.common.api.model.response.CurrencyResponse;
+import ru.mdorofeev.finance.common.api.model.response.LongResponse;
 import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.core.api.model.response.AccountListResponse;
 import ru.mdorofeev.finance.core.api.model.response.StringListResponse;
@@ -21,7 +22,7 @@ public interface ConfigurationController {
 
     @PostMapping("/addCategory")
     @ApiOperation(value = "Add category", tags = "App configuration")
-    ResponseEntity<Response> addCategory(Long sessionId, @ApiParam(value = "INCOME/EXPENSE") @RequestParam(required = true) String categoryType, String name);
+    ResponseEntity<LongResponse> addCategory(Long sessionId, @ApiParam(value = "INCOME/EXPENSE") @RequestParam(required = true) String categoryType, String name);
 
     @GetMapping("/getAccounts")
     @ApiOperation(value = "Get accounts", tags = "App configuration")
@@ -29,7 +30,7 @@ public interface ConfigurationController {
 
     @PostMapping("/addAccount")
     @ApiOperation(value = "Add account", tags = "App configuration")
-    ResponseEntity<Response> addAccount(Long sessionId, @ApiParam(value = "RUB/USD/EUR") @RequestParam(required = true) String currency, String name);
+    ResponseEntity<LongResponse> addAccount(Long sessionId, @ApiParam(value = "RUB/USD/EUR") @RequestParam(required = true) String currency, String name);
 
     //TODO: P1: secure
     @GetMapping("/updateCurrency")

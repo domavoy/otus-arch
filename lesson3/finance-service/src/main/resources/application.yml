@@ -9,7 +9,7 @@ server:
     context-path: /
 spring:
   profiles:
-    active: 'db-postgres'
+    active: 'db-h2mem'
   application:
     name: finance-core-service
   devtools:

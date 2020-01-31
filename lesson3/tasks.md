@@ -23,6 +23,7 @@
 - think entity naming: api(request/reponse)/entity
 
 - fix common sonar warnings
+- execute code on sonar server by commits
 - use java money: https://www.baeldung.com/java-money-and-currency
 - moneyPro import performance
 - WADL: https://javattitude.wordpress.com/2014/05/26/wadl-generator-for-spring-rest/
@@ -31,7 +32,7 @@
 - change default values for swagger - http://springfox.github.io/springfox/docs/snapshot/#q27
 - RESEARCH: return List<CategoryResponse>
 - RESEARCH: swagger @ApiParam doesn't pass to code. Use @PutMapping("/receipts/resend/{id}")
-- RESEARCH: общение между микросервисами - thrift/grpc ? Сейчас java client classes или отдельный модкль для авторизации
+- RESEARCH: общение между микросервисами - thrift/grpc ? Сейчас java client classes или отдельный модкль для авторизации + внутренний API для общения и как его защищать. И как такие вещи тестировать
 - actuator
 - FEATURE: repeated-service => getPaymentData for specific granularity
 - bugfix: date => Date + time (transaction for example)

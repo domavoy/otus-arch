@@ -20,10 +20,11 @@ public class RepeatedPaymentService {
     @Autowired
     IntervalSearchBean intervalSearchBean;
 
-    public Long addPayment(Long userId, Long categoryId, Double amount, Granularity granularity, Date start, Date end, String comment){
+    public Long addPayment(Long userId, Long categoryId, Long accountId, Double amount, Granularity granularity, Date start, Date end, String comment){
         RepeatedPayment payment = new RepeatedPayment();
         payment.setUserId(userId);
         payment.setCategoryId(categoryId);
+        payment.setAccountId(accountId);
         payment.setAmount(amount);
         payment.setGranularity(granularity.getId());
         payment.setStart(start);
@@ -33,11 +34,12 @@ public class RepeatedPaymentService {
         return repeatedRepository.save(payment).getId();
     }
 
-    public void updatePayment(Long paymentId, Long categoryId, Double amount, Granularity granularity, Date start, Date end, String comment) throws ServiceException {
+    public void updatePayment(Long paymentId, Long categoryId, Long accountId, Double amount, Granularity granularity, Date start, Date end, String comment) throws ServiceException {
         Optional<RepeatedPayment> optionalPayment = repeatedRepository.findById(paymentId);
         if(optionalPayment.isPresent()){
             RepeatedPayment payment = optionalPayment.get();
             payment.setCategoryId(categoryId);
+            payment.setAccountId(accountId);
             payment.setAmount(amount);
             payment.setGranularity(granularity.getId());
             payment.setStart(start);

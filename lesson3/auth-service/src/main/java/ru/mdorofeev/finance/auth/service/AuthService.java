@@ -10,6 +10,7 @@ import ru.mdorofeev.finance.auth.repository.UserRepository;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -52,4 +53,7 @@ public class AuthService {
         sessionRepository.updateSessions(user, SessionStatus.INACTIVE.id);
     }
 
+    public Optional<User> getUserById(Long userId) {
+        return userRepository.findById(userId);
+    }
 }

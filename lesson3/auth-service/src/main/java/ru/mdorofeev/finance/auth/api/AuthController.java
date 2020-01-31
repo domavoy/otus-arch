@@ -37,4 +37,8 @@ public interface AuthController {
     @GetMapping("/getUserBySession/{sessionId}")
     @ApiOperation(value = "Get userId by session", tags = "User management")
     ResponseEntity<LongResponse> getUserBySession(@PathVariable("sessionId") Long sessionId);
+
+    @GetMapping("/checkUserId/{userId}")
+    @ApiOperation(value = "Check user id in db", tags = "User management")
+    ResponseEntity<BooleanResponse> checkUserId(@PathVariable("userId") Long userId);
 }

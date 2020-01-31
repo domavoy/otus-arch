@@ -18,6 +18,7 @@ import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 
 @Service
@@ -76,6 +77,14 @@ public class AuthControllerImpl implements AuthController {
             } else {
                 throw new ServiceException("USER_NOT_FOUND");
             }
+        });
+    }
+
+    @Override
+    public ResponseEntity<BooleanResponse> checkUserId(Long userId) {
+        return Processor.wrapExceptions(() -> {
+            Optional<User> value = authService.getUserById(userId);
+            return new ResponseEntity<>(new BooleanResponse(null, value.isPresent()), HttpStatus.OK);
         });
     }
 }

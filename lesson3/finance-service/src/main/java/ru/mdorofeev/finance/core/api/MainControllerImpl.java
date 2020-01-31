@@ -3,17 +3,16 @@ package ru.mdorofeev.finance.core.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.mdorofeev.finance.auth.client.AuthServiceClient;
+import ru.mdorofeev.finance.common.api.Processor;
 import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.auth.client.ProcessWithUserWrapper;
 import ru.mdorofeev.finance.core.api.model.request.TransactionRequest;
+import ru.mdorofeev.finance.core.api.model.request.TransactionRequestInternal;
 import ru.mdorofeev.finance.core.api.model.request.TransactionTransferRequest;
 import ru.mdorofeev.finance.core.api.model.response.AccountStatListResponse;
 import ru.mdorofeev.finance.core.api.model.response.AccountStatResponse;
@@ -125,6 +124,22 @@ public class MainControllerImpl implements MainController {
                 return response;
             }).collect(Collectors.toList());
             return new ResponseEntity<>(new AccountStatListResponse(resp), HttpStatus.OK);
+        });
+    }
+
+    @Override
+    public ResponseEntity<Response> addInternalTransaction(TransactionRequestInternal request) {
+        return Processor.wrapExceptions(() -> {
+            if(!authServiceClient.checkUserId(request.getUserId())){
+                throw new ServiceException("USER_NOT_FOUND");
+            }
+
+            Account account = configurationService.getAccountById(request.getAccountId());
+            Category category = configurationService.getCategoryById(request.getCategoryId());
+
+            mainService.createTransaction(request.getUserId(), new Date(), account,
+                    category, request.getMoney(), request.getComment());
+            return new ResponseEntity<>(new Response(), HttpStatus.OK);
         });
     }
 }
