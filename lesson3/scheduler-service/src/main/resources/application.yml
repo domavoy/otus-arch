@@ -5,6 +5,10 @@ app:
   external:
     sbrf-get-currency-rates: http://www.cbr.ru/scripts/XML_daily.asp?date_req=
 
+  scheduling:
+    currencyUpdateCron: "0 00 01 * * ?"
+    createRepeatedPaymentCron: "0 30 01 * * ?"
+
 server:
   address: 0.0.0.0
   port: 8084
