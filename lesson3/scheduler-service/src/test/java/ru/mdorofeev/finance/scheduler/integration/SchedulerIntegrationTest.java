@@ -19,9 +19,9 @@ import java.util.UUID;
 @Disabled
 @SpringBootTest
 @TestPropertySource(properties = {
-        "app.integration.finance-service-rest-base=http://localhost:8080",
+        "app.integration.finance-service-rest-base=http://localhost:8081",
         "app.integration.repeated-payment-service-config-rest-base=http://localhost:8082/repeatedPayment",
-        "app.integration.auth-service-rest-base=http://localhost:8081/auth",
+        "app.integration.auth-service-rest-base=http://localhost:8080/auth",
 })
 public class SchedulerIntegrationTest {
 

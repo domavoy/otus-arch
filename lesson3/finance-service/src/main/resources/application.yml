@@ -1,10 +1,10 @@
 app:
   integration:
-    auth-service-rest-base: http://localhost:8081/auth
+    auth-service-rest-base: http://localhost:8080/auth
 
 server:
   address: 0.0.0.0
-  port: 8080
+  port: 8081
   servlet:
     context-path: /
 spring:

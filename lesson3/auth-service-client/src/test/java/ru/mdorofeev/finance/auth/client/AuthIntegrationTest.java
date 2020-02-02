@@ -21,7 +21,7 @@ public class AuthIntegrationTest {
     public void test() throws ServiceException {
         String login = UUID.randomUUID().toString();
 
-        AuthServiceClient client = new AuthServiceClient("http://localhost:8081/auth");
+        AuthServiceClient client = new AuthServiceClient("http://localhost:8080/auth");
         client.createUser(login, login);
         Long session = client.createSession(login, login);
         Long data = client.findBySession(session);

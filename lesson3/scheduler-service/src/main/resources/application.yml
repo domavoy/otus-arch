@@ -1,6 +1,6 @@
 app:
   integration:
-    finance-service-rest-base: http://localhost:8080
+    finance-service-rest-base: http://localhost:8081
     repeated-payment-service-config-rest-base: http://localhost:8082/repeatedPayment
   external:
     sbrf-get-currency-rates: http://www.cbr.ru/scripts/XML_daily.asp?date_req=
