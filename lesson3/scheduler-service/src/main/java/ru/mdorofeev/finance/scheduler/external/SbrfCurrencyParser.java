@@ -9,16 +9,9 @@ import java.net.URL;
 
 public class SbrfCurrencyParser {
 
-    public static ValCurs parserFromResources(String fileName) throws JAXBException {
+    public static ValCurs parserFromUrl(URL url) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(ValCurs.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-        InputStream inputStream = SbrfCurrencyParser.class.getClassLoader().getResourceAsStream(fileName);
-        return  (ValCurs) jaxbUnmarshaller.unmarshal(inputStream);
-    }
-
-    public static ValCurs parserFromUrl(String url) throws JAXBException, MalformedURLException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(ValCurs.class);
-        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-        return  (ValCurs) jaxbUnmarshaller.unmarshal(new URL(url));
+        return  (ValCurs) jaxbUnmarshaller.unmarshal(url);
     }
 }

@@ -9,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import ru.mdorofeev.finance.auth.client.AuthServiceClient;
 import ru.mdorofeev.finance.common.exception.ServiceException;
-import ru.mdorofeev.finance.common.util.DateUtil;
-import ru.mdorofeev.finance.scheduler.integration.api.RepeatedPaymentResponse;
 import ru.mdorofeev.finance.scheduler.integration.api.TransactionListResponse;
 import ru.mdorofeev.finance.scheduler.service.ScheduledService;
 
@@ -85,11 +83,11 @@ public class SchedulerIntegrationTest {
         System.out.println(userId);
 
         FinanceServiceClient financeClient = new FinanceServiceClient(financeServiceBase);
-        financeClient.createCurrency( login, 23.0);
+        financeClient.createOrUpdateCurrency( login, 23.0);
         Double cur = financeClient.getCurrency( login);
         Assertions.assertEquals(23.0, cur);
 
-        financeClient.updateCurrency( login, 24.0);
+        financeClient.createOrUpdateCurrency( login, 24.0);
         cur = financeClient.getCurrency( login);
         Assertions.assertEquals(24.0, cur);
     }

@@ -32,18 +32,13 @@ public interface ConfigurationController {
     @ApiOperation(value = "Add account", tags = "App configuration")
     ResponseEntity<LongResponse> addAccount(Long sessionId, @ApiParam(value = "RUB/USD/EUR") @RequestParam(required = true) String currency, String name);
 
-    //TODO: P1: secure
-    @GetMapping("/updateCurrency")
-    @ApiOperation(value = "Update currency", tags = "App configuration")
-    ResponseEntity<Response> updateCurrency(String currency, Double rate);
-
-    //TODO: P1: secure
+    //TODO: P1: secure for internal usage
     @GetMapping("/getCurrency")
     @ApiOperation(value = "Get currency", tags = "App configuration")
     ResponseEntity<CurrencyResponse> getCurrency(String currency);
 
-    //TODO: P1: secure
-    @GetMapping("/createCurrency")
+    //TODO: P1: secure for internal usage
+    @GetMapping("/createOrUpdateCurrency")
     @ApiOperation(value = "Create currency", tags = "App configuration")
-    ResponseEntity<Response> createCurrency(String currency, Double rate);
+    ResponseEntity<Response> createOrUpdateCurrency(String currency, Double rate);
 }

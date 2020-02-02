@@ -28,6 +28,7 @@ public class ConfigurationService {
     @Autowired
     private AccountRepository accountRepository;
 
+    //TODO: P2: support date for currency
     public Currency getCurrency(String name) throws ServiceException {
         Currency cur = currencyRepository.findByName(name);
         if (cur == null) {
@@ -37,10 +38,14 @@ public class ConfigurationService {
         return cur;
     }
 
-    public Currency createCurrency(String name, Double rate) throws ServiceException {
+    //TODO: P2: support date for currency
+    @Transactional
+    public Currency createOrUpdateCurrency(String name, Double rate) throws ServiceException {
         Currency cur = currencyRepository.findByName(name);
         if (cur != null) {
-            throw new ServiceException("CURRENCY_ALREADY_EXISTS");
+            cur.setRate(BigDecimal.valueOf(rate));
+            currencyRepository.save(cur);
+            return cur;
         }
 
         Currency currency = new Currency();
@@ -50,19 +55,6 @@ public class ConfigurationService {
 
         currencyRepository.save(currency);
         return currency;
-    }
-
-    @Transactional
-    public Currency updateCurrency(String name, Double rate) throws ServiceException {
-        Currency cur = currencyRepository.findByName(name);
-        if (cur == null) {
-            throw new ServiceException("CURRENCY_NOT_FOUND");
-        }
-
-        cur.setRate(BigDecimal.valueOf(rate));
-        currencyRepository.save(cur);
-
-        return cur;
     }
 
     public Category createCategory(Long userId, TransactionType type, String name) throws ServiceException {

@@ -37,7 +37,7 @@ public interface MainController {
     ResponseEntity<AccountStatListResponse> getAccountStat(Long sessionId);
 
 
-    //TODO: P1: secure
+    //TODO: P1: secure for internal usage
     @PostMapping("/addInternalTransaction")
     @ApiOperation(value = "Add transaction", tags = "Basic operations")
     ResponseEntity<Response> addInternalTransaction(@RequestBody TransactionRequestInternal request);

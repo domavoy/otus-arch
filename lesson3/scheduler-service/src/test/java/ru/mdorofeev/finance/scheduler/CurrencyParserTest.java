@@ -11,12 +11,15 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class CurrencyParserTest {
 
     @Test
-    public void parserTest() throws JAXBException {
-        ValCurs valCurs = SbrfCurrencyParser.parserFromResources("sbrf-currency.xml");
+    public void parserTest() throws JAXBException, MalformedURLException {
+        URL url = getClass().getClassLoader().getResource("sbrf-currency.xml");
+        ValCurs valCurs = SbrfCurrencyParser.parserFromUrl(url);
         valCurs.getValutes().stream().forEach(val -> {
             if(val.getNumCode().equals("208")){
                 Assertions.assertEquals("DKK", val.getCharCode());

@@ -15,7 +15,6 @@ import java.util.Date;
 @RestController
 @RequestMapping(name = "budget controller", produces = "application/json", path = "budget")
 @Api(value = "Finance app budget REST API", tags = {"Budget management"})
-//TODO: P1: userId => session as in finance service
 public interface BudgetController {
 
     @PostMapping("/addBudget")

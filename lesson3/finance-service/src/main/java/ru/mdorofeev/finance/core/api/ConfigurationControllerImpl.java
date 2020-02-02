@@ -1,6 +1,5 @@
 package ru.mdorofeev.finance.core.api;
 
-import org.checkerframework.checker.units.qual.C;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.mdorofeev.finance.auth.client.AuthServiceClient;
-import ru.mdorofeev.finance.common.api.Process;
 import ru.mdorofeev.finance.common.api.Processor;
 import ru.mdorofeev.finance.common.api.model.response.CurrencyResponse;
 import ru.mdorofeev.finance.common.api.model.response.LongResponse;
@@ -91,14 +89,6 @@ public class ConfigurationControllerImpl implements ConfigurationController {
     }
 
     @Override
-    public ResponseEntity<Response> updateCurrency(String currencyName, Double rate) {
-        return Processor.wrapExceptions(() -> {
-            configurationService.updateCurrency(currencyName, rate);
-            return new ResponseEntity<>(new Response(), HttpStatus.OK);
-        });
-    }
-
-    @Override
     public ResponseEntity<CurrencyResponse> getCurrency(String currency) {
         return Processor.wrapExceptions(() -> {
             BigDecimal value = configurationService.getCurrency(currency).getRate();
@@ -107,9 +97,9 @@ public class ConfigurationControllerImpl implements ConfigurationController {
     }
 
     @Override
-    public ResponseEntity<Response> createCurrency(String currency, Double rate) {
+    public ResponseEntity<Response> createOrUpdateCurrency(String currency, Double rate) {
         return Processor.wrapExceptions(() -> {
-            configurationService.createCurrency(currency, rate);
+            configurationService.createOrUpdateCurrency(currency, rate);
             return new ResponseEntity<>(new Response(), HttpStatus.OK);
         });
     }

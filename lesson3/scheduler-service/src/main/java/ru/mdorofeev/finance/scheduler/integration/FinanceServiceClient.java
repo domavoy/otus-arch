@@ -27,9 +27,8 @@ public class FinanceServiceClient {
     public static final String financeAddCategory = "/config/addCategory?categoryType={categoryType}&name={categoryName}&sessionId={sessionId}";
     public static final String financeAddAccount = "/config/addAccount?currency={currency}&name={categoryName}&sessionId={sessionid}";
 
-    public static final String createCurrency = "/config/createCurrency?currency={currency}&rate={rate}";
+    public static final String createCurrency = "/config/createOrUpdateCurrency?currency={currency}&rate={rate}";
     public static final String getCurrency = "/config/getCurrency?currency={currency}";
-    public static final String updateCurrency = "/config/updateCurrency?currencyName={currency}&rate={rate}";
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
@@ -88,15 +87,7 @@ public class FinanceServiceClient {
         return result;
     }
 
-    public void updateCurrency(String currencyName, Double rate) throws ServiceException {
-        Response result = restTemplate.getForEntity(financeServiceBase + updateCurrency,
-                Response.class, currencyName, rate).getBody();
-        if(result.getError() != null){
-            throw new ServiceException(result.getError().getCode());
-        }
-    }
-
-    public void createCurrency(String currencyName, Double rate) throws ServiceException {
+    public void createOrUpdateCurrency(String currencyName, Double rate) throws ServiceException {
         Response result = restTemplate.getForEntity(financeServiceBase + createCurrency,
                 Response.class, currencyName, rate).getBody();
         if(result.getError() != null){

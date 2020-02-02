@@ -12,7 +12,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-//TODO: P1: use to create transaction in schedule
 public class TransactionRequestInternal {
 
     private Long userId;

@@ -17,7 +17,6 @@ import java.util.Date;
 @RestController
 @RequestMapping(name = "repeated payment controller", produces = "application/json", path = "repeatedPayment")
 @Api(value = "Finance app repeated payment REST API", tags = {"Repeated payment management"})
-//TODO: P1: userId => session as in finance service and move user => session to common ?
 public interface RepeatedPaymentController {
 
     @PostMapping("/addFuturePayment")
@@ -42,7 +41,7 @@ public interface RepeatedPaymentController {
 
 
 
-    //TODO: P1: secure
+    //TODO: P1: secure for internal usage
     @GetMapping("/getForDate")
     @ApiOperation(value = "Get payments for date", tags = "Repeated payment management")
     public ResponseEntity<RepeatedPaymentResponse> getPaymentForDate(String date);
