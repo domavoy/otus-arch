@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "messaging/email-request",
+  "type": "object",
+
+  "properties": {
+    "email": { "type": "string",  "description": "client email" },
+    "title": { "type": "string",  "description": "email title" },
+    "message": { "type": "string",  "description": "email message" }
+  }
+}

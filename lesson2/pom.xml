@@ -3,13 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.mdorofeev.otus</groupId>
-    <artifactId>root</artifactId>
+    <artifactId>lesson2</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-
+    
     <modules>
-        <module>lesson1</module>
-        <module>lesson2</module>
-        <module>lesson3</module>
+        <!-- common service with dto -->
+        <module>common</module>
+        <!-- service with REST for email/push -->
+        <module>central-service</module>
+
+        <!-- modules for email and push, ...-->
+        <module>email-service</module>
+        <module>sms-service</module>
     </modules>
 </project>

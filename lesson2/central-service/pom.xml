@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.1.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>ru.mdorofeev.otus</groupId>
+	<artifactId>lesson2-central</artifactId>
+	<version>1.0</version>
+
+	<properties>
+		<io.springfox.version>2.9.2</io.springfox.version>
+	</properties>
+
+	<dependencies>
+		<!-- common module -->
+		<dependency>
+			<groupId>ru.mdorofeev.message</groupId>
+			<artifactId>lesson2-common</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${io.springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${io.springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-activemq</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<release>11</release>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.20.1</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jsonschema2pojo</groupId>
+				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
+				<version>1.0.1</version>
+				<configuration>
+					<sourceDirectory>${project.basedir}/src/main/resources/json-schema</sourceDirectory>
+					<outputDirectory>${project.basedir}/target/generated-sources/json-schema</outputDirectory>
+					<targetPackage>ru.mdorofeev.message.central.api.dto</targetPackage>
+					<sourceType>jsonschema</sourceType>
+					<annotationStyle>jackson2</annotationStyle>
+					<includeJsr303Annotations>true</includeJsr303Annotations>
+					<includeJsr305Annotations>false</includeJsr305Annotations>
+					<includeAdditionalProperties>false</includeAdditionalProperties>
+					<includeToString>false</includeToString>
+					<includeHashcodeAndEquals>false</includeHashcodeAndEquals>
+					<usePrimitives>false</usePrimitives>
+					<generateBuilders>false</generateBuilders>
+					<initializeCollections>true</initializeCollections>
+					<includeConstructors>true</includeConstructors>
+					<removeOldOutput>true</removeOldOutput>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

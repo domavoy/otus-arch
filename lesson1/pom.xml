@@ -8,11 +8,9 @@
         <version>2.2.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>ru.mdorofeev.finance</groupId>
-    <artifactId>finance-app</artifactId>
+    <groupId>ru.mdorofeev.otus</groupId>
+    <artifactId>lesson1</artifactId>
     <version>1.0</version>
-    <name>personal-finance-app</name>
-    <description>Personal finance app</description>
 
     <properties>
         <io.springfox.version>2.9.2</io.springfox.version>
