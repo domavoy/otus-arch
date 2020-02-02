@@ -5,17 +5,16 @@
 ## Технологии и запуск
 Технологии: Java 8 + Spring Boot 2 + Swagger + ActiveMQ
 
-
-Варианты запуска
-
-1) **docker-compose**:
+Получение исходников и запуск приложения в docker:
 ```
+git clone https://github.com/domavoy/otus-arch.git
+cd otus-arch
+cd lesson2
+
+
 docker-compose build
 docker-compose up
 ```
-
-2) **В IDE**: Запустить CentralApplication, EmailApplication, SmsApplication
-
 
 ## Описание решения
 Сервис предназначен для рассылки уведомлений.
@@ -30,19 +29,27 @@ docker-compose up
 
 
 #### Логика работы
-как все работает
-как работает получение статуса
-конфиги
+* central-service получает запрос от пользователя. Он может вызывать или отправку СМС(sendSms) или отправку почты(sendEmail). Также пользователю возвращается UUID, по которому можно проверить статус запроса (функция getStatus)
+* после этого сообщение кладется в очередь
+  * Для СМС - messaging.service.sms.input
+  * Для Email -  messaging.service.email.input
+* Модули СМС/Email слушают свои очереди и выполняют свою работу. Интеграции с внешними сервисами нет - они просто пишут сообщение в свой лог.
 
-#### Добавление новых сервисов
-новый метод в REST - кладем сообщение в новую очередь
-новый микросервис, который слкшает эту очередь
+
+#### Масштабирование и расширение
+1) Для горизонтального масштабирования(например СМС) - нужно запустить еще один экземпляр sms-service. Он будут слушать и обрабаывать ту же очередь, что и первый.
+2) Для добавления нового сервиса, например для отправки PUSH-ей, нужно:
+* добавить новый метод в REST и класть сообщения в его очередь
+* написать новый микросервис, который будет слушать эту очередь
 
 ## Пример вызова
 
-swagger - http://localhost:8080/swagger-ui.html
-amq admin: http://localhost:8161/admin admin/admin
+* REST API для универсального интерфейса(SWAGGER) - http://localhost:8080/swagger-ui.html
+* AMQ admin для просмотра очередей: http://localhost:8161/admin. Login\pw: admin/admin
 
-
-
-
+## Если что то не работает
+1) Если после запуска в docker, ссылка на swagger не работае, то скорее всего нужно обращаться с сервису по IP: https://blog.sixeyed.com/published-ports-on-windows-containers-dont-do-loopback/
+2) Если же что то другое, то возможно проблема в различном окружении. Мне нужны будут логи:
+- docker-compose logs
+- docker-compose version
+- docker version
