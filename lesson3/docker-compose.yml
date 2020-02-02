@@ -1,9 +1,13 @@
 version: '3'
 services:
-  finance-app:
+  otus_dorofeev_lesson3-app:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: otus/dorofeev-lesson1-monolite-app
+    image: otus/dorofeev-lesson3
     ports:
-      - 8091:8080
+      - 8080:8080
+      - 8081:8081
+      - 8082:8082
+      - 8083:8083
+      - 8084:8084
