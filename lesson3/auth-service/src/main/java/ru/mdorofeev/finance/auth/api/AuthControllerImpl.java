@@ -30,10 +30,10 @@ public class AuthControllerImpl implements AuthController {
     private AuthService authService;
 
     @Override
-    public ResponseEntity<Response> createUser(@RequestBody UserData body) {
+    public ResponseEntity<LongResponse> createUser(@RequestBody UserData body) {
         return Processor.wrapExceptions(() -> {
-            authService.createUser(body.getLogin(), body.getPasssword());
-            return new ResponseEntity<>(new Response(), HttpStatus.OK);
+            User user = authService.createUser(body.getLogin(), body.getPasssword());
+            return new ResponseEntity<>(new LongResponse(user.getId()), HttpStatus.OK);
         });
     }
 
@@ -57,14 +57,6 @@ public class AuthControllerImpl implements AuthController {
             } else {
                 throw new ServiceException("USER_NOT_FOUND");
             }
-        });
-    }
-
-    @Override
-    public ResponseEntity<BooleanResponse> checkSession(Long sessionId) {
-        return Processor.wrapExceptions(() -> {
-            User value = authService.findBySession(sessionId);
-            return new ResponseEntity<>(new BooleanResponse(null, value != null), HttpStatus.OK);
         });
     }
 

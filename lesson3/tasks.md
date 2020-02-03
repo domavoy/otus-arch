@@ -38,6 +38,8 @@
 - bugfix: date => Date + time (transaction for example)
 - store scheduled cron in db
 - spring cloud architecture
+- fix build with unit tests on windows(ExportTest)
+- move /main/ /config/ to yml ?
 
 ### docs
 https://www.petrikainulainen.net/spring-data-jpa-tutorial/

@@ -23,7 +23,7 @@ public class AuthServiceRestTest {
     @Test
     public void fullTest(){
         UserData user = new UserData("user", "password");
-        ResponseEntity<Response> createUserResponse = controller.createUser(user);
+        ResponseEntity<LongResponse> createUserResponse = controller.createUser(user);
         checkStatusCode(createUserResponse);
 
         ResponseEntity<BooleanResponse> checkUserResponse = controller.checkUser(user);
@@ -34,10 +34,6 @@ public class AuthServiceRestTest {
         String sessionId = sessionResponse.getBody().getSessionId();
         checkStatusCode(sessionResponse);
         Assert.assertNotNull("Create sessionId", sessionId);
-
-        ResponseEntity<BooleanResponse> checkSessionResponse = controller.checkSession(Long.valueOf(sessionId));
-        checkStatusCode(checkSessionResponse);
-        Assert.assertEquals("Check sessionId", true, checkSessionResponse.getBody().getResult());
 
         ResponseEntity<LongResponse> getUserResponse = controller.getUserBySession(Long.valueOf(sessionId));
         checkStatusCode(getUserResponse);
@@ -57,13 +53,6 @@ public class AuthServiceRestTest {
         ResponseEntity<BooleanResponse> checkUserResponse = controller.checkUser(user);
         checkStatusCode(checkUserResponse);
         Assert.assertEquals("check user: not exists", false, checkUserResponse.getBody().getResult());
-    }
-
-    @Test
-    public void sessionNotExists(){
-        ResponseEntity<BooleanResponse> checkSessionResponse = controller.checkSession(12345678L);
-        checkStatusCode(checkSessionResponse);
-        Assert.assertEquals("Check sessionId: not exists", false, checkSessionResponse.getBody().getResult());
     }
 
     @Test

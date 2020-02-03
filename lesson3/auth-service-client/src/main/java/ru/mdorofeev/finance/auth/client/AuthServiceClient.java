@@ -29,12 +29,14 @@ public class AuthServiceClient {
         this.restTemplate = new RestTemplateBuilder().build();
     }
 
-    public void createUser(String login, String password) throws ServiceException {
+    public Long createUser(String login, String password) throws ServiceException {
         UserData userData = new UserData(login, password);
-        Response result = restTemplate.postForEntity(authServiceBase + authServiceCreateUserUri, userData, Response.class).getBody();
+        LongResponse result = restTemplate.postForEntity(authServiceBase + authServiceCreateUserUri, userData, LongResponse.class).getBody();
         if(result.getError() != null){
             throw new ServiceException(result.getError().getCode());
         }
+
+        return result.getResult();
     }
 
     public Long createSession(String login, String password) throws ServiceException {
