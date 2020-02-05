@@ -8,7 +8,7 @@ import ru.mdorofeev.finance.common.api.model.response.Response;
 
 //TODO: P2: FEATURE add security check
 @RestController
-@RequestMapping(name = "scheduled controller", produces = "application/json", path = "auth")
+@RequestMapping(name = "scheduled controller", produces = "application/json", path = "scheduler")
 @Api(value = "Finance app scheduled REST API", tags = "Scheduled manual execution")
 public interface ScheduledController {
 

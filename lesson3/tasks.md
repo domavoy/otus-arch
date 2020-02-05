@@ -40,6 +40,7 @@
 - spring cloud architecture
 - fix build with unit tests on windows(ExportTest)
 - move /main/ /config/ to yml ?
+- use DELETE .. rest operation instead POST/GET
 
 ### docs
 https://www.petrikainulainen.net/spring-data-jpa-tutorial/
