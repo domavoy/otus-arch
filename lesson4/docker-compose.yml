@@ -1,0 +1,9 @@
+version: '3'
+services:
+  otus_dorofeev_lesson4-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: otus/dorofeev-lesson4
+    ports:
+      - 8080:8080

@@ -1,0 +1,12 @@
+FROM openjdk:11-jre-slim
+EXPOSE 8080
+
+VOLUME /tmp
+RUN mkdir -p /app/
+RUN mkdir -p /app/logs/
+
+WORKDIR /app
+
+ADD  start.sh /app/start.sh
+ADD  auth-service/target/lesson3-auth-service-1.0.jar /app/auth-service.jar
+CMD ["bash", "/app/start.sh"]
