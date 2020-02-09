@@ -14,11 +14,7 @@ import ru.mdorofeev.finance.common.api.model.response.BooleanResponse;
 import ru.mdorofeev.finance.auth.persistence.User;
 import ru.mdorofeev.finance.auth.service.AuthService;
 import ru.mdorofeev.finance.common.api.model.response.LongResponse;
-import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.common.exception.ServiceException;
-
-import javax.transaction.Transactional;
-import java.util.Optional;
 
 
 @Service
@@ -46,7 +42,6 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
-    @Transactional
     public ResponseEntity<Session> createSession(@RequestBody UserData body) {
         return Processor.wrapExceptions(() -> {
             User user = authService.findUser(body.getLogin(), body.getPasssword());
@@ -75,8 +70,8 @@ public class AuthControllerImpl implements AuthController {
     @Override
     public ResponseEntity<BooleanResponse> checkUserId(Long userId) {
         return Processor.wrapExceptions(() -> {
-            Optional<User> value = authService.getUserById(userId);
-            return new ResponseEntity<>(new BooleanResponse(null, value.isPresent()), HttpStatus.OK);
+            User value = authService.getUserById(userId);
+            return new ResponseEntity<>(new BooleanResponse(null, value != null), HttpStatus.OK);
         });
     }
 }

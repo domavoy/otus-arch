@@ -1,19 +1,14 @@
 package ru.mdorofeev.finance.auth.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Mapper;
 import ru.mdorofeev.finance.auth.persistence.Session;
-import ru.mdorofeev.finance.auth.persistence.User;
 
-public interface SessionRepository extends JpaRepository<Session, Long> {
+@Mapper
+public interface SessionRepository {
 
-    @Modifying
-    @Query("update Session s set s.status = :newStatus where s.user = :user")
-    void updateSessions(@Param("user") User user, @Param("newStatus") Integer newStatus);
+    void createIfNotExistsTable();
 
-    @Modifying
-    @Query("update Session s set s.status = :status where s.user = :user and s.sessionId = :sessionId")
-    void updateSessionStatus(@Param("user") User user, @Param("sessionId") Long sessionId, @Param("status") Integer status);
+    Long insert(Session model);
+
+    void updateSessions(Long userId, Integer newStatus);
 }

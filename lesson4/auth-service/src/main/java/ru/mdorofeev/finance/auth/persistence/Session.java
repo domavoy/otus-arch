@@ -5,22 +5,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
-
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-@Entity
-@Table(name = "session", schema = "public")
-public class Session {
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public final class Session {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    public Session(Long userId, Long sessionId, Integer status) {
+        this.userId = userId;
+        this.sessionId = sessionId;
+        this.status = status;
+    }
 
-    @OneToOne
-    private User user;
+    private Long id;
+
+    private Long userId;
 
     private Long sessionId;
 

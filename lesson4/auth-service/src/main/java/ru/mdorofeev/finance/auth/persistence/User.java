@@ -1,24 +1,22 @@
 package ru.mdorofeev.finance.auth.persistence;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 @ToString
-@Entity
-@Table(name = "user", schema = "public")
-public class User {
+@NoArgsConstructor
+public final class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    private long id;
 
     private String login;
+
     private String password;
 }

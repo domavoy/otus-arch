@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.mdorofeev.finance.auth.repository.UserRepository">
+    <resultMap id="baseResultMap" type="ru.mdorofeev.finance.auth.persistence.User">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="login" property="login" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <update id="createIfNotExistsTable">
+        create table if not exists t_user
+            (
+            id bigint not null,
+            login varchar,
+            password varchar
+        );
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user (
+          login, password
+        )
+        VALUES (
+        #{login,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_user WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="findByLogin" resultMap="baseResultMap">
+        SELECT * from t_user where login = #{login,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findById" resultMap="baseResultMap">
+        SELECT * from t_user where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findByLoginAndPassword" resultMap="baseResultMap">
+        SELECT * from t_user where login = #{login,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findByActiveSession" resultMap="baseResultMap">
+        select u.* from t_user u, t_session s where u.id = s.user_id and s.status = 1 and s.session_id = #{sessionId,jdbcType=INTEGER}
+    </select>
+</mapper>

@@ -3,79 +3,88 @@ server:
   port: 8080
   servlet:
     context-path: /
-spring:
-  profiles:
-    active: 'db-h2mem'
-  application:
-    name: finance-auth-service
-  devtools:
-    add-properties: false
-  jackson:
-    serialization:
-      write-date-keys-as-timestamps: false
-  jpa:
-    hibernate:
-      ddl-auto: none
-    open-in-view: true
-    properties:
-      hibernate:
-        default_batch_fetch_size: 20
-        format_sql: true
-        jdbc:
-          batch_size: 20
-        temp:
-          use_jdbc_metadata_defaults: false
-    show-sql: true
-  liquibase:
-    change-log: classpath:db/changelog/changelog-master.xml
-    enabled: true
-  main:
-    allow-bean-definition-overriding: true
+
+mybatis:
+  config-location: classpath:META-INF/mybatis-config.xml
 
 logging:
   level:
     root: info
 
----
-
 spring:
-  profiles: db-postgres
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
-    show-sql: true
-  datasource:
-    driverClassName: org.postgresql.Driver
-    password: finance
-    url: jdbc:postgresql://localhost:5432/finance-auth
-    username: finance
+  profiles:
+    active: 'db-h2mem'
+  application:
+    name: finance-auth-service
+  shardingsphere:
+    props:
+      sql.show: true
+    datasource:
+      names: ds0,ds1
+    sharding:
+      binding-tables: t_user
+      tables:
+        t_user:
+          actual-data-nodes: ds${0..1}.t_user
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          tableStrategy:
+            inline:
+              shardingColumn: id
+              algorithmExpression: t_user
+          database-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: ds${id % 2}
 
----
+        t_session:
+          actual-data-nodes: ds${0..1}.t_session
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          tableStrategy:
+            inline:
+              shardingColumn: id
+              algorithmExpression: t_session
+          database-strategy:
+            standard:
+              sharding-column: user_id
+              precise-algorithm-class-name: ru.mdorofeev.finance.auth.repository.PreciseDatabaseShardingAlgorithm
 
-spring:
-  profiles: h2
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    show-sql: false
-  datasource:
-    driverClassName: org.h2.Driver
-    password: password
-    url: jdbc:h2:file:~/h2db/finance-auth;AUTO_SERVER=TRUE
-    username: sa
-  h2:
-    console:
-      enabled: true
 ---
 
 spring:
   profiles: db-h2mem
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    show-sql: false
-  datasource:
-    driverClassName: org.h2.Driver
-    password: password
-    url: jdbc:h2:mem:finance-auth
-    username: sa
-  h2:
-    console:
-      enabled: true
+  shardingsphere:
+    datasource:
+      ds0:
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:finance-budget1
+        password: finance
+        type: com.zaxxer.hikari.HikariDataSource
+        username: finance
+      ds1:
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:finance-budget2
+        password: finance
+        type: com.zaxxer.hikari.HikariDataSource
+        username: finance
+---
+
+spring:
+  profiles: db-postgres
+  shardingsphere:
+    datasource:
+      ds0:
+        driver-class-name: org.postgresql.Driver
+        jdbc-url: jdbc:postgresql://localhost:5432/finance_auth_1
+        password: finance
+        type: com.zaxxer.hikari.HikariDataSource
+        username: finance
+      ds1:
+        driver-class-name: org.postgresql.Driver
+        jdbc-url: jdbc:postgresql://localhost:5432/finance_auth_2
+        password: finance
+        type: com.zaxxer.hikari.HikariDataSource
+        username: finance
