@@ -24,6 +24,9 @@ docker-compose build
 docker-compose up
 ```
 
+Note: все микросервисы запускаются в одном docker образе
+
+
 REST сервисы:
 - Auth-service swagger: http://localhost:8080/swagger-ui.html
 - finance-service swagger: http://localhost:8081/swagger-ui.html
