@@ -1,0 +1,44 @@
+package ru.mdorofeev.finance.core.api;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ru.mdorofeev.finance.common.api.model.response.CurrencyResponse;
+import ru.mdorofeev.finance.common.api.model.response.LongResponse;
+import ru.mdorofeev.finance.common.api.model.response.Response;
+import ru.mdorofeev.finance.core.api.model.response.AccountListResponse;
+import ru.mdorofeev.finance.core.api.model.response.StringListResponse;
+
+@RestController
+@RequestMapping(name = "finance controller", produces = "application/json", path = "config")
+@Api(value = "Finance app configuration REST API", tags = "App configuration")
+public interface ConfigurationController {
+
+    @GetMapping("/getCategories")
+    @ApiOperation(value = "Get categories")
+    ResponseEntity<StringListResponse> getCategories(Long sessionId);
+
+    @PostMapping("/addCategory")
+    @ApiOperation(value = "Add category", tags = "App configuration")
+    ResponseEntity<LongResponse> addCategory(Long sessionId, @ApiParam(value = "INCOME/EXPENSE") @RequestParam(required = true) String categoryType, String name);
+
+    @GetMapping("/getAccounts")
+    @ApiOperation(value = "Get accounts", tags = "App configuration")
+    ResponseEntity<AccountListResponse> getAccounts(Long sessionId);
+
+    @PostMapping("/addAccount")
+    @ApiOperation(value = "Add account", tags = "App configuration")
+    ResponseEntity<LongResponse> addAccount(Long sessionId, @ApiParam(value = "RUB/USD/EUR") @RequestParam(required = true) String currency, String name);
+
+    //TODO: P1: secure for internal usage
+    @GetMapping("/getCurrency")
+    @ApiOperation(value = "Get currency", tags = "App configuration")
+    ResponseEntity<CurrencyResponse> getCurrency(String currency);
+
+    //TODO: P1: secure for internal usage
+    @GetMapping("/createOrUpdateCurrency")
+    @ApiOperation(value = "Create currency", tags = "App configuration")
+    ResponseEntity<Response> createOrUpdateCurrency(String currency, Double rate);
+}

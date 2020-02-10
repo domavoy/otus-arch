@@ -1,0 +1,66 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="finance-service-tables" author="mdorofeev">
+        <createTable tableName="currency">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)"/>
+            <column name="is_default" type="boolean"/>
+            <column name="rate" type="NUMERIC(16,2)"/>
+        </createTable>
+
+        <createTable tableName="account">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="int"/>
+            <column name="currency_id" type="int"/>
+            <column name="name" type="varchar(100)"/>
+            <column name="amount" type="NUMERIC(16,2)"/>
+        </createTable>
+
+        <createTable tableName="category">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="int"/>
+            <column name="transaction_type" type="int"/>
+            <column name="name" type="varchar(100)"/>
+        </createTable>
+
+        <createTable tableName="transaction">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="int"/>
+            <column name="transaction_type" type="int"/>
+            <column name="date" type="Date"/>
+
+            <column name="account_id" type="int"/>
+            <column name="amount" type="NUMERIC(16,2)"/>
+            <column name="to_account_id" type="int"/>
+            <column name="to_amount" type="NUMERIC(16,2)"/>
+
+            <column name="category_id" type="int"/>
+            <column name="comment" type="varchar(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="mdorofeev" id="finance-service-sequence">
+        <sql>
+            CREATE SEQUENCE IF NOT EXISTS hibernate_sequence start 1;
+        </sql>
+    </changeSet>
+
+    <changeSet author="mdorofeev" id="finance-service-data">
+        <sql>
+            INSERT INTO public.currency (id, name, is_default, rate) VALUES (1, 'RUB', true, 1);
+            INSERT INTO public.currency (id, name, is_default, rate) VALUES (2, 'USD', false, 65);
+            INSERT INTO public.currency (id, name, is_default, rate) VALUES (3, 'EUR', false, 70);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

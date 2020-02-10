@@ -1,0 +1,85 @@
+app:
+  integration:
+    auth-service-rest-base: http://localhost:8080/auth
+
+server:
+  address: 0.0.0.0
+  port: 8082
+  servlet:
+    context-path: /
+spring:
+  profiles:
+    active: 'db-h2mem'
+  application:
+    name: finance-repeated-payment-service
+  devtools:
+    add-properties: false
+  jackson:
+    serialization:
+      write-date-keys-as-timestamps: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: true
+    properties:
+      hibernate:
+        default_batch_fetch_size: 20
+        format_sql: true
+        jdbc:
+          batch_size: 20
+        temp:
+          use_jdbc_metadata_defaults: false
+    show-sql: true
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+    enabled: true
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    root: info
+
+---
+
+spring:
+  profiles: db-postgres
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    show-sql: true
+  datasource:
+    driverClassName: org.postgresql.Driver
+    password: finance
+    url: jdbc:postgresql://localhost:5432/finance-repeated-payment
+    username: finance
+
+---
+
+spring:
+  profiles: h2
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+  datasource:
+    driverClassName: org.h2.Driver
+    password: password
+    url: jdbc:h2:file:~/h2db/finance-repeated-payment;AUTO_SERVER=TRUE
+    username: sa
+  h2:
+    console:
+      enabled: true
+---
+
+spring:
+  profiles: db-h2mem
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+  datasource:
+    driverClassName: org.h2.Driver
+    password: password
+    url: jdbc:h2:mem:finance-repeated-payment
+    username: sa
+  h2:
+    console:
+      enabled: true

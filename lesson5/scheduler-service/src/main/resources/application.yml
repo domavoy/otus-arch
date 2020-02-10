@@ -1,0 +1,30 @@
+app:
+  integration:
+    finance-service-rest-base: http://localhost:8081
+    repeated-payment-service-config-rest-base: http://localhost:8082/repeatedPayment
+  external:
+    sbrf-get-currency-rates: http://www.cbr.ru/scripts/XML_daily.asp?date_req=
+
+  scheduling:
+    currencyUpdateCron: "0 00 01 * * ?"
+    createRepeatedPaymentCron: "0 30 01 * * ?"
+
+server:
+  address: 0.0.0.0
+  port: 8084
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: finance-scheduled-service
+  devtools:
+    add-properties: false
+  jackson:
+    serialization:
+      write-date-keys-as-timestamps: false
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    root: info

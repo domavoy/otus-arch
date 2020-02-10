@@ -1,0 +1,31 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="repeated-payment-service-tables" author="mdorofeev">
+        <createTable tableName="repeated_payment">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="user_id" type="int"/>
+            <column name="category_id" type="int"/>
+            <column name="account_id" type="int"/>
+
+            <column name="granularity" type="int"/>
+            <column name="amount" type="NUMERIC(16,2)"/>
+
+            <column name="start" type="Date"/>
+            <column name="end" type="Date"/>
+
+            <column name="comment" type="varchar(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="mdorofeev" id="repeated-payment-service-sequence">
+        <sql>
+            CREATE SEQUENCE IF NOT EXISTS hibernate_sequence start 1;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

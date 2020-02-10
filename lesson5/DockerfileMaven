@@ -1,0 +1,21 @@
+FROM openjdk:11-jre-slim
+EXPOSE 8080
+EXPOSE 8081
+EXPOSE 8082
+EXPOSE 8083
+EXPOSE 8084
+
+VOLUME /tmp
+RUN mkdir -p /app/
+RUN mkdir -p /app/logs/
+
+WORKDIR /app
+
+ADD  start.sh /app/start.sh
+ADD  auth-service/target/lesson5-auth-service-1.0.jar /app/auth-service.jar
+ADD  finance-service/target/lesson5-finance-service-1.0.jar /app/finance-service.jar
+ADD  budget-service/target/lesson5-budget-service-1.0.jar /app/budget-service.jar
+ADD  repeated-payment-service/target/lesson5-repeated-payment-service-1.0.jar /app/repeated-payment-service.jar
+ADD  scheduler-service/target/lesson5-scheduler-service-1.0.jar /app/scheduler-service.jar
+
+CMD ["bash", "/app/start.sh"]
