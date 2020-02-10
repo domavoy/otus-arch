@@ -3,14 +3,17 @@ package ru.mdorofeev.finance.core.api;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.mdorofeev.finance.common.api.model.response.Response;
 import ru.mdorofeev.finance.core.api.model.request.TransactionRequest;
 import ru.mdorofeev.finance.core.api.model.request.TransactionRequestInternal;
 import ru.mdorofeev.finance.core.api.model.request.TransactionTransferRequest;
 import ru.mdorofeev.finance.core.api.model.response.AccountStatListResponse;
 import ru.mdorofeev.finance.core.api.model.response.TransactionListResponse;
+import ru.mdorofeev.finance.core.expimp.UploadFileResponse;
 
 //TODO: P2: move 'main' to yml
 @RestController
@@ -41,4 +44,12 @@ public interface MainController {
     @PostMapping("/addInternalTransaction")
     @ApiOperation(value = "Add transaction", tags = "Basic operations")
     ResponseEntity<Response> addInternalTransaction(@RequestBody TransactionRequestInternal request);
+
+
+    @PostMapping("/importTransactions")
+    UploadFileResponse importTransactions(Long sessionId, @RequestParam("file") MultipartFile file);
+
+    @RequestMapping("/exportTransactions/{sessionId}")
+    @ResponseBody
+    HttpEntity<byte[]> exportTransactions(@PathVariable Long sessionId);
 }

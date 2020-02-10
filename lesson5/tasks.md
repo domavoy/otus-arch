@@ -9,6 +9,7 @@ P1
 - logic:
     - on finish export => show notification, show download button
     - on finish import => show notification, update transactions
+    - https://vaadin.com/docs/v13/flow/advanced/tutorial-push-access.html
 
 P2
 - finance-ui: vaadin

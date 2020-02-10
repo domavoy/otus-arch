@@ -3,9 +3,10 @@ package ru.mdorofeev.finance.core.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.multipart.MultipartFile;
 import ru.mdorofeev.finance.auth.client.AuthServiceClient;
 import ru.mdorofeev.finance.common.api.Processor;
 import ru.mdorofeev.finance.common.api.model.response.Response;
@@ -18,6 +19,7 @@ import ru.mdorofeev.finance.core.api.model.response.AccountStatListResponse;
 import ru.mdorofeev.finance.core.api.model.response.AccountStatResponse;
 import ru.mdorofeev.finance.core.api.model.response.TransactionListResponse;
 import ru.mdorofeev.finance.core.api.model.response.TransactionResponse;
+import ru.mdorofeev.finance.core.expimp.UploadFileResponse;
 import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
@@ -141,5 +143,23 @@ public class MainControllerImpl implements MainController {
                     category, request.getMoney(), request.getComment());
             return new ResponseEntity<>(new Response(), HttpStatus.OK);
         });
+    }
+
+    //https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/
+    @Override
+    public UploadFileResponse importTransactions(Long sessionId, MultipartFile file) {
+        return null;
+    }
+
+    // https://stackoverflow.com/questions/40344993/spring-boot-serving-image-from-file-containing-it-base64-encoded
+    @Override
+    public HttpEntity<byte[]> exportTransactions(@PathVariable Long sessionId) {
+        byte[] file = new byte[1];
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentLength(file.length);
+
+        return new HttpEntity<byte[]>(file, headers);
     }
 }
