@@ -24,8 +24,12 @@ import ru.mdorofeev.finance.core.persistence.Account;
 import ru.mdorofeev.finance.core.persistence.Category;
 import ru.mdorofeev.finance.core.persistence.dict.TransactionType;
 import ru.mdorofeev.finance.core.service.ConfigurationService;
+import ru.mdorofeev.finance.core.service.ExportService;
+import ru.mdorofeev.finance.core.service.ImportService;
 import ru.mdorofeev.finance.core.service.TransactionService;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,17 +50,16 @@ public class MainControllerImpl implements MainController {
     @Autowired
     private AuthServiceClient authServiceClient;
 
+    @Autowired
+    private ExportService exportService;
+
+    @Autowired
+    private ImportService importService;
+
     @Override
     public ResponseEntity<TransactionListResponse> getTransactions(Long sessionId, String fromDate) {
         return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
-            Date date;
-            try {
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                date = format.parse(fromDate);
-            } catch (NullPointerException | ParseException e) {
-                throw new ServiceException("Incorrect date format: " + fromDate + ". Expected: yyyy-MM-dd");
-            }
-
+            Date date = from(fromDate);
             List<TransactionResponse> resp = mainService.getTransactions(user, date).stream().map(temp -> {
                 TransactionResponse response = new TransactionResponse();
                 response.setAccountName(temp.getAccount().getName());
@@ -145,21 +148,41 @@ public class MainControllerImpl implements MainController {
         });
     }
 
+    @Autowired
+    private FileStorageService fileStorageService;
+
     //https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/
     @Override
     public UploadFileResponse importTransactions(Long sessionId, MultipartFile file) {
         return null;
     }
 
-    // https://stackoverflow.com/questions/40344993/spring-boot-serving-image-from-file-containing-it-base64-encoded
     @Override
-    public HttpEntity<byte[]> exportTransactions(@PathVariable Long sessionId) {
-        byte[] file = new byte[1];
+    public ResponseEntity<byte[]> exportTransactions(@PathVariable Long sessionId, String date) {
+        return ProcessWithUserWrapper.wrapExceptionsAndAuth(authServiceClient, sessionId, user -> {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        headers.setContentLength(file.length);
+            // export to temp file
+            File tempFile = File.createTempFile("FinanceService", "+" + sessionId);
+            exportService.export(tempFile.getAbsolutePath(), user, from(date));
 
-        return new HttpEntity<byte[]>(file, headers);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.TEXT_PLAIN);
+            headers.setContentLength(tempFile.length());
+
+
+            return new ResponseEntity<byte[]>(Files.readAllBytes(tempFile.toPath()), headers, HttpStatus.OK);
+        });
+    }
+
+    private Date from(String fromDate) throws ServiceException {
+        Date date;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            date = format.parse(fromDate);
+        } catch (NullPointerException | ParseException e) {
+            throw new ServiceException("Incorrect date format: " + fromDate + ". Expected: yyyy-MM-dd");
+        }
+
+        return date;
     }
 }

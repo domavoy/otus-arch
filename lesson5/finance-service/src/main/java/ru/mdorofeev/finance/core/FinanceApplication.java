@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import ru.mdorofeev.finance.auth.client.AuthServiceClient;
+import ru.mdorofeev.finance.common.exception.ServiceException;
 import ru.mdorofeev.finance.core.service.DataLoaderService;
 
 @ComponentScan({"ru.mdorofeev.finance.auth.client", "ru.mdorofeev.finance.core"})
@@ -32,11 +33,16 @@ public class FinanceApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         // create user
-        Long userId = authServiceClient.createUser("login", "password");
-
-        //for h2mem profile => load predefined data
-        if (DATA_LOAD_PROFILE.equals(activeProfile)) {
-            predefinedDataLoader.loadData(userId, "moneyPro.csv");
+        try{
+            Long userId = authServiceClient.createUser("login", "password");
+            //for h2mem profile => load predefined data
+            if (DATA_LOAD_PROFILE.equals(activeProfile)) {
+                predefinedDataLoader.loadData(userId, "moneyPro.csv");
+            }
+        } catch (ServiceException e){
+            if(!e.getCode().equals("USER_ALREADY_EXISTS")){
+                throw e;
+            }
         }
     }
 }

@@ -49,7 +49,7 @@ public interface MainController {
     @PostMapping("/importTransactions")
     UploadFileResponse importTransactions(Long sessionId, @RequestParam("file") MultipartFile file);
 
-    @RequestMapping("/exportTransactions/{sessionId}")
+    @PostMapping("/exportTransactions/{sessionId}")
     @ResponseBody
-    HttpEntity<byte[]> exportTransactions(@PathVariable Long sessionId);
+    ResponseEntity<byte[]> exportTransactions(@PathVariable Long sessionId, String date);
 }

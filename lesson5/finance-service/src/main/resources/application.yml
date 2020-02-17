@@ -12,6 +12,12 @@ spring:
     active: 'db-h2mem'
   application:
     name: finance-core-service
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
   devtools:
     add-properties: false
   jackson:
@@ -36,6 +42,9 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+file:
+  upload-dir: uploads
+
 logging:
   level:
     root: info
@@ -49,7 +58,7 @@ spring:
     show-sql: true
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/finance-app
+    url: jdbc:postgresql://localhost:5432/finance
     password: finance
     username: finance
 

@@ -72,7 +72,17 @@ exportImport service listen amq and call finance-ui api
 - move /main/ /config/ to yml ?
 - use DELETE .. rest operation instead POST/GET
 -! service per docker
-//TODO: P1: secure for internal usage
+- //TODO: P1: secure for internal usage
+- https://github.com/varghgeorge/microservices-single-swagger
+- Caused by: org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8080/auth/createUser": Connection refused; nested exception is java.net.ConnectException: Connection refused
+- добавить в схему бд/очереди (если есть). при попытке передать неправильную сессию - выскакивает 400 ошибка, что наверное, не совсем корректно (ошибка связанная, с авторизацией, обычно, 401)
+-BUG: start auth ,restart finance => failed to start
+
+Microservices patterns:
+- Service Discovery - Spring Cloud Eureka/Kubernetes/Consul
+- Service mesh
+
+
 
 ### docs
 https://www.petrikainulainen.net/spring-data-jpa-tutorial/

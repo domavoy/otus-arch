@@ -46,7 +46,7 @@ spring:
   datasource:
     driverClassName: org.postgresql.Driver
     password: finance
-    url: jdbc:postgresql://localhost:5432/finance-auth
+    url: jdbc:postgresql://localhost:5432/finance
     username: finance
 
 ---
